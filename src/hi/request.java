@@ -13,6 +13,7 @@ public class request {
     public HashMap<String, String> form;
     public HashMap<String, String> cookies;
     public HashMap<String, String> session;
+    public HashMap<String, String> cache;
 
     public request() {
         this.client = new String();
@@ -20,9 +21,10 @@ public class request {
         this.method = new String();
         this.uri = new String();
         this.param = new String();
-        this.headers = new HashMap<String,String>();
-        this.form = new HashMap<String,String>();
-        this.cookies = new HashMap<String,String>();
-        this.session = new HashMap<String,String>();
+        this.headers = new HashMap<String, String>();
+        this.form = new HashMap<String, String>();
+        this.cookies = new HashMap<String, String>();
+        this.session = new HashMap<String, String>();
+        this.cache = new HashMap<String, String>();
     }
 }
