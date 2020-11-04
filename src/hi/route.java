@@ -5,15 +5,9 @@ import hi.request;
 import hi.response;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Optional;
-import java.lang.StackWalker.Option;
-import java.security.KeyStore.Entry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Pattern;
-
-import javax.swing.text.html.parser.Entity;
-
 import java.util.regex.Matcher;
 
 public class route {
