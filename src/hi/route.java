@@ -11,9 +11,6 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 public class route {
-    private static route instance = new route();
-
-    private static HashMap<String, route_ele_t> map = new HashMap<String, route_ele_t>();
 
     public interface run_t {
         void handler(request req, response res, Matcher m);
@@ -28,6 +25,10 @@ public class route {
         public Pattern regex;
         public route.run_t callback;
     }
+
+    private static route instance = new route();
+
+    private static HashMap<String, route_ele_t> map = new HashMap<String, route_ele_t>();
 
     private route() {
     }
