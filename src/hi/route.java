@@ -82,10 +82,11 @@ public class route {
 
     public void run(request req, response res) {
         Iterator<HashMap.Entry<String, route_ele_t>> iter = route.map.entrySet().iterator();
+        Matcher m = null;
         while (iter.hasNext()) {
             route_ele_t ele = iter.next().getValue();
             if (ele.method.contains(req.method) && Pattern.matches(ele.pattern, req.uri)) {
-                Matcher m = ele.regex.matcher(req.uri);
+                m = ele.regex.matcher(req.uri);
                 ele.callback.handler(req, res, m);
                 break;
             }
