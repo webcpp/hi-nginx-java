@@ -20,4 +20,20 @@ public class response {
         this.session = new HashMap<String, String>();
         this.cache = new HashMap<String, String>();
     }
+
+    public void set_header(String k, String v) {
+        if (this.headers.containsKey(k)) {
+            this.headers.get(k).add(v);
+        } else {
+            this.headers.put(k, new ArrayList<String>(Arrays.asList(v)));
+        }
+    }
+
+    public void set_cookie(String k, String v, String str) {
+        this.set_header("Set-Cookie", String.format("%s=%s; %s", k, v, str));
+    }
+
+    public void set_content_type(String v) {
+        this.headers.get("Content-Type").set(0, v);
+    }
 }
