@@ -1,7 +1,7 @@
 PRO=hi-nginx-java.jar
 
 JAVAC = ${JAVA_HOME}/bin/javac
-JAVA_FLAGS =-classpath .:${CLASSPATH}
+JAVA_FLAGS =-Xlint:deprecation -classpath .:${CLASSPATH}
 
 JAR = ${JAVA_HOME}/bin/jar
 JAR_FLAGS = --create --file
