@@ -1,5 +1,30 @@
 # hi-nginx-java
-hi-nginx-java
 
-# example
+a java web framework for hi-nginx
+
+## components
+
+- hi
+  - hi.request
+  - hi.response
+  - hi.route
+  - hi.servlet
+- apache commons
+  - codec
+  - collections
+  - dbutils
+  - io
+  - lang
+  - math
+  - net
+  - rng
+  - text
+- google
+  - gson
+- mustache template engine
+  - [mustache.java](https://github.com/spullara/mustache.java)
+  - [jmustache](http://github.com/samskivert/jmustache)
+
+
+## example
 [https://github.com/webcpp/jdemo](https://github.com/webcpp/jdemo)
