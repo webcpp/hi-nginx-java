@@ -33,7 +33,7 @@ public class route {
         public route.run_t callback;
     }
 
-    protected class reflect_t {
+    private class reflect_t {
         public reflect_t() {
             this.cls = null;
             this.cls_method = null;
