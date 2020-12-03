@@ -56,7 +56,7 @@ public class route {
         return route.instance;
     }
 
-    private void defualt_callback(request req, response res, Matcher mt, String input_class_name) {
+    private void default_callback(request req, response res, Matcher mt, String input_class_name) {
         String class_name = input_class_name.isEmpty() || input_class_name.isBlank() ? req.uri.substring(1)
                 : input_class_name;
         if (class_name.endsWith("/")) {
@@ -118,7 +118,7 @@ public class route {
             ele.regex = Pattern.compile(p);
             ele.method = m;
             ele.callback = (request req, response res, Matcher mt) -> {
-                this.defualt_callback(req, res, mt, class_name);
+                this.default_callback(req, res, mt, class_name);
             };
             route.map.put(p, ele);
         }
@@ -132,7 +132,7 @@ public class route {
             ele.regex = Pattern.compile(p);
             ele.method = m;
             ele.callback = (request req, response res, Matcher mt) -> {
-                this.defualt_callback(req, res, mt, "");
+                this.default_callback(req, res, mt, "");
             };
             route.map.put(p, ele);
         }
@@ -188,7 +188,7 @@ public class route {
             }
         }
         if (!ok) {
-            this.defualt_callback(req, res, Pattern.compile("(.*)").matcher(req.uri), "");
+            this.default_callback(req, res, Pattern.compile("(.*)").matcher(req.uri), "");
         }
 
     }
