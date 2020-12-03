@@ -16,6 +16,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.sql.Ref;
 
 public class route {
 
@@ -35,19 +36,25 @@ public class route {
 
     private class reflect_t {
         public reflect_t() {
+            this.t = System.currentTimeMillis();
             this.cls = null;
             this.cls_method = null;
         }
 
+        public long t;
         public Class<?> cls;
         public Method cls_method;
     }
+
+    public static long lrucache_reflect_expires = 300;
+    public static int lrucache_reflect_size = 1024;
 
     private static route instance = new route();
 
     private static HashMap<String, route_ele_t> map = new HashMap<String, route_ele_t>();
 
-    private static lrucache<String, reflect_t> reflect_map = new lrucache<String, reflect_t>(1024);
+    private static lrucache<String, reflect_t> reflect_map = new lrucache<String, reflect_t>(
+            route.lrucache_reflect_size);
 
     private route() {
     }
@@ -66,39 +73,48 @@ public class route {
         reflect_t ref = new reflect_t();
         if (route.reflect_map.containsKey(class_name)) {
             ref = route.reflect_map.get(class_name);
-            try {
-                ref.cls_method.invoke(ref.cls.getConstructor().newInstance(), req, res, mt);
-            } catch (Exception e) {
+            if ((System.currentTimeMillis() - ref.t) / 1000 <= route.lrucache_reflect_expires) {
+                try {
+                    ref.cls_method.invoke(ref.cls.getConstructor().newInstance(), req, res, mt);
+                } catch (Exception e) {
+                    route.reflect_map.remove(class_name);
+                    res.set_content_type("text/plain;charset=UTF-8");
+                    res.content = "callback is failed: " + e.getMessage();
+                    res.status = 500;
+                }
+            } else {
                 route.reflect_map.remove(class_name);
-                res.set_content_type("text/plain;charset=UTF-8");
-                res.content = "callback is failed: " + e.getMessage();
-                res.status = 500;
+                this.update_reflect_map(ref, req, res, mt, class_name);
             }
         } else {
+            this.update_reflect_map(ref, req, res, mt, class_name);
+        }
+    }
+
+    private void update_reflect_map(reflect_t ref, request req, response res, Matcher mt, String class_name) {
+        try {
+            ref.cls = Class.forName(class_name);
             try {
-                ref.cls = Class.forName(class_name);
+                ref.cls_method = ref.cls.getMethod("handler", hi.request.class, hi.response.class, Matcher.class);
                 try {
-                    ref.cls_method = ref.cls.getMethod("handler", hi.request.class, hi.response.class, Matcher.class);
-                    try {
-                        ref.cls_method.invoke(ref.cls.getConstructor().newInstance(), req, res, mt);
-                        route.reflect_map.put(class_name, ref);
-                    } catch (Exception e) {
-                        res.set_content_type("text/plain;charset=UTF-8");
-                        res.content = "callback is failed: " + e.getMessage();
-                        res.status = 500;
-                    }
+                    ref.cls_method.invoke(ref.cls.getConstructor().newInstance(), req, res, mt);
+                    route.reflect_map.put(class_name, ref);
                 } catch (Exception e) {
                     res.set_content_type("text/plain;charset=UTF-8");
-                    res.content = "NoSuchMethodException: " + e.getMessage();
-                    res.status = 404;
+                    res.content = "callback is failed: " + e.getMessage();
+                    res.status = 500;
                 }
             } catch (Exception e) {
                 res.set_content_type("text/plain;charset=UTF-8");
-                res.content = "ClassNotFoundException: " + e.getMessage();
+                res.content = "NoSuchMethodException: " + e.getMessage();
                 res.status = 404;
             }
+        } catch (Exception e) {
+            res.set_content_type("text/plain;charset=UTF-8");
+            res.content = "ClassNotFoundException: " + e.getMessage();
+            res.status = 404;
         }
-    };
+    }
 
     public void add(ArrayList<String> m, String p, route.run_t r) {
         if (!route.map.containsKey(p)) {
