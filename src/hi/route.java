@@ -142,32 +142,65 @@ public class route {
         this.add(new ArrayList<String>(Arrays.asList("GET")), p, r);
     }
 
+    public void get(String p, String class_name) {
+        this.add(new ArrayList<String>(Arrays.asList("GET")), p, class_name);
+    }
+
     public void post(String p, route.run_t r) {
         this.add(new ArrayList<String>(Arrays.asList("POST")), p, r);
+    }
+
+    public void post(String p, String class_name) {
+        this.add(new ArrayList<String>(Arrays.asList("POST")), p, class_name);
     }
 
     public void put(String p, route.run_t r) {
         this.add(new ArrayList<String>(Arrays.asList("PUT")), p, r);
     }
 
+    public void put(String p, String class_name) {
+        this.add(new ArrayList<String>(Arrays.asList("PUT")), p, class_name);
+    }
+
     public void head(String p, route.run_t r) {
         this.add(new ArrayList<String>(Arrays.asList("HEAD")), p, r);
+    }
+
+    public void head(String p, String class_name) {
+        this.add(new ArrayList<String>(Arrays.asList("HEAD")), p, class_name);
     }
 
     public void delete(String p, route.run_t r) {
         this.add(new ArrayList<String>(Arrays.asList("DELETE")), p, r);
     }
 
+    public void delete(String p, String class_name) {
+        this.add(new ArrayList<String>(Arrays.asList("DELETE")), p, class_name);
+    }
+
     public void patch(String p, route.run_t r) {
         this.add(new ArrayList<String>(Arrays.asList("PATCH")), p, r);
+    }
+
+    public void patch(String p, String class_name) {
+        this.add(new ArrayList<String>(Arrays.asList("PATCH")), p, class_name);
     }
 
     public void option(String p, route.run_t r) {
         this.add(new ArrayList<String>(Arrays.asList("OPTION")), p, r);
     }
 
+    public void option(String p, String class_name) {
+        this.add(new ArrayList<String>(Arrays.asList("OPTION")), p, class_name);
+    }
+
     public void all(String p, route.run_t r) {
         this.add(new ArrayList<String>(Arrays.asList("GET", "POST", "PUT", "HEAD", "DELETE", "PATCH", "OPTION")), p, r);
+    }
+
+    public void all(String p, String class_name) {
+        this.add(new ArrayList<String>(Arrays.asList("GET", "POST", "PUT", "HEAD", "DELETE", "PATCH", "OPTION")), p,
+                class_name);
     }
 
     public void all() {
