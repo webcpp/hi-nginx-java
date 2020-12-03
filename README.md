@@ -1,6 +1,10 @@
 # hi-nginx-java
 
-a java web framework for hi-nginx
+a java web framework for hi-nginx:
+
+- QUICK
+- EASY
+- FAST
 
 ## components
 
