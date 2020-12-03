@@ -13,6 +13,7 @@ a java web framework for hi-nginx:
   - hi.response
   - hi.route
   - hi.servlet
+  - hi.lrucache
 - apache commons
   - codec
   - collections
