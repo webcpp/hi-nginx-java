@@ -63,42 +63,41 @@ public class route {
         return route.instance;
     }
 
-    private void default_callback(request req, response res, Matcher mt, String input_class_name) {
-        String class_name = input_class_name.isEmpty() || input_class_name.isBlank() ? req.uri.substring(1)
-                : input_class_name;
-        if (class_name.endsWith("/")) {
-            class_name = class_name.substring(0, class_name.length() - 1);
-        }
-        class_name = class_name.replace('/', '.');
+    private void default_callback(request req, response res, Matcher mt) {
         reflect_t ref = new reflect_t();
-        if (route.reflect_map.containsKey(class_name)) {
-            ref = route.reflect_map.get(class_name);
+        if (route.reflect_map.containsKey(req.uri)) {
+            ref = route.reflect_map.get(req.uri);
             if ((System.currentTimeMillis() - ref.t) / 1000 <= route.lrucache_reflect_expires) {
                 try {
                     ref.cls_method.invoke(ref.cls.getConstructor().newInstance(), req, res, mt);
                 } catch (Exception e) {
-                    route.reflect_map.remove(class_name);
+                    route.reflect_map.remove(req.uri);
                     res.set_content_type("text/plain;charset=UTF-8");
                     res.content = "callback is failed: " + e.getMessage();
                     res.status = 500;
                 }
             } else {
-                route.reflect_map.remove(class_name);
-                this.update_reflect_map(ref, req, res, mt, class_name);
+                route.reflect_map.remove(req.uri);
+                this.update_reflect_map(ref, req, res, mt);
             }
         } else {
-            this.update_reflect_map(ref, req, res, mt, class_name);
+            this.update_reflect_map(ref, req, res, mt);
         }
     }
 
-    private void update_reflect_map(reflect_t ref, request req, response res, Matcher mt, String class_name) {
+    private void update_reflect_map(reflect_t ref, request req, response res, Matcher mt) {
+        String class_name = req.uri.substring(1);
+        if (class_name.endsWith("/")) {
+            class_name = class_name.substring(0, class_name.length() - 1);
+        }
+        class_name = class_name.replace('/', '.');
         try {
             ref.cls = Class.forName(class_name);
             try {
                 ref.cls_method = ref.cls.getMethod("handler", hi.request.class, hi.response.class, Matcher.class);
                 try {
                     ref.cls_method.invoke(ref.cls.getConstructor().newInstance(), req, res, mt);
-                    route.reflect_map.put(class_name, ref);
+                    route.reflect_map.put(req.uri, ref);
                 } catch (Exception e) {
                     res.set_content_type("text/plain;charset=UTF-8");
                     res.content = "callback is failed: " + e.getMessage();
@@ -127,15 +126,13 @@ public class route {
         }
     }
 
-    public void add(ArrayList<String> m, String p, String class_name) {
+    public void add(ArrayList<String> m, String p) {
         if (!route.map.containsKey(p)) {
             route_ele_t ele = new route_ele_t();
             ele.pattern = p;
             ele.regex = Pattern.compile(p);
             ele.method = m;
-            ele.callback = (request req, response res, Matcher mt) -> {
-                this.default_callback(req, res, mt, class_name);
-            };
+            ele.callback = this::default_callback;
             route.map.put(p, ele);
         }
     }
@@ -147,9 +144,7 @@ public class route {
             ele.pattern = p;
             ele.regex = Pattern.compile(p);
             ele.method = m;
-            ele.callback = (request req, response res, Matcher mt) -> {
-                this.default_callback(req, res, mt, "");
-            };
+            ele.callback = this::default_callback;
             route.map.put(p, ele);
         }
     }
@@ -158,65 +153,64 @@ public class route {
         this.add(new ArrayList<String>(Arrays.asList("GET")), p, r);
     }
 
-    public void get(String p, String class_name) {
-        this.add(new ArrayList<String>(Arrays.asList("GET")), p, class_name);
+    public void get(String p) {
+        this.add(new ArrayList<String>(Arrays.asList("GET")), p);
     }
 
     public void post(String p, route.run_t r) {
         this.add(new ArrayList<String>(Arrays.asList("POST")), p, r);
     }
 
-    public void post(String p, String class_name) {
-        this.add(new ArrayList<String>(Arrays.asList("POST")), p, class_name);
+    public void post(String p) {
+        this.add(new ArrayList<String>(Arrays.asList("POST")), p);
     }
 
     public void put(String p, route.run_t r) {
         this.add(new ArrayList<String>(Arrays.asList("PUT")), p, r);
     }
 
-    public void put(String p, String class_name) {
-        this.add(new ArrayList<String>(Arrays.asList("PUT")), p, class_name);
+    public void put(String p) {
+        this.add(new ArrayList<String>(Arrays.asList("PUT")), p);
     }
 
     public void head(String p, route.run_t r) {
         this.add(new ArrayList<String>(Arrays.asList("HEAD")), p, r);
     }
 
-    public void head(String p, String class_name) {
-        this.add(new ArrayList<String>(Arrays.asList("HEAD")), p, class_name);
+    public void head(String p) {
+        this.add(new ArrayList<String>(Arrays.asList("HEAD")), p);
     }
 
     public void delete(String p, route.run_t r) {
         this.add(new ArrayList<String>(Arrays.asList("DELETE")), p, r);
     }
 
-    public void delete(String p, String class_name) {
-        this.add(new ArrayList<String>(Arrays.asList("DELETE")), p, class_name);
+    public void delete(String p) {
+        this.add(new ArrayList<String>(Arrays.asList("DELETE")), p);
     }
 
     public void patch(String p, route.run_t r) {
         this.add(new ArrayList<String>(Arrays.asList("PATCH")), p, r);
     }
 
-    public void patch(String p, String class_name) {
-        this.add(new ArrayList<String>(Arrays.asList("PATCH")), p, class_name);
+    public void patch(String p) {
+        this.add(new ArrayList<String>(Arrays.asList("PATCH")), p);
     }
 
     public void option(String p, route.run_t r) {
         this.add(new ArrayList<String>(Arrays.asList("OPTION")), p, r);
     }
 
-    public void option(String p, String class_name) {
-        this.add(new ArrayList<String>(Arrays.asList("OPTION")), p, class_name);
+    public void option(String p) {
+        this.add(new ArrayList<String>(Arrays.asList("OPTION")), p);
     }
 
     public void all(String p, route.run_t r) {
         this.add(new ArrayList<String>(Arrays.asList("GET", "POST", "PUT", "HEAD", "DELETE", "PATCH", "OPTION")), p, r);
     }
 
-    public void all(String p, String class_name) {
-        this.add(new ArrayList<String>(Arrays.asList("GET", "POST", "PUT", "HEAD", "DELETE", "PATCH", "OPTION")), p,
-                class_name);
+    public void all(String p) {
+        this.add(new ArrayList<String>(Arrays.asList("GET", "POST", "PUT", "HEAD", "DELETE", "PATCH", "OPTION")), p);
     }
 
     public void all() {
@@ -237,7 +231,7 @@ public class route {
             }
         }
         if (!ok) {
-            this.default_callback(req, res, Pattern.compile("(.*)").matcher(req.uri), "");
+            this.default_callback(req, res, Pattern.compile("(.*)").matcher(req.uri));
         }
 
     }
