@@ -36,6 +36,9 @@ a java web framework for hi-nginx:
 - config
   - [config](https://github.com/lightbend/config)
 
+## install
+
+`make && sudo make install`
 
 ## example
 [https://github.com/webcpp/jdemo](https://github.com/webcpp/jdemo)
