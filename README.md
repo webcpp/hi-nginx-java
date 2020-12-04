@@ -6,6 +6,10 @@ a java web framework for hi-nginx:
 - EASY
 - FAST
 
+## dependence
+
+- jdk11+
+
 ## components
 
 - hi
