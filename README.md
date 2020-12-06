@@ -79,3 +79,7 @@ location ~ \.java {
 
 ## example
 [https://github.com/webcpp/jdemo](https://github.com/webcpp/jdemo)
+
+## document
+
+[https://hi-nginx-java.hi-nginx.com/](https://hi-nginx-java.hi-nginx.com/)
