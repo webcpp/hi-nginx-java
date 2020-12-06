@@ -31,6 +31,7 @@ a java web framework for hi-nginx:
   - text
 - google
   - gson
+- msgpack
 - mustache template engine
   - [mustache.java](https://github.com/spullara/mustache.java)
   - [jmustache](http://github.com/samskivert/jmustache)
