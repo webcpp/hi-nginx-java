@@ -48,6 +48,7 @@ public class route {
 
     public static long lrucache_reflect_expires = 300;
     public static int lrucache_reflect_size = 1024;
+    public static String default_uri_pattern = new String("(.*)");
 
     private static route instance = new route();
 
@@ -138,7 +139,7 @@ public class route {
     }
 
     public void add(ArrayList<String> m) {
-        String p = "(.*)";
+        String p = route.default_uri_pattern;
         if (!route.map.containsKey(p)) {
             route_ele_t ele = new route_ele_t();
             ele.pattern = p;
@@ -231,7 +232,7 @@ public class route {
             }
         }
         if (!ok) {
-            this.default_callback(req, res, Pattern.compile("(.*)").matcher(req.uri));
+            this.default_callback(req, res, Pattern.compile(route.default_uri_pattern).matcher(req.uri));
         }
 
     }
