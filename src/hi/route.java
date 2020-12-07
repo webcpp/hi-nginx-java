@@ -57,6 +57,38 @@ public class route {
     private static lrucache<String, reflect_t> reflect_map = new lrucache<String, reflect_t>(
             route.lrucache_reflect_size);
 
+    public static ArrayList<String> http_get_method() {
+        return new ArrayList<String>(Arrays.asList("GET"));
+    }
+
+    public static ArrayList<String> http_post_method() {
+        return new ArrayList<String>(Arrays.asList("POST"));
+    }
+
+    public static ArrayList<String> http_put_method() {
+        return new ArrayList<String>(Arrays.asList("PUT"));
+    }
+
+    public static ArrayList<String> http_delete_method() {
+        return new ArrayList<String>(Arrays.asList("DELETE"));
+    }
+
+    public static ArrayList<String> http_patch_method() {
+        return new ArrayList<String>(Arrays.asList("PATCH"));
+    }
+
+    public static ArrayList<String> http_head_method() {
+        return new ArrayList<String>(Arrays.asList("HEAD"));
+    }
+
+    public static ArrayList<String> http_option_method() {
+        return new ArrayList<String>(Arrays.asList("OPTION"));
+    }
+
+    public static ArrayList<String> http_all_method() {
+        return new ArrayList<String>(Arrays.asList("GET", "POST", "PUT", "HEAD", "DELETE", "PATCH", "OPTION"));
+    }
+
     private route() {
     }
 
@@ -151,71 +183,71 @@ public class route {
     }
 
     public void get(String p, route.run_t r) {
-        this.add(new ArrayList<String>(Arrays.asList("GET")), p, r);
+        this.add(route.http_get_method(), p, r);
     }
 
     public void get(String p) {
-        this.add(new ArrayList<String>(Arrays.asList("GET")), p);
+        this.add(route.http_get_method(), p);
     }
 
     public void post(String p, route.run_t r) {
-        this.add(new ArrayList<String>(Arrays.asList("POST")), p, r);
+        this.add(route.http_post_method(), p, r);
     }
 
     public void post(String p) {
-        this.add(new ArrayList<String>(Arrays.asList("POST")), p);
+        this.add(route.http_post_method(), p);
     }
 
     public void put(String p, route.run_t r) {
-        this.add(new ArrayList<String>(Arrays.asList("PUT")), p, r);
+        this.add(route.http_put_method(), p, r);
     }
 
     public void put(String p) {
-        this.add(new ArrayList<String>(Arrays.asList("PUT")), p);
+        this.add(route.http_put_method(), p);
     }
 
     public void head(String p, route.run_t r) {
-        this.add(new ArrayList<String>(Arrays.asList("HEAD")), p, r);
+        this.add(route.http_head_method(), p, r);
     }
 
     public void head(String p) {
-        this.add(new ArrayList<String>(Arrays.asList("HEAD")), p);
+        this.add(route.http_head_method(), p);
     }
 
     public void delete(String p, route.run_t r) {
-        this.add(new ArrayList<String>(Arrays.asList("DELETE")), p, r);
+        this.add(route.http_delete_method(), p, r);
     }
 
     public void delete(String p) {
-        this.add(new ArrayList<String>(Arrays.asList("DELETE")), p);
+        this.add(route.http_delete_method(), p);
     }
 
     public void patch(String p, route.run_t r) {
-        this.add(new ArrayList<String>(Arrays.asList("PATCH")), p, r);
+        this.add(route.http_patch_method(), p, r);
     }
 
     public void patch(String p) {
-        this.add(new ArrayList<String>(Arrays.asList("PATCH")), p);
+        this.add(route.http_patch_method(), p);
     }
 
     public void option(String p, route.run_t r) {
-        this.add(new ArrayList<String>(Arrays.asList("OPTION")), p, r);
+        this.add(route.http_option_method(), p, r);
     }
 
     public void option(String p) {
-        this.add(new ArrayList<String>(Arrays.asList("OPTION")), p);
+        this.add(route.http_option_method(), p);
     }
 
     public void all(String p, route.run_t r) {
-        this.add(new ArrayList<String>(Arrays.asList("GET", "POST", "PUT", "HEAD", "DELETE", "PATCH", "OPTION")), p, r);
+        this.add(route.http_all_method(), p, r);
     }
 
     public void all(String p) {
-        this.add(new ArrayList<String>(Arrays.asList("GET", "POST", "PUT", "HEAD", "DELETE", "PATCH", "OPTION")), p);
+        this.add(route.http_all_method(), p);
     }
 
     public void all() {
-        this.add(new ArrayList<String>(Arrays.asList("GET", "POST", "PUT", "HEAD", "DELETE", "PATCH", "OPTION")));
+        this.add(route.http_all_method());
     }
 
     public void run(request req, response res) {

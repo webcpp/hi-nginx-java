@@ -1,6 +1,5 @@
 package hi;
 
-public abstract interface servlet {
-
-    public abstract void handler(request req, response res);
+public interface servlet {
+    public void handler(request req, response res);
 }
