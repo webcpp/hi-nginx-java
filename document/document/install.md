@@ -8,7 +8,7 @@
 
 用`ln -s`创建一个符号链接，名为`default-java`，指向上一步jdk的安装目录。
 
-创建`/etc/ld.so.conf.d/jdk.conf`文件，内容两行：
+创建`/etc/ld.so.conf.d/jdk.conf`文件，内容三行：
 ```txt
 /usr/lib/jvm/default-java/lib/server
 /usr/lib/jvm/default-java/lib
@@ -24,7 +24,7 @@ export CLASSPATH=/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar
 export PATH=$JAVA_HOME/bin:$PATH
 ```
 
-运行命令`sourece /etc/profile`后，一般可通过`java -version`命令验证jdk安装成功与否。 
+运行命令`source /etc/profile`后，一般可通过`java -version`命令验证jdk安装成功与否。 
 
 ## hi-nginx
 
