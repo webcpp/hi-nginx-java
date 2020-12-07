@@ -8,7 +8,7 @@ a java web framework for hi-nginx:
 
 ## dependence
 
-- jdk11+
+- jdk 8+
 
 ## components
 
