@@ -1,0 +1,356 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>表单 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="first-step.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="install.html">
+            
+                <a href="install.html">
+            
+                    
+                    安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="first-step.html">
+            
+                <a href="first-step.html">
+            
+                    
+                    起步
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.4" data-path="form.html">
+            
+                <a href="form.html">
+            
+                    
+                    表单
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >表单</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x8868;&#x5355;&#x5904;&#x7406;">&#x8868;&#x5355;&#x5904;&#x7406;</h1>
+<p>&#x8868;&#x5355;&#x5904;&#x7406;&#x662F;&#x7531;hi-nginx&#x670D;&#x52A1;&#x5668;&#x81EA;&#x52A8;&#x89E3;&#x6790;&#x5B8C;&#x6210;&#x7684;&#x3002;</p>
+<h2 id="get&#x548C;post&#x8868;&#x5355;">GET&#x548C;POST&#x8868;&#x5355;</h2>
+<p>&#x4F8B;&#x5982;&#xFF1A;</p>
+<pre><code class="lang-html">
+<span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">&quot;/test/form.java&quot;</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;get&quot;</span>&gt;</span>
+    Name:   <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;name&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>
+    E-mail: <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;email&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+</code></pre>
+<pre><code class="lang-java">
+<span class="hljs-keyword">package</span> test;
+
+<span class="hljs-keyword">import</span> hi.request;
+<span class="hljs-keyword">import</span> hi.response;
+<span class="hljs-keyword">import</span> hi.route;
+<span class="hljs-keyword">import</span> java.util.regex.Matcher;
+<span class="hljs-keyword">import</span> java.util.HashMap;
+<span class="hljs-keyword">import</span> com.google.gson.Gson;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">form</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">hi</span>.<span class="hljs-title">route</span>.<span class="hljs-title">run_t</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">form</span><span class="hljs-params">()</span> </span>{
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handler</span><span class="hljs-params">(hi.request req, hi.response res, Matcher m)</span> </span>{
+        res.set_content_type(<span class="hljs-string">&quot;application/json&quot;</span>);
+        HashMap&lt;String, Object&gt; map = <span class="hljs-keyword">new</span> HashMap&lt;String, Object&gt;();
+        <span class="hljs-keyword">if</span>(req.form.containsKey(<span class="hljs-string">&quot;name&quot;</span>) &amp;&amp; req.form.containsKey(<span class="hljs-string">&quot;email&quot;</span>)){
+            res.status = <span class="hljs-number">200</span>;
+            map.put(<span class="hljs-string">&quot;name&quot;</span>,req.form.get(<span class="hljs-string">&quot;name&quot;</span>));
+            map.put(<span class="hljs-string">&quot;email&quot;</span>,req.form.get(<span class="hljs-string">&quot;email&quot;</span>));
+            map.put(<span class="hljs-string">&quot;status&quot;</span>,<span class="hljs-keyword">true</span>)
+            res.content = gson.toJson(map);
+        }<span class="hljs-keyword">else</span>{
+            res.status = <span class="hljs-number">400</span>;
+            map.put(<span class="hljs-string">&quot;status&quot;</span>,<span class="hljs-keyword">false</span>);
+            res.content = gson.toJson(map);
+        }
+
+    }
+}
+</code></pre>
+<p>&#x6B64;&#x4F8B;&#x5BF9;&#x666E;&#x901A;&#x7684;POST&#x8868;&#x5355;&#x63D0;&#x4EA4;&#x540C;&#x6837;&#x6709;&#x6548;&#x3002;</p>
+<h2 id="&#x6587;&#x4EF6;&#x4E0A;&#x4F20;">&#x6587;&#x4EF6;&#x4E0A;&#x4F20;</h2>
+<p>&#x6587;&#x4EF6;&#x4E0A;&#x4F20;&#x4E00;&#x822C;&#x662F;&#x901A;&#x8FC7;POST&#x65B9;&#x6CD5;&#x8FDB;&#x884C;&#x3002;&#x6B64;&#x65F6;&#xFF0C;&#x5F00;&#x53D1;&#x8005;&#x80FD;&#x591F;&#x83B7;&#x53D6;&#x7684;&#x4E0D;&#x662F;&#x88AB;&#x4E0A;&#x4F20;&#x6587;&#x4EF6;&#x7684;&#x201C;&#x672C;&#x4F53;&#x201D;&#xFF0C;&#x800C;&#x4E14;&#x8BE5;&#x201C;&#x672C;&#x4F53;&#x201D;&#x7684;&#x4E34;&#x65F6;&#x4FDD;&#x5B58;&#x8DEF;&#x5F84;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x5F00;&#x53D1;&#x8005;&#x5E94;&#x8BE5;&#x6309;&#x9700;&#x8981;&#x5C06;&#x8BE5;&#x201C;&#x672C;&#x4F53;&#x201D;&#x79FB;&#x52A8;&#x81F3;&#x81EA;&#x5B9A;&#x4E49;&#x4F4D;&#x7F6E;&#x3002;&#x6240;&#x4EE5;&#xFF0C;&#x6587;&#x4EF6;&#x4E0A;&#x4F20;&#x5BF9;hi-nginx-java&#x6765;&#x8BF4;&#xFF0C;&#x53EA;&#x662F;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x79FB;&#x52A8;&#x64CD;&#x4F5C;&#x3002;&#x4F8B;&#x5982;&#xFF1A;</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">&quot;/test/upload.java&quot;</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;post&quot;</span> <span class="hljs-attr">enctype</span>=<span class="hljs-string">&quot;multipart/form-data&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;file&quot;</span>&gt;</span>Filename:<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;file&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;myfile&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;file&quot;</span> /&gt;</span> 
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;Submit&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+</code></pre>
+<pre><code class="lang-java">
+<span class="hljs-keyword">package</span> test;
+
+<span class="hljs-keyword">import</span> hi.request;
+<span class="hljs-keyword">import</span> hi.response;
+<span class="hljs-keyword">import</span> hi.route;
+<span class="hljs-keyword">import</span> java.util.regex.Matcher;
+<span class="hljs-keyword">import</span> java.util.HashMap;
+<span class="hljs-keyword">import</span> java.io.File;
+<span class="hljs-keyword">import</span> org.apache.commons.io.FileUtils;
+<span class="hljs-keyword">import</span> com.google.gson.Gson;
+
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">upload</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">hi</span>.<span class="hljs-title">route</span>.<span class="hljs-title">run_t</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">upload</span><span class="hljs-params">()</span> </span>{
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handler</span><span class="hljs-params">(hi.request req, hi.response res, Matcher m)</span> </span>{
+        HashMap&lt;String, Object&gt; map = <span class="hljs-keyword">new</span> HashMap&lt;String, Object&gt;();
+        res.set_content_type(<span class="hljs-string">&quot;application/json&quot;</span>);
+        <span class="hljs-keyword">if</span>(req.form.containsKey(<span class="hljs-string">&quot;myfile&quot;</span>)){
+            <span class="hljs-keyword">try</span> {
+                FileUtils.moveFile(<span class="hljs-keyword">new</span> File(req.form(<span class="hljs-string">&quot;myfile&quot;</span>)), <span class="hljs-keyword">new</span> File(<span class="hljs-string">&quot;new path&quot;</span>));
+                res.status =<span class="hljs-number">200</span>;
+                map.put(<span class="hljs-string">&quot;status&quot;</span>,<span class="hljs-keyword">true</span>);
+                res.content = gson.toJson(map);
+            } <span class="hljs-keyword">catch</span> (IOException e) {
+                res.status = <span class="hljs-number">400</span>;
+                map.put(<span class="hljs-string">&quot;status&quot;</span>,<span class="hljs-keyword">false</span>);
+                map.put(<span class="hljs-string">&quot;message&quot;</span>,e.getMessage());
+                res.content = gson.toJson(map);
+            }
+        }<span class="hljs-keyword">else</span>{
+            res.stauts = <span class="hljs-number">400</span>;
+            map.put(<span class="hljs-string">&quot;status&quot;</span>,<span class="hljs-keyword">false</span>);
+            res.content = gson.toJson(map);
+        }
+
+    }
+}
+</code></pre>
+<p>&#x4E0A;&#x4F20;&#x6587;&#x4EF6;&#x7684;&#x201C;&#x672C;&#x4F53;&#x201D;&#x5904;&#x7406;&#x662F;&#x7531;hi-nginx&#x5B8C;&#x6210;&#x7684;&#x3002;&#x6240;&#x4EE5;&#xFF0C;&#x5BF9;&#x4E8E;&#x8F83;&#x5927;&#x7684;&#x6587;&#x4EF6;&#x4E0A;&#x4F20;&#xFF0C;&#x9700;&#x8981;&#x9002;&#x5F53;&#x7684;&#x914D;&#x7F6E;&#x3002;&#x53EF;&#x901A;&#x8FC7;&#x6807;&#x51C6;&#x7684;nginx&#x6307;&#x4EE4;<code>client_max_body_size</code>&#x548C;<code>client_body_buffer_size</code>&#x914D;&#x7F6E;&#x5141;&#x8BB8;&#x4E0A;&#x4F20;&#x7684;&#x6587;&#x4EF6;&#x5927;&#x5C0F;&#x3002;</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="first-step.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 起步">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"表单","level":"1.4","depth":1,"previous":{"title":"起步","level":"1.3","depth":1,"path":"document/first-step.md","ref":"document/first-step.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/form.md","mtime":"2020-12-07T04:12:28.790Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-12-07T04:14:32.403Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
