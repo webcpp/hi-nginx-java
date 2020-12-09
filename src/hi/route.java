@@ -22,7 +22,9 @@ import java.lang.reflect.Modifier;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
+import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
+import com.samskivert.mustache.Mustache.Compiler;
 import com.samskivert.mustache.Mustache.TemplateLoader;
 
 public class route {
@@ -98,12 +100,14 @@ public class route {
 
     private Config config;
     private TemplateLoader loader;
+    private Compiler compiler;
 
     private route() {
         this.config = ConfigFactory.load();
         this.loader = (String name) -> {
             return new FileReader(new File(this.config.getString("template.directory"), name));
         };
+        this.compiler = Mustache.compiler().withLoader(this.loader);
     }
 
     public static route get_instance() {
@@ -116,6 +120,10 @@ public class route {
 
     public TemplateLoader get_loader() {
         return this.loader;
+    }
+
+    public Compiler get_compiler() {
+        return this.compiler;
     }
 
     private void default_callback(request req, response res, Matcher mt) {
