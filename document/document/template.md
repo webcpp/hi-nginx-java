@@ -27,7 +27,7 @@ public class stringtemplate implements hi.route.run_t {
     public void handler(hi.request req, hi.response res, Matcher m) {
         res.set_content_type("text/plain;charset=UTF-8");
         String source = "Hello {{arg}}!";
-        Template tmpl = Mustache.compiler().compile(source);
+        Template tmpl =hi.route.get_instance().get_compiler().compile(source);
         HashMap<String, Object> context = new HashMap<String, Object>();
         context.put("arg", "world");
         res.content = tmpl.execute(context);
