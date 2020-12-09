@@ -92,7 +92,7 @@ public class filetemplate implements hi.route.run_t {
         });
         data.put("persons", persons);
         try {
-            Template tmpl = Mustache.compiler().withLoader(hi.route.get_instance().get_loader()).compile(new FileReader(
+            Template tmpl = hi.route.get_instance().get_compiler().compile(new FileReader(
                     hi.route.get_instance().get_config().getString("template.directory") + "/main.mustache"));
             res.content = tmpl.execute(data);
             res.status = 200;
