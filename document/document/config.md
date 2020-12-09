@@ -24,13 +24,12 @@ String tmpl_dir = hi.route.get_instance().get_config().getString("template.direc
 如果需要配置数据库，则可以在`application.conf`中添加以下内容：
 ```txt
 
-mysql {
-    driver = "com.mysql.jdbc.Driver"
-    url = "jdbc:mysql://localhost:3306/dbname?useUnicode=true&characterEncoding=utf8"
+mariadb {
+    driver = "org.mariadb.jdbc.Driver"
+    url = "jdbc:mariadb://localhost:3306/testdb"
     username = root
     password = 123456
 }
-
 ```
 开发者可自行修改该配置值以适配自己的数据库。若需配置其他项目，也可自行添加调用。
 

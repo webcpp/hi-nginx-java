@@ -180,6 +180,19 @@
             
         </li>
     
+        <li class="chapter " data-level="1.8" data-path="database.html">
+            
+                <a href="database.html">
+            
+                    
+                    数据库
+            
+                </a>
+            
+
+            
+        </li>
+    
 
     
 
@@ -242,9 +255,9 @@ String tmpl_dir = hi.route.get_instance().get_config().getString(<span class="hl
 </code></pre>
 <p>&#x5982;&#x679C;&#x9700;&#x8981;&#x914D;&#x7F6E;&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x5219;&#x53EF;&#x4EE5;&#x5728;<code>application.conf</code>&#x4E2D;&#x6DFB;&#x52A0;&#x4EE5;&#x4E0B;&#x5185;&#x5BB9;&#xFF1A;</p>
 <pre><code class="lang-txt">
-mysql {
-    driver = &quot;com.mysql.jdbc.Driver&quot;
-    url = &quot;jdbc:mysql://localhost:3306/dbname?useUnicode=true&amp;characterEncoding=utf8&quot;
+mariadb {
+    driver = &quot;org.mariadb.jdbc.Driver&quot;
+    url = &quot;jdbc:mariadb://localhost:3306/testdb&quot;
     username = root
     password = 123456
 }
@@ -296,7 +309,7 @@ mysql {
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"全局配置","level":"1.6","depth":1,"next":{"title":"模板引擎","level":"1.7","depth":1,"path":"document/template.md","ref":"document/template.md","articles":[]},"previous":{"title":"会话","level":"1.5","depth":1,"path":"document/session.md","ref":"document/session.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/config.md","mtime":"2020-12-09T03:16:01.308Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-12-09T05:34:43.896Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"全局配置","level":"1.6","depth":1,"next":{"title":"模板引擎","level":"1.7","depth":1,"path":"document/template.md","ref":"document/template.md","articles":[]},"previous":{"title":"会话","level":"1.5","depth":1,"path":"document/session.md","ref":"document/session.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/config.md","mtime":"2020-12-09T16:13:02.850Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-12-09T16:25:55.215Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

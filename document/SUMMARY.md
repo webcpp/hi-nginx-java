@@ -7,3 +7,4 @@
 * [会话](document/session.md)
 * [全局配置](document/config.md)
 * [模板引擎](document/template.md)
+* [数据库](document/database.md)
