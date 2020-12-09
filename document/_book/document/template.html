@@ -58,7 +58,7 @@
 
     
     
-    <link rel="prev" href="session.html" />
+    <link rel="prev" href="config.html" />
     
 
     </head>
@@ -152,7 +152,20 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.6" data-path="template.html">
+        <li class="chapter " data-level="1.6" data-path="config.html">
+            
+                <a href="config.html">
+            
+                    
+                    全局配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.7" data-path="template.html">
             
                 <a href="template.html">
             
@@ -255,9 +268,7 @@
 {{/persons}}
 </code></pre>
 <p>&#x7136;&#x540E;&#x7F16;&#x5199;&#x670D;&#x52A1;<code>http://localhost/test/filetemplate.java</code>:</p>
-<pre><code class="lang-java">
-
-<span class="hljs-keyword">package</span> test;
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> test;
 
 <span class="hljs-keyword">import</span> hi.request;
 <span class="hljs-keyword">import</span> hi.response;
@@ -277,9 +288,6 @@
 
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handler</span><span class="hljs-params">(hi.request req, hi.response res, Matcher m)</span> </span>{
         res.set_content_type(<span class="hljs-string">&quot;text/plain;charset=UTF-8&quot;</span>);
-        Mustache.TemplateLoader loader = (String name) -&gt; {
-            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> FileReader(<span class="hljs-keyword">new</span> File(<span class="hljs-string">&quot;java/templates&quot;</span>, name));
-        };
         HashMap&lt;String, Object&gt; data = <span class="hljs-keyword">new</span> HashMap&lt;String, Object&gt;();
         data.put(<span class="hljs-string">&quot;title&quot;</span>, <span class="hljs-string">&quot;&#x6587;&#x4EF6;&#x6A21;&#x677F;&#x6E32;&#x67D3;&#x6D4B;&#x8BD5;&quot;</span>);
         Object persons = Arrays.asList(<span class="hljs-keyword">new</span> Object() {
@@ -291,8 +299,8 @@
         });
         data.put(<span class="hljs-string">&quot;persons&quot;</span>, persons);
         <span class="hljs-keyword">try</span> {
-            Template tmpl = Mustache.compiler().withLoader(loader)
-                    .compile(<span class="hljs-keyword">new</span> FileReader(<span class="hljs-string">&quot;java/templates/main.mustache&quot;</span>));
+            Template tmpl = Mustache.compiler().withLoader(hi.route.get_instance().get_loader()).compile(<span class="hljs-keyword">new</span> FileReader(
+                    hi.route.get_instance().get_config().getString(<span class="hljs-string">&quot;template.directory&quot;</span>) + <span class="hljs-string">&quot;/main.mustache&quot;</span>));
             res.content = tmpl.execute(data);
             res.status = <span class="hljs-number">200</span>;
         } <span class="hljs-keyword">catch</span> (Exception e) {
@@ -336,7 +344,7 @@
 
             
                 
-                <a href="session.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 会话">
+                <a href="config.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 全局配置">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
@@ -348,7 +356,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"模板引擎","level":"1.6","depth":1,"previous":{"title":"会话","level":"1.5","depth":1,"path":"document/session.md","ref":"document/session.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/template.md","mtime":"2020-12-08T13:27:34.572Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-12-08T13:33:27.919Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"模板引擎","level":"1.7","depth":1,"previous":{"title":"全局配置","level":"1.6","depth":1,"path":"document/config.md","ref":"document/config.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/template.md","mtime":"2020-12-09T02:46:04.392Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-12-09T02:48:20.633Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

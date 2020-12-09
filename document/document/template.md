@@ -61,8 +61,6 @@ public class stringtemplate implements hi.route.run_t {
 然后编写服务`http://localhost/test/filetemplate.java`:
 
 ```java
-
-
 package test;
 
 import hi.request;
@@ -83,9 +81,6 @@ public class filetemplate implements hi.route.run_t {
 
     public void handler(hi.request req, hi.response res, Matcher m) {
         res.set_content_type("text/plain;charset=UTF-8");
-        Mustache.TemplateLoader loader = (String name) -> {
-            return new FileReader(new File("java/templates", name));
-        };
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("title", "文件模板渲染测试");
         Object persons = Arrays.asList(new Object() {
@@ -97,8 +92,8 @@ public class filetemplate implements hi.route.run_t {
         });
         data.put("persons", persons);
         try {
-            Template tmpl = Mustache.compiler().withLoader(loader)
-                    .compile(new FileReader("java/templates/main.mustache"));
+            Template tmpl = Mustache.compiler().withLoader(hi.route.get_instance().get_loader()).compile(new FileReader(
+                    hi.route.get_instance().get_config().getString("template.directory") + "/main.mustache"));
             res.content = tmpl.execute(data);
             res.status = 200;
         } catch (Exception e) {

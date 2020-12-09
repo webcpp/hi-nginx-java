@@ -1,0 +1,38 @@
+# 配置
+
+hi-nginx-java的全局配置系统是通过[config](https://github.com/lightbend/config)组件构造的。关于配置文件的语法和用法，请自行参考该网址的介绍。
+
+运行时配置可通过`hi_java_options`进行全局配置：
+```nginx
+hi_java_options "-server -d64 -Dconfig.file=java/application.conf  -Dnashorn.args=--global-per-engine";
+```
+其中的`-Dconfig.file`被用来指定全局配置文件`application.conf`。该文件应该至少包含`template.directory`域:
+```txt
+template {
+        directory = java/templates
+}
+
+```
+以上内容是说，所有模板文件存放的目录是`java/templates`，此一路径是相对于hi-nginx的安装目录`/usr/local/nginx`而言的。
+
+当需要使用配置变量时，可通过`hi.route`的唯一实例的`get_config`方法获得配置变量表:
+```java
+
+String tmpl_dir = hi.route.get_instance().get_config().getString("template.directory");
+
+```
+如果需要配置数据库，则可以在`application.conf`中添加以下内容：
+```txt
+
+mysql {
+    driver = com.mysql.jdbc.Driver
+    url = jdbc:mysql://localhost:3306/dbname?useUnicode=true&characterEncoding=utf8
+    username = root
+    password = 123456
+}
+
+```
+开发者可自行修改该配置值以适配自己的数据库。若需配置其他项目，也可自行添加调用。
+
+## 说明
+hi-nginx-java的全局配置系统是通过[config](https://github.com/lightbend/config)组件构造的。关于配置文件的详细的语法和用法，请自行参考该网址的介绍。
