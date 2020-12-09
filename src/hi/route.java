@@ -10,13 +10,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.io.File;
+import java.io.FileReader;
 
 import java.lang.Class;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.sql.Ref;
+
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+
+import com.samskivert.mustache.Template;
+import com.samskivert.mustache.Mustache.TemplateLoader;
 
 public class route {
 
@@ -89,11 +96,26 @@ public class route {
         return new ArrayList<String>(Arrays.asList("GET", "POST", "PUT", "HEAD", "DELETE", "PATCH", "OPTION"));
     }
 
+    private Config config;
+    private TemplateLoader loader;
+
     private route() {
+        this.config = ConfigFactory.load();
+        this.loader = (String name) -> {
+            return new FileReader(new File(this.config.getString("template.directory"), name));
+        };
     }
 
     public static route get_instance() {
         return route.instance;
+    }
+
+    public Config get_config() {
+        return this.config;
+    }
+
+    public TemplateLoader get_loader() {
+        return this.loader;
     }
 
     private void default_callback(request req, response res, Matcher mt) {
