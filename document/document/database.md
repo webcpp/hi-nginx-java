@@ -145,12 +145,11 @@ import org.apache.commons.dbutils.handlers.MapListHandler;
 ```
 
 ```java
-public void handler(hi.request req, hi.response res, Matcher m) {
+    public void handler(hi.request req, hi.response res, Matcher m) {
         String sql = "SELECT * FROM `article` ORDER BY `id` LIMIT 0,5;";
         try {
-            Connection conn = db_help.get_instance().get_data_source().getConnection();
-            QueryRunner qr = new QueryRunner();
-            List<Map<String, Object>> result = qr.query(conn, sql, new MapListHandler());
+            QueryRunner qr = new QueryRunner(db_help.get_instance().get_data_source());
+            List<Map<String, Object>> result = qr.query(sql, new MapListHandler());
             StringBuffer content = new StringBuffer();
             for (Map<String, Object> item : result) {
                 for (Map.Entry<String, Object> iter : item.entrySet()) {
@@ -161,7 +160,6 @@ public void handler(hi.request req, hi.response res, Matcher m) {
 
             res.content = content.toString();
             res.status = 200;
-            DbUtils.close(conn);
         } catch (SQLException e) {
             res.content = e.getMessage();
             res.status = 500;

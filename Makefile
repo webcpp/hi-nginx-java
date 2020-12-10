@@ -19,5 +19,8 @@ all:
 clean:
 	rm -f src/${PRO} src/src.list src/class.list
 
+doc:
+	cd document && gitbook build
+
 install:
 	install src/$(PRO) /usr/local/nginx/java
