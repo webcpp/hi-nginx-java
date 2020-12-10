@@ -133,3 +133,39 @@ public class db implements hi.route.run_t {
 ```
 
 访问`http://localhost/test/db.java`可以获得相应数据。
+
+利用`org.apache.commons.dbutils.handlers.MapListHandler`类，以上`handler`可进一步简化：
+
+```java
+
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.dbutils.handlers.MapListHandler;
+
+```
+
+```java
+public void handler(hi.request req, hi.response res, Matcher m) {
+        String sql = "SELECT * FROM `article` ORDER BY `id` LIMIT 0,5;";
+        try {
+            Connection conn = db_help.get_instance().get_data_source().getConnection();
+            QueryRunner qr = new QueryRunner();
+            List<Map<String, Object>> result = qr.query(conn, sql, new MapListHandler());
+            StringBuffer content = new StringBuffer();
+            for (Map<String, Object> item : result) {
+                for (Map.Entry<String, Object> iter : item.entrySet()) {
+                    content.append(String.format("%s = %s\n", iter.getKey(), iter.getValue().toString()));
+                }
+                content.append("\n\n");
+            }
+
+            res.content = content.toString();
+            res.status = 200;
+            DbUtils.close(conn);
+        } catch (SQLException e) {
+            res.content = e.getMessage();
+            res.status = 500;
+        }
+    }
+
+```
