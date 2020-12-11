@@ -27,12 +27,12 @@ CREATE TABLE `websites` (
   `name` char(20) NOT NULL DEFAULT '' COMMENT '站点名称',
   `url` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 ```
 且向该表插入些数据:
 ```sql
-INSERT INTO `websites`(`name`,`url`) VALUES ('Google', 'https://www.google.cm/'), ('淘宝', 'https://www.taobao.com/');
+INSERT INTO `websites`(`name`,`url`) VALUES ('Google', 'https://www.google.com/'), ('淘宝', 'https://www.taobao.com/');
 ```
 那么，给定`application.conf`中的数据库配置如下:
 ```txt
@@ -146,7 +146,7 @@ import org.apache.commons.dbutils.handlers.MapListHandler;
 
 ```java
     public void handler(hi.request req, hi.response res, Matcher m) {
-        String sql = "SELECT * FROM `article` ORDER BY `id` LIMIT 0,5;";
+        String sql = "SELECT * FROM `websites` ORDER BY `id` LIMIT 0,5;";
         try {
             QueryRunner qr = new QueryRunner(db_help.get_instance().get_data_source());
             List<Map<String, Object>> result = qr.query(sql, new MapListHandler());
@@ -252,6 +252,71 @@ import com.alibaba.druid.pool.DruidDataSource;
             db_help.ds.setUsername(hi.route.get_instance().get_config().getString("mysql.username"));
             db_help.ds.setPassword(hi.route.get_instance().get_config().getString("mysql.password"));
             return db_help.ds;
+        }
+    }
+
+```
+## Bean
+要使用bean，要导入`BeanHandler`,`BeanListHandler`或者`BeanMapHandler`。
+```java 
+import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.BeanMapHandler;
+
+```
+定义class`website`:
+```java
+    public class website {
+        private int id;
+        private String url;
+        private String name;
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getId() {
+            return this.id;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public String getUrl() {
+            return this.url;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+    }
+
+```
+
+然后重写`handler`：
+```java
+    public void handler(hi.request req, hi.response res, Matcher m) {
+        String sql = "SELECT * FROM `websites` ORDER BY `id` LIMIT 0,5;";
+        try {
+            QueryRunner qr = new QueryRunner(db_help.get_instance().get_data_source());
+            List<website> result = qr.query(sql, new BeanListHandler<website>(website.class));
+            StringBuffer content = new StringBuffer();
+
+            for (website item : result) {
+                content.append(
+                        String.format("id = %s\tname = %s\turl = %s\n", item.getId(), item.getName(), item.getUrl()));
+            }
+
+            res.content = content.toString();
+            res.status = 200;
+        } catch (SQLException e) {
+            res.content = e.getMessage();
+            res.status = 500;
         }
     }
 
