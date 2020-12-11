@@ -25,4 +25,4 @@ doc:
 	cd document && gitbook build
 
 install:
-	install src/$(PRO) /usr/local/nginx/java
+	install $(PRO) /usr/local/nginx/java
