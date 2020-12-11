@@ -321,3 +321,26 @@ import org.apache.commons.dbutils.handlers.BeanMapHandler;
     }
 
 ```
+若使用`BeanMapHandler`,则修改如下:
+```java
+
+    public void handler(hi.request req, hi.response res, Matcher m) {
+        String sql = "SELECT * FROM `websites` ORDER BY `id` LIMIT 0,5;";
+        try {
+            QueryRunner qr = new QueryRunner(db_help.get_instance().get_data_source());
+            Map<String, website> result = qr.query(sql, new BeanMapHandler<String, website>(website.class));
+            StringBuffer content = new StringBuffer();
+
+            for (Map.Entry<String, website> item : result.entrySet()) {
+                content.append(String.format("%s\tid = %s\tname = %s\turl = %s\n", item.getKey(),
+                        item.getValue().getId(), item.getValue().getName(), item.getValue().getUrl()));
+            }
+
+            res.content = content.toString();
+            res.status = 200;
+        } catch (SQLException e) {
+            res.content = e.getMessage();
+            res.status = 500;
+        }
+    }
+```
