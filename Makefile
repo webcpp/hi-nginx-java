@@ -6,7 +6,7 @@ JAVA_FLAGS =-classpath .:${CLASSPATH}
 JAR = ${JAVA_HOME}/bin/jar
 
 
-JAR_FLAGS = cvf
+JAR_FLAGS = cf
 
 all:
 	cd src && \
@@ -15,9 +15,11 @@ all:
 	cd src && \
 	find . -name *.class -type f > class.list && \
 	$(JAR) $(JAR_FLAGS) ${PRO} `cat class.list`
+	mv src/$(PRO) ./
+	rm -f src/class.list src/src.list
 
 clean:
-	rm -f src/${PRO} src/src.list src/class.list
+	rm -f ${PRO}
 
 doc:
 	cd document && gitbook build
