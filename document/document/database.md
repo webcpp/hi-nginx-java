@@ -2,7 +2,7 @@
 
 web 开发离不开数据库。最常见的的数据库是mariadb或者mysql。
 
-为了使用数据库，需要下载访问数据库的库。对mariadb而言，即[MariaDB Connector/J](https://downloads.mariadb.com/Connectors/java/connector-java-2.7.1/mariadb-java-client-2.7.1.jar)。
+为了使用数据库，需要下载访问数据库的库。对mariadb而言，即[MariaDB Connector/J](https://repo1.maven.org/maven2/org/mariadb/jdbc/mariadb-java-client/2.7.1/mariadb-java-client-2.7.1.jar)。
 
 下载该库，将其安装至`/usr/local/nginx/java`中。修改`/etc/profile.d/jdk.sh`中的`CLASSPATH`,添加该库:
 ```shell
@@ -163,6 +163,95 @@ import org.apache.commons.dbutils.handlers.MapListHandler;
         } catch (SQLException e) {
             res.content = e.getMessage();
             res.status = 500;
+        }
+    }
+
+```
+
+## MySQL
+对mysql而言,即，[MySQL Connector/J](https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.22/mysql-connector-java-8.0.22.jar)。
+
+修改`CLASSPATH`:
+```shell
+export CLASSPATH=/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/mysql-connector-java-8.0.22.jar
+
+```
+修改hi-nginx配置:
+```nginx
+hi_java_classpath "-Djava.class.path=.:/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/app.jar:/usr/local/nginx/java/mysql-connector-java-8.0.22.jar"
+```
+
+添加mysql配置至`application.conf`中:
+```txt
+mysql {
+    driver = "org.mysql.cj.jdbc.Driver"
+    url = "jdbc:mysql://localhost:3306/testdb"
+    username = root
+    password = 123456
+}
+
+```
+
+修改`db_help`类:
+```java
+import com.mysql.cj.jdbc.MysqlConnectionPoolDataSource;
+```
+```java
+    private static class db_help {
+        private static MysqlConnectionPoolDataSource ds = null;
+
+        private static db_help instance = new db_help();
+
+        private db_help() {
+
+        }
+
+        public static db_help get_instance() {
+            return db_help.instance;
+        }
+
+        public MysqlConnectionPoolDataSource get_data_source() throws SQLException {
+            if (db_help.ds != null) {
+                return db_help.ds;
+            }
+            db_help.ds = new MysqlConnectionPoolDataSource();
+            db_help.ds.setURL(hi.route.get_instance().get_config().getString("mysql.url"));
+            db_help.ds.setUser(hi.route.get_instance().get_config().getString("mysql.username"));
+            db_help.ds.setPassword(hi.route.get_instance().get_config().getString("mysql.password"));
+            return db_help.ds;
+        }
+    }
+```
+
+## Druid 连接池
+添加[druid](https://repo1.maven.org/maven2/com/alibaba/druid/1.2.3/druid-1.2.3.jar)库及其hi-nginx配置之后，修改`db_help`如下:
+```java
+import com.alibaba.druid.pool.DruidDataSource;
+```
+```java
+
+    private static class db_help {
+        private static DruidDataSource ds = null;
+
+        private static db_help instance = new db_help();
+
+        private db_help() {
+
+        }
+
+        public static db_help get_instance() {
+            return db_help.instance;
+        }
+
+        public DruidDataSource get_data_source() throws SQLException {
+            if (db_help.ds != null) {
+                return db_help.ds;
+            }
+            db_help.ds = new DruidDataSource();
+            db_help.ds.setUrl(hi.route.get_instance().get_config().getString("mysql.url"));
+            db_help.ds.setUsername(hi.route.get_instance().get_config().getString("mysql.username"));
+            db_help.ds.setPassword(hi.route.get_instance().get_config().getString("mysql.password"));
+            return db_help.ds;
         }
     }
 

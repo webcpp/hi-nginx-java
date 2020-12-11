@@ -238,7 +238,7 @@
                                 
                                 <h1 id="&#x6570;&#x636E;&#x5E93;">&#x6570;&#x636E;&#x5E93;</h1>
 <p>web &#x5F00;&#x53D1;&#x79BB;&#x4E0D;&#x5F00;&#x6570;&#x636E;&#x5E93;&#x3002;&#x6700;&#x5E38;&#x89C1;&#x7684;&#x7684;&#x6570;&#x636E;&#x5E93;&#x662F;mariadb&#x6216;&#x8005;mysql&#x3002;</p>
-<p>&#x4E3A;&#x4E86;&#x4F7F;&#x7528;&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x9700;&#x8981;&#x4E0B;&#x8F7D;&#x8BBF;&#x95EE;&#x6570;&#x636E;&#x5E93;&#x7684;&#x5E93;&#x3002;&#x5BF9;mariadb&#x800C;&#x8A00;&#xFF0C;&#x5373;<a href="https://downloads.mariadb.com/Connectors/java/connector-java-2.7.1/mariadb-java-client-2.7.1.jar" target="_blank">MariaDB Connector/J</a>&#x3002;</p>
+<p>&#x4E3A;&#x4E86;&#x4F7F;&#x7528;&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x9700;&#x8981;&#x4E0B;&#x8F7D;&#x8BBF;&#x95EE;&#x6570;&#x636E;&#x5E93;&#x7684;&#x5E93;&#x3002;&#x5BF9;mariadb&#x800C;&#x8A00;&#xFF0C;&#x5373;<a href="https://repo1.maven.org/maven2/org/mariadb/jdbc/mariadb-java-client/2.7.1/mariadb-java-client-2.7.1.jar" target="_blank">MariaDB Connector/J</a>&#x3002;</p>
 <p>&#x4E0B;&#x8F7D;&#x8BE5;&#x5E93;&#xFF0C;&#x5C06;&#x5176;&#x5B89;&#x88C5;&#x81F3;<code>/usr/local/nginx/java</code>&#x4E2D;&#x3002;&#x4FEE;&#x6539;<code>/etc/profile.d/jdk.sh</code>&#x4E2D;&#x7684;<code>CLASSPATH</code>,&#x6DFB;&#x52A0;&#x8BE5;&#x5E93;:</p>
 <pre><code class="lang-shell">
 export CLASSPATH=/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/mariadb-java-client-2.7.1.jar
@@ -379,6 +379,80 @@ export CLASSPATH=/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/
         }
     }
 </code></pre>
+<h2 id="mysql">MySQL</h2>
+<p>&#x5BF9;mysql&#x800C;&#x8A00;,&#x5373;&#xFF0C;<a href="https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.22/mysql-connector-java-8.0.22.jar" target="_blank">MySQL Connector/J</a>&#x3002;</p>
+<p>&#x4FEE;&#x6539;<code>CLASSPATH</code>:</p>
+<pre><code class="lang-shell">export CLASSPATH=/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/mysql-connector-java-8.0.22.jar
+</code></pre>
+<p>&#x4FEE;&#x6539;hi-nginx&#x914D;&#x7F6E;:</p>
+<pre><code class="lang-nginx"><span class="hljs-attribute">hi_java_classpath</span> <span class="hljs-string">&quot;-Djava.class.path=.:/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/app.jar:/usr/local/nginx/java/mysql-connector-java-8.0.22.jar&quot;</span>
+</code></pre>
+<p>&#x6DFB;&#x52A0;mysql&#x914D;&#x7F6E;&#x81F3;<code>application.conf</code>&#x4E2D;:</p>
+<pre><code class="lang-txt">mysql {
+    driver = &quot;org.mysql.cj.jdbc.Driver&quot;
+    url = &quot;jdbc:mysql://localhost:3306/testdb&quot;
+    username = root
+    password = 123456
+}
+</code></pre>
+<p>&#x4FEE;&#x6539;<code>db_help</code>&#x7C7B;:</p>
+<pre><code class="lang-java"><span class="hljs-keyword">import</span> com.mysql.cj.jdbc.MysqlConnectionPoolDataSource;
+</code></pre>
+<pre><code class="lang-java">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">db_help</span> </span>{
+        <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> MysqlConnectionPoolDataSource ds = <span class="hljs-keyword">null</span>;
+
+        <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> db_help instance = <span class="hljs-keyword">new</span> db_help();
+
+        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">db_help</span><span class="hljs-params">()</span> </span>{
+
+        }
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> db_help <span class="hljs-title">get_instance</span><span class="hljs-params">()</span> </span>{
+            <span class="hljs-keyword">return</span> db_help.instance;
+        }
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> MysqlConnectionPoolDataSource <span class="hljs-title">get_data_source</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> SQLException </span>{
+            <span class="hljs-keyword">if</span> (db_help.ds != <span class="hljs-keyword">null</span>) {
+                <span class="hljs-keyword">return</span> db_help.ds;
+            }
+            db_help.ds = <span class="hljs-keyword">new</span> MysqlConnectionPoolDataSource();
+            db_help.ds.setURL(hi.route.get_instance().get_config().getString(<span class="hljs-string">&quot;mysql.url&quot;</span>));
+            db_help.ds.setUser(hi.route.get_instance().get_config().getString(<span class="hljs-string">&quot;mysql.username&quot;</span>));
+            db_help.ds.setPassword(hi.route.get_instance().get_config().getString(<span class="hljs-string">&quot;mysql.password&quot;</span>));
+            <span class="hljs-keyword">return</span> db_help.ds;
+        }
+    }
+</code></pre>
+<h2 id="druid-&#x8FDE;&#x63A5;&#x6C60;">Druid &#x8FDE;&#x63A5;&#x6C60;</h2>
+<p>&#x6DFB;&#x52A0;<a href="https://repo1.maven.org/maven2/com/alibaba/druid/1.2.3/druid-1.2.3.jar" target="_blank">druid</a>&#x5E93;&#x53CA;&#x5176;hi-nginx&#x914D;&#x7F6E;&#x4E4B;&#x540E;&#xFF0C;&#x4FEE;&#x6539;<code>db_help</code>&#x5982;&#x4E0B;:</p>
+<pre><code class="lang-java"><span class="hljs-keyword">import</span> com.alibaba.druid.pool.DruidDataSource;
+</code></pre>
+<pre><code class="lang-java">
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">db_help</span> </span>{
+        <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> DruidDataSource ds = <span class="hljs-keyword">null</span>;
+
+        <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> db_help instance = <span class="hljs-keyword">new</span> db_help();
+
+        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">db_help</span><span class="hljs-params">()</span> </span>{
+
+        }
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> db_help <span class="hljs-title">get_instance</span><span class="hljs-params">()</span> </span>{
+            <span class="hljs-keyword">return</span> db_help.instance;
+        }
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> DruidDataSource <span class="hljs-title">get_data_source</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> SQLException </span>{
+            <span class="hljs-keyword">if</span> (db_help.ds != <span class="hljs-keyword">null</span>) {
+                <span class="hljs-keyword">return</span> db_help.ds;
+            }
+            db_help.ds = <span class="hljs-keyword">new</span> DruidDataSource();
+            db_help.ds.setUrl(hi.route.get_instance().get_config().getString(<span class="hljs-string">&quot;mysql.url&quot;</span>));
+            db_help.ds.setUsername(hi.route.get_instance().get_config().getString(<span class="hljs-string">&quot;mysql.username&quot;</span>));
+            db_help.ds.setPassword(hi.route.get_instance().get_config().getString(<span class="hljs-string">&quot;mysql.password&quot;</span>));
+            <span class="hljs-keyword">return</span> db_help.ds;
+        }
+    }
+</code></pre>
 
                                 
                                 </section>
@@ -418,7 +492,7 @@ export CLASSPATH=/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"数据库","level":"1.8","depth":1,"previous":{"title":"模板引擎","level":"1.7","depth":1,"path":"document/template.md","ref":"document/template.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/database.md","mtime":"2020-12-10T02:26:35.912Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-12-10T02:27:44.275Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"数据库","level":"1.8","depth":1,"previous":{"title":"模板引擎","level":"1.7","depth":1,"path":"document/template.md","ref":"document/template.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/database.md","mtime":"2020-12-11T00:57:52.259Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-12-11T01:00:16.835Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
