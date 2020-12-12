@@ -26,3 +26,6 @@ doc:
 
 install:
 	install $(PRO) /usr/local/nginx/java
+	install druid-1.2.3.jar /usr/local/nginx/java
+	install mariadb-java-client-2.7.1.jar /usr/local/nginx/java
+	install mysql-connector-java-8.0.22.jar /usr/local/nginx/java
