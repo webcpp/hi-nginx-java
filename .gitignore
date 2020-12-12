@@ -23,4 +23,3 @@
 !mariadb-java-client-*.jar
 !mysql-connector-java-*.jar
 !druid-*.jar
-!hi-nginx-java.jar
