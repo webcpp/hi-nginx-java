@@ -29,6 +29,7 @@ a java web framework for hi-nginx:
   - net
   - rng
   - text
+  - beanutils
 - google
   - gson
 - msgpack
