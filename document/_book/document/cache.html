@@ -1,0 +1,453 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>缓存加速 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="sercive.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="install.html">
+            
+                <a href="install.html">
+            
+                    
+                    安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="first-step.html">
+            
+                <a href="first-step.html">
+            
+                    
+                    起步
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="form.html">
+            
+                <a href="form.html">
+            
+                    
+                    表单
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="session.html">
+            
+                <a href="session.html">
+            
+                    
+                    会话
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="config.html">
+            
+                <a href="config.html">
+            
+                    
+                    全局配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="template.html">
+            
+                <a href="template.html">
+            
+                    
+                    模板引擎
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="database.html">
+            
+                <a href="database.html">
+            
+                    
+                    数据库
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="sercive.html">
+            
+                <a href="sercive.html">
+            
+                    
+                    面向服务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.10" data-path="cache.html">
+            
+                <a href="cache.html">
+            
+                    
+                    缓存加速
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >缓存加速</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x7F13;&#x5B58;&#x52A0;&#x901F;">&#x7F13;&#x5B58;&#x52A0;&#x901F;</h1>
+<p>&#x901A;&#x5E38;&#xFF0C;&#x5F00;&#x53D1;&#x8005;&#x4F1A;&#x4F7F;&#x7528;redis&#x7B49;&#x5185;&#x5B58;&#x6570;&#x636E;&#x5E93;&#x4F5C;&#x4E3A;&#x7F13;&#x5B58;&#x52A0;&#x901F;&#x7684;&#x9996;&#x9009;&#x624B;&#x6BB5;&#x3002;&#x4F46;&#x662F;&#x5BF9;hi-nginx-java&#x6765;&#x8BF4;&#xFF0C;&#x8FD9;&#x4E9B;&#x53CD;&#x800C;&#x662F;&#x6B21;&#x4F18;&#x7684;&#x9009;&#x62E9;&#x3002;hi-nginx&#x672C;&#x8EAB;&#x5373;&#x5305;&#x542B;&#x7F13;&#x5B58;&#x52A0;&#x901F;&#x5668;&#xFF0C;&#x65E0;&#x9700;&#x989D;&#x5916;&#x4E0E;&#x5176;&#x4ED6;&#x670D;&#x52A1;&#x5668;&#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;&#x5373;&#x53EF;&#x5B9E;&#x73B0;&#x9AD8;&#x901F;&#x7F13;&#x5B58;&#x52A0;&#x901F;&#x3002;</p>
+<h2 id="&#x7CFB;&#x7EDF;&#x7F13;&#x5B58;&#x52A0;&#x901F;">&#x7CFB;&#x7EDF;&#x7F13;&#x5B58;&#x52A0;&#x901F;</h2>
+<p>&#x7CFB;&#x7EDF;&#x7F13;&#x5B58;&#x52A0;&#x901F;&#x673A;&#x5236;&#x5305;&#x542B;&#x5728;hi-nginx&#x7684;&#x5DE5;&#x4F5C;&#x8FDB;&#x7A0B;&#x4E4B;&#x4E2D;&#x3002;&#x53EA;&#x9700;&#x6DFB;&#x52A0;hi-nginx&#x7684;&#x56DB;&#x4E2A;&#x914D;&#x7F6E;&#x9879;&#xFF0C;&#x5373;&#x53EF;&#x5B9E;&#x73B0;&#xFF1A;</p>
+<pre><code class="lang-nginx">            <span class="hljs-attribute">hi_need_cache</span> <span class="hljs-literal">on</span>;
+            <span class="hljs-attribute">hi_cache_expires</span> <span class="hljs-number">5s</span>;
+            <span class="hljs-attribute">hi_cache_method</span> GET;
+            <span class="hljs-attribute">hi_cache_size</span> <span class="hljs-number">50</span>;
+</code></pre>
+<p><code>hi_need_cache</code>&#x662F;&#x52A0;&#x901F;&#x5F00;&#x5173;&#xFF0C;&#x6253;&#x5F00;&#x5373;&#x53EF;&#x3002;&#x5176;&#x4ED6;&#x4E09;&#x9879;&#x6839;&#x636E;&#x9700;&#x8981;&#x8BBE;&#x7F6E;&#x5373;&#x53EF;&#x3002;</p>
+<p>&#x4F8B;&#x5982;&#xFF0C;&#x8BBF;&#x95EE;<code>/website/info.java?id=10</code>&#xFF0C;&#x5982;&#x679C;&#x5173;&#x95ED;&#x7CFB;&#x7EDF;&#x52A0;&#x901F;&#x673A;&#x5236;&#xFF0C;<code>ab</code>&#x538B;&#x6D4B;&#x541E;&#x5410;&#x7387;RPS&#x4EC5;&#x6709;&#x6570;&#x5343;&#x800C;&#x5DF2;&#xFF1A;</p>
+<pre><code class="lang-txt">Server Software:        nginx/1.19.5
+Server Hostname:        localhost
+Server Port:            80
+
+Document Path:          /website/info.java?id=10
+Document Length:        51 bytes
+
+Concurrency Level:      100
+Time taken for tests:   2.922 seconds
+Complete requests:      10000
+Failed requests:        0
+Keep-Alive requests:    9949
+Total transferred:      3439745 bytes
+HTML transferred:       510000 bytes
+Requests per second:    3422.31 [#/sec] (mean)
+Time per request:       29.220 [ms] (mean)
+Time per request:       0.292 [ms] (mean, across all concurrent requests)
+Transfer rate:          1149.60 [Kbytes/sec] received
+</code></pre>
+<p>&#x82E5;&#x5F00;&#x542F;&#x8BE5;&#x673A;&#x5236;&#xFF0C;&#x541E;&#x5410;&#x7387;RPS&#x4F1A;&#x66B4;&#x6DA8;&#x81F3;&#x5341;&#x500D;&#x4EE5;&#x4E0A;:</p>
+<pre><code class="lang-txt">Server Software:        nginx/1.19.5
+Server Hostname:        localhost
+Server Port:            80
+
+Document Path:          /website/info.java?id=10
+Document Length:        51 bytes
+
+Concurrency Level:      100
+Time taken for tests:   0.216 seconds
+Complete requests:      10000
+Failed requests:        0
+Keep-Alive requests:    9970
+Total transferred:      3899850 bytes
+HTML transferred:       510000 bytes
+Requests per second:    46196.63 [#/sec] (mean)
+Time per request:       2.165 [ms] (mean)
+Time per request:       0.022 [ms] (mean, across all concurrent requests)
+Transfer rate:          17593.74 [Kbytes/sec] received
+</code></pre>
+<h2 id="&#x7528;&#x6237;&#x7F13;&#x5B58;&#x52A0;&#x901F;">&#x7528;&#x6237;&#x7F13;&#x5B58;&#x52A0;&#x901F;</h2>
+<p>&#x7528;&#x6237;&#x7F13;&#x5B58;&#x52A0;&#x901F;&#x901A;&#x8FC7;hi-nginx&#x7684;&#x4EE5;&#x4E0B;&#x4E09;&#x9879;&#x914D;&#x7F6E;&#x63A7;&#x5236;&#xFF1A;</p>
+<pre><code class="lang-nginx">    <span class="hljs-attribute">hi_need_kvdb</span> <span class="hljs-literal">on</span>;
+    <span class="hljs-attribute">hi_kvdb_size</span> <span class="hljs-number">50</span>;
+    <span class="hljs-attribute">hi_kvdb_expires</span> <span class="hljs-number">5s</span>;
+</code></pre>
+<p>&#x8FD9;&#x65F6;&#xFF0C;&#x9700;&#x8981;&#x4FEE;&#x6539;<code>/website/info.java</code>&#x5BF9;&#x5E94;&#x7684;&#x670D;&#x52A1;&#x7C7B;:</p>
+<pre><code class="lang-java"><span class="hljs-keyword">import</span> org.apache.commons.codec.digest.DigestUtils;
+</code></pre>
+<pre><code class="lang-java">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handler</span><span class="hljs-params">(hi.request req, hi.response res, Matcher m)</span> </span>{
+        <span class="hljs-keyword">if</span> (req.method.equals(<span class="hljs-string">&quot;GET&quot;</span>)) {
+            String cache_k = DigestUtils.md5Hex(req.uri+req.param);
+            <span class="hljs-keyword">if</span>(req.cache.containsKey(cache_k)){
+                res.content = req.cache.get(cache_k);
+                res.status = <span class="hljs-number">200</span>;
+            }<span class="hljs-keyword">else</span>{
+                String sql = <span class="hljs-string">&quot;SELECT * FROM `websites` WHERE `id`=?;&quot;</span>;
+                Object[] params = <span class="hljs-keyword">new</span> Object[<span class="hljs-number">1</span>];
+                <span class="hljs-keyword">if</span> (req.form.containsKey(<span class="hljs-string">&quot;id&quot;</span>)) {
+                    params[<span class="hljs-number">0</span>] = Integer.valueOf(req.form.get(<span class="hljs-string">&quot;id&quot;</span>)).intValue();
+                    <span class="hljs-keyword">try</span> {
+                        QueryRunner qr = <span class="hljs-keyword">new</span> QueryRunner(db_help.get_instance().get_data_source());
+
+                        Map&lt;String, website&gt; result = qr.query(sql, <span class="hljs-keyword">new</span> BeanMapHandler&lt;String, website&gt;(website.class),
+                                params);
+                        StringBuffer content = <span class="hljs-keyword">new</span> StringBuffer();
+
+                        <span class="hljs-keyword">for</span> (Map.Entry&lt;String, website&gt; item : result.entrySet()) {
+                            content.append(String.format(<span class="hljs-string">&quot;%s\tid = %s\tname = %s\turl = %s\n&quot;</span>, item.getKey(),
+                                    item.getValue().getId(), item.getValue().getName(), item.getValue().getUrl()));
+                        }
+
+                        res.content = content.toString();
+                        res.status = <span class="hljs-number">200</span>;
+                        res.cache.put(cache_k, res.content);
+                    } <span class="hljs-keyword">catch</span> (SQLException e) {
+                        res.content = e.getMessage();
+                        res.status = <span class="hljs-number">500</span>;
+                    }
+                }
+            }
+
+
+        }
+    }
+</code></pre>
+<p>&#x6B64;&#x65F6;&#xFF0C;<code>ab</code>&#x538B;&#x6D4B;&#x541E;&#x5410;&#x7387;RPS&#x4E5F;&#x80FD;&#x6709;&#x6570;&#x500D;&#x7684;&#x63D0;&#x5347;&#xFF1A;</p>
+<pre><code class="lang-txt">Document Path:          /website/info.java?id=10
+Document Length:        51 bytes
+
+Concurrency Level:      100
+Time taken for tests:   0.601 seconds
+Complete requests:      10000
+Failed requests:        0
+Keep-Alive requests:    9916
+Total transferred:      3439580 bytes
+HTML transferred:       510000 bytes
+Requests per second:    16625.57 [#/sec] (mean)
+Time per request:       6.015 [ms] (mean)
+Time per request:       0.060 [ms] (mean, across all concurrent requests)
+Transfer rate:          5584.47 [Kbytes/sec] received
+</code></pre>
+<p>&#x7528;&#x6237;&#x7F13;&#x5B58;&#x52A0;&#x901F;&#x53EF;&#x4E0E;&#x7CFB;&#x7EDF;&#x7F13;&#x5B58;&#x52A0;&#x901F;&#x534F;&#x8C03;&#x5DE5;&#x4F5C;&#x3002;</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="sercive.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 面向服务">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"缓存加速","level":"1.10","depth":1,"previous":{"title":"面向服务","level":"1.9","depth":1,"path":"document/sercive.md","ref":"document/sercive.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/cache.md","mtime":"2020-12-13T11:40:53.245Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-12-13T11:44:00.683Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
