@@ -31,6 +31,7 @@ hi-nginx-java包含的servlet定义非常“轻”，其核心API只使用java�
   - net
   - rng
   - text
+  - beanutils
 - google
   - gson
 - msgpack
