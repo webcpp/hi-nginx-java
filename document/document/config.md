@@ -6,14 +6,26 @@ hi-nginx-java的全局配置系统是通过[config](https://github.com/lightbend
 ```nginx
 hi_java_options "-server -d64 -Dconfig.file=java/application.conf  -Dnashorn.args=--global-per-engine";
 ```
-其中的`-Dconfig.file`被用来指定全局配置文件`application.conf`。该文件应该至少包含`template.directory`域:
+其中的`-Dconfig.file`被用来指定全局配置文件`application.conf`。该文件应该至少包含以下元素:
 ```txt
+route {
+        lrucache {
+                reflect {
+                        expires = 300
+                        size = 1024
+                }
+        }
+}
+
 template {
         directory = "java/templates"
 }
 
+
 ```
-以上内容是说，所有模板文件存放的目录是`java/templates`，此一路径是相对于hi-nginx的安装目录`/usr/local/nginx`而言的。
+以上内容是说：
+ - 所有模板文件存放的目录是`java/templates`，此一路径是相对于hi-nginx的安装目录`/usr/local/nginx`而言的。
+ - 路由器的LRU缓存器的过期时间是300秒，最多缓存1024元素个反射对象。
 
 当需要使用配置变量时，可通过`hi.route`的唯一实例的`get_config`方法获得配置变量表:
 ```java

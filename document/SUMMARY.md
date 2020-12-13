@@ -10,3 +10,4 @@
 * [数据库](document/database.md)
 * [面向服务](document/sercive.md)
 * [缓存加速](document/cache.md)
+* [部署热更新](document/reload.md)

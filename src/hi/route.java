@@ -108,6 +108,8 @@ public class route {
             return new FileReader(new File(this.config.getString("template.directory"), name));
         };
         this.compiler = Mustache.compiler().withLoader(this.loader);
+        route.lrucache_reflect_expires = this.config.getLong("route.lrucache.reflect.expires");
+        route.lrucache_reflect_size = this.config.getInt("route.lrucache.reflect.size");
     }
 
     public static route get_instance() {
