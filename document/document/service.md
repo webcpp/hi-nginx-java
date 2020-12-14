@@ -98,6 +98,7 @@ import website.db_help;
 
 public class list implements hi.route.run_t {
     private static List<String> order_t = Arrays.asList("DESC", "desc", "ASC", "asc");
+    private static String integer_pattern = new String("[1-9]+[0-9]*");
 
     public list() {
     }
@@ -117,10 +118,16 @@ public class list implements hi.route.run_t {
                 sql = String.format(sql, "DESC");
             }
             if (req.form.containsKey("start")) {
-                params[0] = Integer.valueOf(req.form.get("start")).intValue();
+                String p1 = req.form.get("start");
+                if (p1.matches(list.integer_pattern)) {
+                    params[0] = Integer.valueOf(p1).intValue();
+                }
             }
             if (req.form.containsKey("size")) {
-                params[1] = Integer.valueOf(req.form.get("size")).intValue();
+                String p2 = req.form.get("size");
+                if (p2.matches(list.integer_pattern)) {
+                    params[1] = Integer.valueOf(p2).intValue();
+                }
             }
             res.set_content_type("text/plain;charset=UTF-8");
             try {
