@@ -4,8 +4,7 @@
 
 比如，对表`websites`提供CRUD服务.如果规划的URI包括:`/website/info`,`/website/insert`,`/website/update`,`/website/delete`,`/website/list`，那么对应的Class应该有:`website.info`，`website.insert`,`website.update`,`website.delete`和`website.list`。
 
-例如，对于`/website/list`:
-
+例如，先定义bean如下:
 ```java
 
 package website;
@@ -41,7 +40,7 @@ public class website {
 }
 
 ```
-
+再定义数据源:
 ```java
 package website;
 
@@ -69,12 +68,36 @@ public class db_help {
         db_help.ds.setUrl(hi.route.get_instance().get_config().getString("mariadb.url"));
         db_help.ds.setUsername(hi.route.get_instance().get_config().getString("mariadb.username"));
         db_help.ds.setPassword(hi.route.get_instance().get_config().getString("mariadb.password"));
+
+        db_help.ds.setInitialSize(hi.route.get_instance().get_config().getInt("druid.initialSize"));
+        db_help.ds.setMaxActive(hi.route.get_instance().get_config().getInt("druid.maxActive"));
+        db_help.ds.setMaxWait(hi.route.get_instance().get_config().getLong("druid.maxWait"));
+        db_help.ds.setMinIdle(hi.route.get_instance().get_config().getInt("druid.minIdle"));
+        db_help.ds.setValidationQuery(hi.route.get_instance().get_config().getString("druid.validationQuery"));
+        db_help.ds.setTestWhileIdle(hi.route.get_instance().get_config().getBoolean("druid.testWhileIdle"));
+        db_help.ds.setTestOnBorrow(hi.route.get_instance().get_config().getBoolean("druid.testOnBorrow"));
+        db_help.ds.setTestOnReturn(hi.route.get_instance().get_config().getBoolean("druid.testOnReturn"));
         return db_help.ds;
     }
 }
 
 ```
-URI`/website/list`对应于`website.list`，默认列表前五条：
+这里使用druid作为数据源，所以需要添加相关配置至`application.conf`文件中:
+```txt
+druid {
+    initialSize = 5
+    maxActive = 10
+    maxWait = 3000
+    minIdle = 3
+    validationQuery = "SELECT 1"
+    testWhileIdle = true
+    testOnBorrow = false
+    testOnReturn = false
+}
+
+```
+
+于是，URI`/website/list`对应于`website.list`，默认列表前五条：
 
 ```java
 

@@ -280,7 +280,7 @@
                                 <h1 id="&#x9762;&#x5411;&#x670D;&#x52A1;">&#x9762;&#x5411;&#x670D;&#x52A1;</h1>
 <p>&#x5BF9;hi-nginx-java&#x800C;&#x8A00;&#xFF0C;&#x670D;&#x52A1;&#x5373;URI&#x6307;&#x5411;&#x7684;&#x5B9E;&#x4F53;&#x7C7B;&#x3002;&#x56E0;&#x4E3A;URI&#x4E0E;Class&#x4E4B;&#x95F4;&#x7684;&#x6620;&#x5C04;&#x5173;&#x7CFB;&#xFF0C;&#x6240;&#x4EE5;&#x6240;&#x8C13;&#x9762;&#x5411;&#x670D;&#x52A1;&#x5373;&#x63D0;&#x4F9B;URI<code>/a/b/c</code>&#x6307;&#x5411;&#x7684;Class<code>a.b.c</code>&#x3002;</p>
 <p>&#x6BD4;&#x5982;&#xFF0C;&#x5BF9;&#x8868;<code>websites</code>&#x63D0;&#x4F9B;CRUD&#x670D;&#x52A1;.&#x5982;&#x679C;&#x89C4;&#x5212;&#x7684;URI&#x5305;&#x62EC;:<code>/website/info</code>,<code>/website/insert</code>,<code>/website/update</code>,<code>/website/delete</code>,<code>/website/list</code>&#xFF0C;&#x90A3;&#x4E48;&#x5BF9;&#x5E94;&#x7684;Class&#x5E94;&#x8BE5;&#x6709;:<code>website.info</code>&#xFF0C;<code>website.insert</code>,<code>website.update</code>,<code>website.delete</code>&#x548C;<code>website.list</code>&#x3002;</p>
-<p>&#x4F8B;&#x5982;&#xFF0C;&#x5BF9;&#x4E8E;<code>/website/list</code>:</p>
+<p>&#x4F8B;&#x5982;&#xFF0C;&#x5148;&#x5B9A;&#x4E49;bean&#x5982;&#x4E0B;:</p>
 <pre><code class="lang-java">
 <span class="hljs-keyword">package</span> website;
 
@@ -314,6 +314,7 @@
     }
 }
 </code></pre>
+<p>&#x518D;&#x5B9A;&#x4E49;&#x6570;&#x636E;&#x6E90;:</p>
 <pre><code class="lang-java"><span class="hljs-keyword">package</span> website;
 
 <span class="hljs-keyword">import</span> java.sql.SQLException;
@@ -340,11 +341,32 @@
         db_help.ds.setUrl(hi.route.get_instance().get_config().getString(<span class="hljs-string">&quot;mariadb.url&quot;</span>));
         db_help.ds.setUsername(hi.route.get_instance().get_config().getString(<span class="hljs-string">&quot;mariadb.username&quot;</span>));
         db_help.ds.setPassword(hi.route.get_instance().get_config().getString(<span class="hljs-string">&quot;mariadb.password&quot;</span>));
+
+        db_help.ds.setInitialSize(hi.route.get_instance().get_config().getInt(<span class="hljs-string">&quot;druid.initialSize&quot;</span>));
+        db_help.ds.setMaxActive(hi.route.get_instance().get_config().getInt(<span class="hljs-string">&quot;druid.maxActive&quot;</span>));
+        db_help.ds.setMaxWait(hi.route.get_instance().get_config().getLong(<span class="hljs-string">&quot;druid.maxWait&quot;</span>));
+        db_help.ds.setMinIdle(hi.route.get_instance().get_config().getInt(<span class="hljs-string">&quot;druid.minIdle&quot;</span>));
+        db_help.ds.setValidationQuery(hi.route.get_instance().get_config().getString(<span class="hljs-string">&quot;druid.validationQuery&quot;</span>));
+        db_help.ds.setTestWhileIdle(hi.route.get_instance().get_config().getBoolean(<span class="hljs-string">&quot;druid.testWhileIdle&quot;</span>));
+        db_help.ds.setTestOnBorrow(hi.route.get_instance().get_config().getBoolean(<span class="hljs-string">&quot;druid.testOnBorrow&quot;</span>));
+        db_help.ds.setTestOnReturn(hi.route.get_instance().get_config().getBoolean(<span class="hljs-string">&quot;druid.testOnReturn&quot;</span>));
         <span class="hljs-keyword">return</span> db_help.ds;
     }
 }
 </code></pre>
-<p>URI<code>/website/list</code>&#x5BF9;&#x5E94;&#x4E8E;<code>website.list</code>&#xFF0C;&#x9ED8;&#x8BA4;&#x5217;&#x8868;&#x524D;&#x4E94;&#x6761;&#xFF1A;</p>
+<p>&#x8FD9;&#x91CC;&#x4F7F;&#x7528;druid&#x4F5C;&#x4E3A;&#x6570;&#x636E;&#x6E90;&#xFF0C;&#x6240;&#x4EE5;&#x9700;&#x8981;&#x6DFB;&#x52A0;&#x76F8;&#x5173;&#x914D;&#x7F6E;&#x81F3;<code>application.conf</code>&#x6587;&#x4EF6;&#x4E2D;:</p>
+<pre><code class="lang-txt">druid {
+    initialSize = 5
+    maxActive = 10
+    maxWait = 3000
+    minIdle = 3
+    validationQuery = &quot;SELECT 1&quot;
+    testWhileIdle = true
+    testOnBorrow = false
+    testOnReturn = false
+}
+</code></pre>
+<p>&#x4E8E;&#x662F;&#xFF0C;URI<code>/website/list</code>&#x5BF9;&#x5E94;&#x4E8E;<code>website.list</code>&#xFF0C;&#x9ED8;&#x8BA4;&#x5217;&#x8868;&#x524D;&#x4E94;&#x6761;&#xFF1A;</p>
 <pre><code class="lang-java">
 <span class="hljs-keyword">package</span> website;
 
@@ -672,7 +694,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"面向服务","level":"1.9","depth":1,"next":{"title":"缓存加速","level":"1.10","depth":1,"path":"document/cache.md","ref":"document/cache.md","articles":[]},"previous":{"title":"数据库","level":"1.8","depth":1,"path":"document/database.md","ref":"document/database.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/service.md","mtime":"2020-12-14T13:14:34.906Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-12-14T13:14:50.670Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"面向服务","level":"1.9","depth":1,"next":{"title":"缓存加速","level":"1.10","depth":1,"path":"document/cache.md","ref":"document/cache.md","articles":[]},"previous":{"title":"数据库","level":"1.8","depth":1,"path":"document/database.md","ref":"document/database.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/service.md","mtime":"2020-12-14T14:18:40.934Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-12-14T14:20:46.101Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
