@@ -58,6 +58,10 @@ public class route {
     public static long lrucache_reflect_expires = 300;
     public static int lrucache_reflect_size = 1024;
     public static String default_uri_pattern = new String("(.*)");
+    private static String lrucache_reflect_expires_config_path = new String("route.lrucache.reflect.expires");
+    private static String lrucache_reflect_size_config_path = new String("route.lrucache.reflect.size");
+    private static String template_directory_config_path = new String("template.directory");
+    private static String template_directory_config_default_path = new String("java/templates");
 
     private static route instance = new route();
 
@@ -105,11 +109,21 @@ public class route {
     private route() {
         this.config = ConfigFactory.load();
         this.loader = (String name) -> {
-            return new FileReader(new File(this.config.getString("template.directory"), name));
+            if (this.config.hasPath(route.template_directory_config_path)) {
+                return new FileReader(new File(this.config.getString(route.template_directory_config_path), name));
+            }
+            return new FileReader(new File(route.template_directory_config_default_path, name));
         };
         this.compiler = Mustache.compiler().withLoader(this.loader);
-        route.lrucache_reflect_expires = this.config.getLong("route.lrucache.reflect.expires");
-        route.lrucache_reflect_size = this.config.getInt("route.lrucache.reflect.size");
+
+        if (this.config.hasPath(route.lrucache_reflect_expires_config_path)) {
+            route.lrucache_reflect_expires = this.config.getLong(route.lrucache_reflect_expires_config_path);
+        }
+
+        if (this.config.hasPath(route.lrucache_reflect_size_config_path)) {
+            route.lrucache_reflect_size = this.config.getInt(route.lrucache_reflect_size_config_path);
+        }
+
     }
 
     public static route get_instance() {
