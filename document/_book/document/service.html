@@ -193,9 +193,9 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.9" data-path="sercive.html">
+        <li class="chapter active" data-level="1.9" data-path="service.html">
             
-                <a href="sercive.html">
+                <a href="service.html">
             
                     
                     面向服务
@@ -353,38 +353,53 @@
 <span class="hljs-keyword">import</span> hi.route;
 
 <span class="hljs-keyword">import</span> java.util.regex.Matcher;
+<span class="hljs-keyword">import</span> java.util.Arrays;
+<span class="hljs-keyword">import</span> java.util.List;
 <span class="hljs-keyword">import</span> java.util.Map;
 <span class="hljs-keyword">import</span> java.sql.SQLException;
 
 <span class="hljs-keyword">import</span> org.apache.commons.dbutils.QueryRunner;
-<span class="hljs-keyword">import</span> org.apache.commons.dbutils.handlers.BeanMapHandler;
+<span class="hljs-keyword">import</span> org.apache.commons.dbutils.handlers.BeanListHandler;
 
 <span class="hljs-keyword">import</span> website.website;
 <span class="hljs-keyword">import</span> website.db_help;
 
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">list</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">hi</span>.<span class="hljs-title">route</span>.<span class="hljs-title">run_t</span> </span>{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> List&lt;String&gt; order_t = Arrays.asList(<span class="hljs-string">&quot;DESC&quot;</span>, <span class="hljs-string">&quot;desc&quot;</span>, <span class="hljs-string">&quot;ASC&quot;</span>, <span class="hljs-string">&quot;asc&quot;</span>);
+
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">list</span><span class="hljs-params">()</span> </span>{
     }
 
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handler</span><span class="hljs-params">(hi.request req, hi.response res, Matcher m)</span> </span>{
         <span class="hljs-keyword">if</span> (req.method.equals(<span class="hljs-string">&quot;GET&quot;</span>)) {
-            String sql = <span class="hljs-string">&quot;SELECT * FROM `websites` ORDER BY `id` LIMIT ?,?;&quot;</span>;
+            String sql = <span class="hljs-string">&quot;SELECT * FROM `websites` ORDER BY `id` %s LIMIT ?,?;&quot;</span>;
             Object[] params = { <span class="hljs-number">0</span>, <span class="hljs-number">5</span> };
+            <span class="hljs-keyword">if</span> (req.form.containsKey(<span class="hljs-string">&quot;order&quot;</span>)) {
+                String tmp = req.form.get(<span class="hljs-string">&quot;order&quot;</span>);
+                <span class="hljs-keyword">if</span> (!list.order_t.contains(tmp)) {
+                    sql = String.format(sql, <span class="hljs-string">&quot;DESC&quot;</span>);
+                } <span class="hljs-keyword">else</span> {
+                    sql = String.format(sql, tmp);
+                }
+            } <span class="hljs-keyword">else</span> {
+                sql = String.format(sql, <span class="hljs-string">&quot;DESC&quot;</span>);
+            }
             <span class="hljs-keyword">if</span> (req.form.containsKey(<span class="hljs-string">&quot;start&quot;</span>)) {
                 params[<span class="hljs-number">0</span>] = Integer.valueOf(req.form.get(<span class="hljs-string">&quot;start&quot;</span>)).intValue();
             }
             <span class="hljs-keyword">if</span> (req.form.containsKey(<span class="hljs-string">&quot;size&quot;</span>)) {
                 params[<span class="hljs-number">1</span>] = Integer.valueOf(req.form.get(<span class="hljs-string">&quot;size&quot;</span>)).intValue();
             }
+            res.set_content_type(<span class="hljs-string">&quot;text/plain;charset=UTF-8&quot;</span>);
             <span class="hljs-keyword">try</span> {
                 QueryRunner qr = <span class="hljs-keyword">new</span> QueryRunner(db_help.get_instance().get_data_source());
 
-                Map&lt;String, website&gt; result = qr.query(sql, <span class="hljs-keyword">new</span> BeanMapHandler&lt;String, website&gt;(website.class), params);
+                List&lt;website&gt; result = qr.query(sql, <span class="hljs-keyword">new</span> BeanListHandler&lt;website&gt;(website.class), params);
                 StringBuffer content = <span class="hljs-keyword">new</span> StringBuffer();
 
-                <span class="hljs-keyword">for</span> (Map.Entry&lt;String, website&gt; item : result.entrySet()) {
-                    content.append(String.format(<span class="hljs-string">&quot;%s\tid = %s\tname = %s\turl = %s\n&quot;</span>, item.getKey(),
-                            item.getValue().getId(), item.getValue().getName(), item.getValue().getUrl()));
+                <span class="hljs-keyword">for</span> (website item : result) {
+                    content.append(String.format(<span class="hljs-string">&quot;id = %s\tname = %s\turl = %s\n&quot;</span>, item.getId(), item.getName(),
+                            item.getUrl()));
                 }
 
                 res.content = content.toString();
@@ -649,7 +664,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"面向服务","level":"1.9","depth":1,"next":{"title":"缓存加速","level":"1.10","depth":1,"path":"document/cache.md","ref":"document/cache.md","articles":[]},"previous":{"title":"数据库","level":"1.8","depth":1,"path":"document/database.md","ref":"document/database.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/sercive.md","mtime":"2020-12-11T23:43:46.669Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-12-13T13:08:44.184Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"面向服务","level":"1.9","depth":1,"next":{"title":"缓存加速","level":"1.10","depth":1,"path":"document/cache.md","ref":"document/cache.md","articles":[]},"previous":{"title":"数据库","level":"1.8","depth":1,"path":"document/database.md","ref":"document/database.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/service.md","mtime":"2020-12-14T09:14:29.436Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-12-14T09:16:17.252Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
