@@ -338,11 +338,11 @@ Transfer rate:          17593.74 [Kbytes/sec] received
 </code></pre>
 <pre><code class="lang-java">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handler</span><span class="hljs-params">(hi.request req, hi.response res, Matcher m)</span> </span>{
         <span class="hljs-keyword">if</span> (req.method.equals(<span class="hljs-string">&quot;GET&quot;</span>)) {
-            String cache_k = DigestUtils.md5Hex(req.uri+req.param);
-            <span class="hljs-keyword">if</span>(req.cache.containsKey(cache_k)){
+            String cache_k = DigestUtils.md5Hex(req.uri + req.param);
+            <span class="hljs-keyword">if</span> (req.cache.containsKey(cache_k)) {
                 res.content = req.cache.get(cache_k);
                 res.status = <span class="hljs-number">200</span>;
-            }<span class="hljs-keyword">else</span>{
+            } <span class="hljs-keyword">else</span> {
                 String sql = <span class="hljs-string">&quot;SELECT * FROM `websites` WHERE `id`=?;&quot;</span>;
                 Object[] params = <span class="hljs-keyword">new</span> Object[<span class="hljs-number">1</span>];
                 <span class="hljs-keyword">if</span> (req.form.containsKey(<span class="hljs-string">&quot;id&quot;</span>)) {
@@ -350,13 +350,11 @@ Transfer rate:          17593.74 [Kbytes/sec] received
                     <span class="hljs-keyword">try</span> {
                         QueryRunner qr = <span class="hljs-keyword">new</span> QueryRunner(db_help.get_instance().get_data_source());
 
-                        Map&lt;String, website&gt; result = qr.query(sql, <span class="hljs-keyword">new</span> BeanMapHandler&lt;String, website&gt;(website.class),
-                                params);
+                        List&lt;website&gt; result = qr.query(sql, <span class="hljs-keyword">new</span> BeanListHandler&lt;website&gt;(website.class), params);
                         StringBuffer content = <span class="hljs-keyword">new</span> StringBuffer();
 
-                        <span class="hljs-keyword">for</span> (Map.Entry&lt;String, website&gt; item : result.entrySet()) {
-                            content.append(String.format(<span class="hljs-string">&quot;%s\tid = %s\tname = %s\turl = %s\n&quot;</span>, item.getKey(),
-                                    item.getValue().getId(), item.getValue().getName(), item.getValue().getUrl()));
+                        <span class="hljs-keyword">for</span> (website item : result) {
+                            content.append(String.format(<span class="hljs-string">&quot;id = %s\tname = %s\turl = %s\n&quot;</span>, item.getId(), item.getName(),item.getUrl()));
                         }
 
                         res.content = content.toString();
@@ -368,7 +366,6 @@ Transfer rate:          17593.74 [Kbytes/sec] received
                     }
                 }
             }
-
 
         }
     }
@@ -433,7 +430,7 @@ Transfer rate:          5584.47 [Kbytes/sec] received
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"缓存加速","level":"1.10","depth":1,"next":{"title":"部署热更新","level":"1.11","depth":1,"path":"document/reload.md","ref":"document/reload.md","articles":[]},"previous":{"title":"面向服务","level":"1.9","depth":1,"path":"document/service.md","ref":"document/service.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/cache.md","mtime":"2020-12-13T11:40:53.245Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-12-15T00:52:45.386Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"缓存加速","level":"1.10","depth":1,"next":{"title":"部署热更新","level":"1.11","depth":1,"path":"document/reload.md","ref":"document/reload.md","articles":[]},"previous":{"title":"面向服务","level":"1.9","depth":1,"path":"document/service.md","ref":"document/service.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/cache.md","mtime":"2020-12-15T07:03:08.278Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-12-15T07:04:52.167Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
