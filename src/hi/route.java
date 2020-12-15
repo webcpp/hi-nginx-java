@@ -62,6 +62,8 @@ public class route {
     private static String lrucache_reflect_size_config_path = new String("route.lrucache.reflect.size");
     private static String template_directory_config_path = new String("template.directory");
     private static String template_directory_config_default_path = new String("java/templates");
+    private static String error_40x_config_path = new String("/404.html");
+    private static String error_50x_config_path = new String("/50x.html");
 
     private static route instance = new route();
 
@@ -123,6 +125,12 @@ public class route {
         if (this.config.hasPath(route.lrucache_reflect_size_config_path)) {
             route.lrucache_reflect_size = this.config.getInt(route.lrucache_reflect_size_config_path);
         }
+        if (this.config.hasPath(route.error_40x_config_path)) {
+            route.error_40x_config_path = this.config.getString(route.error_40x_config_path);
+        }
+        if (this.config.hasPath(route.error_50x_config_path)) {
+            route.error_50x_config_path = this.config.getString(route.error_50x_config_path);
+        }
 
     }
 
@@ -151,9 +159,11 @@ public class route {
                     ref.cls_method.invoke(ref.cls.getConstructor().newInstance(), req, res, mt);
                 } catch (Exception e) {
                     route.reflect_map.remove(req.uri);
-                    res.set_content_type("text/plain;charset=UTF-8");
-                    res.content = "callback is failed: " + e.getMessage();
-                    res.status = 500;
+                    // res.set_content_type("text/plain;charset=UTF-8");
+                    // res.content = String.format("callback is failed: %s\n" , e.getMessage());
+                    // res.status = 500;
+                    res.status = 301;
+                    res.set_header("Location", route.error_50x_config_path);
                 }
             } else {
                 route.reflect_map.remove(req.uri);
@@ -178,19 +188,25 @@ public class route {
                     ref.cls_method.invoke(ref.cls.getConstructor().newInstance(), req, res, mt);
                     route.reflect_map.put(req.uri, ref);
                 } catch (Exception e) {
-                    res.set_content_type("text/plain;charset=UTF-8");
-                    res.content = "callback is failed: " + e.getMessage();
-                    res.status = 500;
+                    // res.set_content_type("text/plain;charset=UTF-8");
+                    // res.content = String.format("callback is failed: %s\n" , e.getMessage());
+                    // res.status = 500;
+                    res.status = 301;
+                    res.set_header("Location", route.error_50x_config_path);
                 }
             } catch (Exception e) {
-                res.set_content_type("text/plain;charset=UTF-8");
-                res.content = "NoSuchMethodException: " + e.getMessage();
-                res.status = 404;
+                // res.set_content_type("text/plain;charset=UTF-8");
+                // res.content = "NoSuchMethodException: " + e.getMessage();
+                // res.status = 404;
+                res.status = 301;
+                res.set_header("Location", route.error_40x_config_path);
             }
         } catch (Exception e) {
-            res.set_content_type("text/plain;charset=UTF-8");
-            res.content = "ClassNotFoundException: " + e.getMessage();
-            res.status = 404;
+            // res.set_content_type("text/plain;charset=UTF-8");
+            // res.content = "ClassNotFoundException: " + e.getMessage();
+            // res.status = 404;
+            res.status = 301;
+            res.set_header("Location", route.error_40x_config_path);
         }
     }
 
