@@ -6,6 +6,7 @@ import hi.response;
 import hi.lrucache;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Pattern;
@@ -211,36 +212,14 @@ public class route {
     }
 
     public void add(ArrayList<String> m, String p, route.run_t r) {
-        if (!route.map.containsKey(p)) {
+        String key = p + m.toString();
+        if (!route.map.containsKey(key)) {
             route_ele_t ele = new route_ele_t();
             ele.pattern = p;
             ele.regex = Pattern.compile(p);
             ele.method = m;
             ele.callback = r;
-            route.map.put(p, ele);
-        }
-    }
-
-    public void add(ArrayList<String> m, String p) {
-        if (!route.map.containsKey(p)) {
-            route_ele_t ele = new route_ele_t();
-            ele.pattern = p;
-            ele.regex = Pattern.compile(p);
-            ele.method = m;
-            ele.callback = this::default_callback;
-            route.map.put(p, ele);
-        }
-    }
-
-    public void add(ArrayList<String> m) {
-        String p = route.default_uri_pattern;
-        if (!route.map.containsKey(p)) {
-            route_ele_t ele = new route_ele_t();
-            ele.pattern = p;
-            ele.regex = Pattern.compile(p);
-            ele.method = m;
-            ele.callback = this::default_callback;
-            route.map.put(p, ele);
+            route.map.put(key, ele);
         }
     }
 
@@ -249,7 +228,7 @@ public class route {
     }
 
     public void get(String p) {
-        this.add(route.http_get_method(), p);
+        this.add(route.http_get_method(), p, this::default_callback);
     }
 
     public void post(String p, route.run_t r) {
@@ -257,7 +236,7 @@ public class route {
     }
 
     public void post(String p) {
-        this.add(route.http_post_method(), p);
+        this.add(route.http_post_method(), p, this::default_callback);
     }
 
     public void put(String p, route.run_t r) {
@@ -265,7 +244,7 @@ public class route {
     }
 
     public void put(String p) {
-        this.add(route.http_put_method(), p);
+        this.add(route.http_put_method(), p, this::default_callback);
     }
 
     public void head(String p, route.run_t r) {
@@ -273,7 +252,7 @@ public class route {
     }
 
     public void head(String p) {
-        this.add(route.http_head_method(), p);
+        this.add(route.http_head_method(), p, this::default_callback);
     }
 
     public void delete(String p, route.run_t r) {
@@ -281,7 +260,7 @@ public class route {
     }
 
     public void delete(String p) {
-        this.add(route.http_delete_method(), p);
+        this.add(route.http_delete_method(), p, this::default_callback);
     }
 
     public void patch(String p, route.run_t r) {
@@ -289,7 +268,7 @@ public class route {
     }
 
     public void patch(String p) {
-        this.add(route.http_patch_method(), p);
+        this.add(route.http_patch_method(), p, this::default_callback);
     }
 
     public void option(String p, route.run_t r) {
@@ -297,7 +276,7 @@ public class route {
     }
 
     public void option(String p) {
-        this.add(route.http_option_method(), p);
+        this.add(route.http_option_method(), p, this::default_callback);
     }
 
     public void all(String p, route.run_t r) {
@@ -305,11 +284,11 @@ public class route {
     }
 
     public void all(String p) {
-        this.add(route.http_all_method(), p);
+        this.add(route.http_all_method(), p, this::default_callback);
     }
 
     public void all() {
-        this.add(route.http_all_method());
+        this.add(route.http_all_method(), route.default_uri_pattern, this::default_callback);
     }
 
     public void run(request req, response res) {
@@ -329,5 +308,15 @@ public class route {
             this.default_callback(req, res, Pattern.compile(route.default_uri_pattern).matcher(req.uri));
         }
 
+    }
+
+    public String to_string() {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(String.format("size = %s\n", route.map.size()));
+        for (HashMap.Entry<String, route.route_ele_t> item : route.map.entrySet()) {
+            buffer.append(
+                    String.format("pattern = %s,\tmethod =%s\n", item.getKey(), item.getValue().method.toString()));
+        }
+        return buffer.toString();
     }
 }
