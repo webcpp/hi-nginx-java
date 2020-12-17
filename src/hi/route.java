@@ -213,7 +213,7 @@ public class route {
         }
     }
 
-    public void add(ArrayList<String> m, String p, route.run_t r) {
+    public void add(List<String> m, String p, route.run_t r) {
         route_ele_t ele = new route_ele_t();
         ele.pattern = p;
         ele.regex = Pattern.compile(p);
