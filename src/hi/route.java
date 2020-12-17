@@ -212,14 +212,20 @@ public class route {
     }
 
     public void add(ArrayList<String> m, String p, route.run_t r) {
-        String key = p + m.toString();
-        if (!route.map.containsKey(key)) {
+        if (!route.map.containsKey(p)) {
             route_ele_t ele = new route_ele_t();
             ele.pattern = p;
             ele.regex = Pattern.compile(p);
             ele.method = m;
             ele.callback = r;
-            route.map.put(key, ele);
+            route.map.put(p, ele);
+        } else if (!route.map.get(p).method.equals(m)) {
+            route_ele_t ele = new route_ele_t();
+            ele.pattern = p;
+            ele.regex = Pattern.compile(p);
+            ele.method = m;
+            ele.callback = r;
+            route.map.put(p + m.toString(), ele);
         }
     }
 
