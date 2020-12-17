@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.LinkedList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.io.File;
@@ -39,7 +41,7 @@ public class route {
         }
 
         public String pattern;
-        public ArrayList<String> method;
+        public List<String> method;
         public Pattern regex;
         public route.run_t callback;
     }
@@ -68,7 +70,7 @@ public class route {
 
     private static route instance = new route();
 
-    private static HashMap<String, route_ele_t> map = new HashMap<String, route_ele_t>();
+    private static LinkedList<route_ele_t> route_ele_list = new LinkedList<route_ele_t>();
 
     private static lrucache<String, reflect_t> reflect_map = new lrucache<String, reflect_t>(
             route.lrucache_reflect_size);
@@ -212,21 +214,12 @@ public class route {
     }
 
     public void add(ArrayList<String> m, String p, route.run_t r) {
-        if (!route.map.containsKey(p)) {
-            route_ele_t ele = new route_ele_t();
-            ele.pattern = p;
-            ele.regex = Pattern.compile(p);
-            ele.method = m;
-            ele.callback = r;
-            route.map.put(p, ele);
-        } else if (!route.map.get(p).method.equals(m)) {
-            route_ele_t ele = new route_ele_t();
-            ele.pattern = p;
-            ele.regex = Pattern.compile(p);
-            ele.method = m;
-            ele.callback = r;
-            route.map.put(p + m.toString(), ele);
-        }
+        route_ele_t ele = new route_ele_t();
+        ele.pattern = p;
+        ele.regex = Pattern.compile(p);
+        ele.method = m;
+        ele.callback = r;
+        route.route_ele_list.add(ele);
     }
 
     public void get(String p, route.run_t r) {
@@ -298,11 +291,9 @@ public class route {
     }
 
     public void run(request req, response res) {
-        Iterator<HashMap.Entry<String, route_ele_t>> iter = route.map.entrySet().iterator();
         Matcher m = null;
         boolean ok = false;
-        while (iter.hasNext()) {
-            route_ele_t ele = iter.next().getValue();
+        for (route_ele_t ele : route.route_ele_list) {
             if (ele.method.contains(req.method) && Pattern.matches(ele.pattern, req.uri)) {
                 m = ele.regex.matcher(req.uri);
                 ele.callback.handler(req, res, m);
@@ -318,10 +309,9 @@ public class route {
 
     public String to_string() {
         StringBuffer buffer = new StringBuffer();
-        buffer.append(String.format("size = %s\n", route.map.size()));
-        for (HashMap.Entry<String, route.route_ele_t> item : route.map.entrySet()) {
-            buffer.append(
-                    String.format("pattern = %s,\tmethod =%s\n", item.getKey(), item.getValue().method.toString()));
+        buffer.append(String.format("size = %s\n", route.route_ele_list.size()));
+        for (route_ele_t item : route.route_ele_list) {
+            buffer.append(String.format("pattern = %s,\tmethod =%s\n", item.pattern, item.method.toString()));
         }
         return buffer.toString();
     }
