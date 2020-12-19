@@ -13,3 +13,4 @@
 * [缓存加速](document/cache.md)
 * [部署热更新](document/reload.md)
 * [与jvm脚本语言混合编程](document/jvm-script.md)
+* [构建应用](document/build.md)

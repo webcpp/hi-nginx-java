@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>部署热更新 · GitBook</title>
+        <title>构建应用 · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,10 +57,8 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="jvm-script.html" />
     
-    
-    <link rel="prev" href="cache.html" />
+    <link rel="prev" href="jvm-script.html" />
     
 
     </head>
@@ -232,7 +230,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.12" data-path="reload.html">
+        <li class="chapter " data-level="1.12" data-path="reload.html">
             
                 <a href="reload.html">
             
@@ -258,7 +256,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.14" data-path="build.html">
+        <li class="chapter active" data-level="1.14" data-path="build.html">
             
                 <a href="build.html">
             
@@ -301,7 +299,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >部署热更新</a>
+        <a href=".." >构建应用</a>
     </h1>
 </div>
 
@@ -316,19 +314,54 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="&#x90E8;&#x7F72;&#x70ED;&#x66F4;&#x65B0;">&#x90E8;&#x7F72;&#x70ED;&#x66F4;&#x65B0;</h1>
-<p>&#x5E94;&#x7528;&#x66F4;&#x65B0;&#x90E8;&#x7F72;&#x65E0;&#x9700;<code>reload</code>&#x6216;&#x8005;<code>restart</code>hi-nginx&#x3002;hi-nginx-java&#x80FD;&#x6839;&#x636E;&#x5168;&#x5C40;&#x914D;&#x7F6E;</p>
-<pre><code class="lang-txt">route {
-    lrucache {
-        reflect {
-            expires = 300
-            size = 1024
-        }
-    }
-}
+                                <h1 id="&#x6784;&#x5EFA;&#x5E94;&#x7528;">&#x6784;&#x5EFA;&#x5E94;&#x7528;</h1>
+<p>&#x901A;&#x5E38;&#xFF0C;&#x6784;&#x5EFA;&#x5DE5;&#x5177;&#x662F;maven,ant&#x6216;&#x8005;gradle&#x3002;&#x4F46;&#x662F;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x53EA;&#x7528;<code>make</code>:<code>make clean &amp;&amp; make -j2 &amp;&amp; sudo make install</code>&#x641E;&#x5B9A;&#x4E00;&#x5207;&#x3002;</p>
+<p>&#x5047;&#x8BBE;&#x5F00;&#x53D1;&#x8005;&#x540C;&#x65F6;&#x5B89;&#x88C5;&#x4E86;java,groovy&#x548C;scala&#x4E09;&#x79CD;&#x8BED;&#x8A00;&#x5F00;&#x53D1;&#x73AF;&#x5883;&#xFF0C;&#x5176;&#x5E94;&#x7528;&#x53EF;&#x80FD;&#x7528;&#x5230;&#x4E09;&#x79CD;&#x8BED;&#x8A00;&#x4E2D;&#x7684;&#x81F3;&#x5C11;&#x4E00;&#x79CD;&#x3002;&#x53EA;&#x8981;&#x8BBE;&#x7F6E;&#x597D;&#x4E86;&#x5404;&#x8BED;&#x8A00;&#x76F8;&#x5173;&#x7684;&#x73AF;&#x5883;&#x53D8;&#x91CF;:<code>JAVA_HOME</code>,<code>GROOVY_HOME</code>&#x4EE5;&#x53CA;<code>SCALA_HOME</code>&#xFF0C;&#x5E76;&#x6839;&#x636E;&#x8FD9;&#x4E09;&#x9879;&#xFF0C;&#x8BBE;&#x7F6E;&#x597D;&#x4E86;&#x6700;&#x91CD;&#x8981;&#x7684;<code>CLASSPATH</code>&#xFF0C;&#x90A3;&#x4E48;&#xFF0C;<code>Makefile</code>&#x7684;&#x57FA;&#x672C;&#x5199;&#x6CD5;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code class="lang-Makefile">
+
+PRO=app.jar
+
+ifndef NGINX_INSTALL_DIR
+NGINX_INSTALL_DIR=/usr/local/nginx
+endif
+
+
+JAVAC = ${JAVA_HOME}/bin/javac
+JAVA_FLAGS =-classpath .:${CLASSPATH}
+
+GROOVYC = ${GROOVY_HOME}/bin/groovyc
+GROOVY_FLAGS = <span class="hljs-variable">$(JAVA_FLAGS)</span>
+
+
+SCALAC = ${SCALA_HOME}/bin/scalac
+SCALAC_FLAGS = <span class="hljs-variable">$(JAVA_FLAGS)</span>
+
+JAR = ${JAVA_HOME}/bin/jar
+JAR_FLAGS = cfv
+
+
+
+default: ${PRO}
+
+${PRO}:
+    find . -name *.java -type f &gt; java_src.list &amp;&amp; \
+    $(JAVAC) $(JAVA_FLAGS) @java_src.list
+    find . -name *.groovy -type f &gt; groovy_src.list &amp;&amp; \
+    $(GROOVYC) $(GROOVY_FLAGS) @groovy_src.list 
+    find . -name *.scala -type f &gt; scala_src.list &amp;&amp; \
+    $(SCALAC) $(SCALAC_FLAGS) @scala_src.list
+    find . -name *.class -type f &gt; class.list &amp;&amp; \
+    $(JAR) $(JAR_FLAGS) ${PRO} `cat class.list`
+
+
+<span class="hljs-section">clean:</span>
+    rm -f ${PRO} java_src.list groovy_src.list scala_src.list `cat class.list` class.list
+
+
+install:${OBJ}
+    install ${PRO} $(NGINX_INSTALL_DIR)/java
 </code></pre>
-<p>&#x81EA;&#x52A8;&#x5B9E;&#x73B0;&#x70ED;&#x66F4;&#x65B0;&#x3002;&#x5173;&#x952E;&#x503C;&#x7531;&quot;route.lrucache.reflect.expires&quot;&#x6307;&#x5B9A;&#xFF0C;&#x5355;&#x4F4D;&#x662F;&#x79D2;&#x3002;</p>
-<p>&#x5F00;&#x53D1;&#x73AF;&#x5883;&#x8BE5;&#x503C;&#x5C3D;&#x91CF;&#x5C0F;&#x4E9B;&#xFF0C;&#x65B9;&#x4FBF;&#x8C03;&#x8BD5;&#x3002;&#x751F;&#x4EA7;&#x73AF;&#x5883;&#x5219;&#x5E94;&#x8BE5;&#x5C3D;&#x53EF;&#x80FD;&#x5927;&#x4E9B;&#x3002;</p>
+<p>&#x5F00;&#x53D1;&#x8005;&#x914C;&#x60C5;&#x4FEE;&#x6539;&#x4EE5;&#x9002;&#x914D;&#x81EA;&#x5DF1;&#x7684;&#x9700;&#x8981;&#x5373;&#x53EF;&#x3002;</p>
 
                                 
                                 </section>
@@ -356,14 +389,10 @@
 
             
                 
-                <a href="cache.html" class="navigation navigation-prev " aria-label="Previous page: 缓存加速">
+                <a href="jvm-script.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 与jvm脚本语言混合编程">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
-                
-                <a href="jvm-script.html" class="navigation navigation-next " aria-label="Next page: 与jvm脚本语言混合编程">
-                    <i class="fa fa-angle-right"></i>
-                </a>
                 
             
         
@@ -372,7 +401,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"部署热更新","level":"1.12","depth":1,"next":{"title":"与jvm脚本语言混合编程","level":"1.13","depth":1,"path":"document/jvm-script.md","ref":"document/jvm-script.md","articles":[]},"previous":{"title":"缓存加速","level":"1.11","depth":1,"path":"document/cache.md","ref":"document/cache.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/reload.md","mtime":"2020-12-13T12:49:45.575Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-12-19T12:18:38.100Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"构建应用","level":"1.14","depth":1,"previous":{"title":"与jvm脚本语言混合编程","level":"1.13","depth":1,"path":"document/jvm-script.md","ref":"document/jvm-script.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/build.md","mtime":"2020-12-19T12:17:44.101Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-12-19T12:18:38.100Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
