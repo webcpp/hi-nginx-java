@@ -336,6 +336,11 @@ GROOVY_FLAGS = <span class="hljs-variable">$(JAVA_FLAGS)</span>
 SCALAC = ${SCALA_HOME}/bin/scalac
 SCALAC_FLAGS = <span class="hljs-variable">$(JAVA_FLAGS)</span>
 
+
+KOTLINC = ${KOTLIN_HOME}/bin/kotlinc
+KOTLINC_FLAGS = <span class="hljs-variable">$(JAVA_FLAGS)</span> -jvm-target 1.8
+
+
 JAR = ${JAVA_HOME}/bin/jar
 JAR_FLAGS = cfv
 
@@ -350,12 +355,14 @@ ${PRO}:
     $(GROOVYC) $(GROOVY_FLAGS) @groovy_src.list 
     find . -name *.scala -type f &gt; scala_src.list &amp;&amp; \
     $(SCALAC) $(SCALAC_FLAGS) @scala_src.list
+    find . -name *.kt -type f &gt; kotlin_src.list &amp;&amp; \
+    $(KOTLINC) $(KOTLINC_FLAGS) @kotlin_src.list
     find . -name *.class -type f &gt; class.list &amp;&amp; \
     $(JAR) $(JAR_FLAGS) ${PRO} `cat class.list`
 
 
 <span class="hljs-section">clean:</span>
-    rm -f ${PRO} java_src.list groovy_src.list scala_src.list `cat class.list` class.list
+    rm -f ${PRO} java_src.list groovy_src.list scala_src.list kotlin_src.list `cat class.list` class.list
 
 
 install:${OBJ}
@@ -401,7 +408,7 @@ install:${OBJ}
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"构建应用","level":"1.14","depth":1,"previous":{"title":"与jvm脚本语言混合编程","level":"1.13","depth":1,"path":"document/jvm-script.md","ref":"document/jvm-script.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/build.md","mtime":"2020-12-19T12:17:44.101Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-12-19T12:18:38.100Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"构建应用","level":"1.14","depth":1,"previous":{"title":"与jvm脚本语言混合编程","level":"1.13","depth":1,"path":"document/jvm-script.md","ref":"document/jvm-script.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/build.md","mtime":"2020-12-23T02:28:33.563Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-12-23T02:32:31.324Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
