@@ -2,7 +2,9 @@
 
 通常，构建工具是maven,ant或者gradle。但是，也可以只用`make`:`make clean && make -j2 && sudo make install`搞定一切。
 
-假设开发者同时安装了java,groovy和scala三种语言开发环境，其应用可能用到三种语言中的至少一种。只要设置好了各语言相关的环境变量:`JAVA_HOME`,`GROOVY_HOME`以及`SCALA_HOME`，并根据这三项，设置好了最重要的`CLASSPATH`，那么，`Makefile`的基本写法如下：
+假设开发者同时安装了java,groovy,scala和kotlin四种语言开发环境，其应用可能用到四种语言中的至少一种。只要设置好了各语言相关的环境变量:`JAVA_HOME`,`GROOVY_HOME`以及`SCALA_HOME`和`KOTLIN_HOME`，并根据这三项，设置好了最重要的`CLASSPATH`，
+
+那么，`Makefile`的基本写法如下：
 
 ```Makefile
 
