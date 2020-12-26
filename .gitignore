@@ -23,3 +23,6 @@
 !mariadb-java-client-*.jar
 !mysql-connector-java-*.jar
 !druid-*.jar
+.settings/
+.classpath
+.project

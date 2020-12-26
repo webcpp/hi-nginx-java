@@ -51,7 +51,7 @@ export PATH=$JAVA_HOME/bin:$PATH
 
 ```nginx
     hi_java_classpath "-Djava.class.path=.:/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/app.jar";
-    hi_java_options "-server -d64 -Dnashorn.args=--global-per-engine";
+    hi_java_options "-server -d64 -Dconfig.file=java/application.conf -Dnashorn.args=--global-per-engine";
     hi_java_servlet_cache_expires 1h;
     hi_java_servlet_cache_size 1024;
     hi_java_version 11;
@@ -66,5 +66,6 @@ export PATH=$JAVA_HOME/bin:$PATH
 
 执行命令`sudo systemctl restart nginx`，然后访问`http://localhost/hi/test.java`。`hi.test`是hi-nginx-java内置的测试类，它对应于URI`/hi/test`。若返回`welcome to hi-nginx-java`，则说明hi-nginx-java安装成功。其中，`/usr/local/nginx/java/app.jar`指开发者自行开发的应用。
 
-
+### 重要提示
+`-Djava.class.path=`部分务必添加`/usr/local/nginx/java`项，否则`-Dconfig.file=java/application.conf`项无法起作用。
 
