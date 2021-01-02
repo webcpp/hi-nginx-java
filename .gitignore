@@ -26,3 +26,5 @@
 .settings/
 .classpath
 .project
+.idea/
+hi-nginx-java.iml
