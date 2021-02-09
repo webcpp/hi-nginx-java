@@ -31,7 +31,12 @@ export PATH=$JAVA_HOME/bin:$PATH
 
 确保已经安装完整支持c++11的gcc和g++。一般version-4.9以上为佳。
 
-确保已经安装PCRE、zlib和OpenSSL开发库，它们是编译hi-nginx所必须的。
+确保已经安装PCRE、zlib和OpenSSL开发库，它们是编译hi-nginx所必须的:
+`yum install pcre-devel openssl-devel`
+
+或者
+
+`apt-get install libpcre3-dev libssl-dev`
 
 
 从[https://github.com/webcpp/hi-nginx/releases](https://github.com/webcpp/hi-nginx/releases)下载最新的安装包。
