@@ -32,12 +32,14 @@ a java web framework for hi-nginx:
   - beanutils
 - google
   - gson
-- msgpack
+- [msgpack-java](https://github.com/msgpack/msgpack-java)
 - mustache template engine
   - [mustache.java](https://github.com/spullara/mustache.java)
   - [jmustache](http://github.com/samskivert/jmustache)
 - config
   - [config](https://github.com/lightbend/config)
+- [JSON-java](https://github.com/stleary/JSON-java)
+  
 
 ## install
 
