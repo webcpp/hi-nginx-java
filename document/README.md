@@ -34,12 +34,13 @@ hi-nginx-java包含的servlet定义非常“轻”，其核心API只使用java�
   - beanutils
 - google
   - gson
-- msgpack
+- [msgpack-java](https://github.com/msgpack/msgpack-java)
 - mustache template engine
   - [mustache.java](https://github.com/spullara/mustache.java)
   - [jmustache](http://github.com/samskivert/jmustache)
 - config
   - [config](https://github.com/lightbend/config)
+- [JSON-java](https://github.com/stleary/JSON-java)
 
 ## 题外话
 据说，spring boot为开发者解决了spring带来的“配置地狱”问题，堪称开发者的“天使”。然而，在hi-nginx-java的技术体系里，“配置地狱”是不可能出现的，从而也无需出现一个解决相关问题的梦幻“天使”。hi-nginx-java诞生的初衷只有一个：传统容器服务器的xml配置文件“丑”不堪言——窃以为，xml是最丑陋的技术发明。
