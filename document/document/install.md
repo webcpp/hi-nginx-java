@@ -74,3 +74,13 @@ export PATH=$JAVA_HOME/bin:$PATH
 ### 重要提示
 - `-Djava.class.path=`部分务必添加`/usr/local/nginx/java`项，否则`-Dconfig.file=java/application.conf`项无法起作用。
 - openj9 实现暂不支持。
+
+
+### 启用环境变量配置第三方包
+如果把所有需要引用的第三方包都写在`hi_java_classpath`命令里，难免显得冗长，且不易维护。从v2.1.2.8开始，hi-nginx支持通过`env CLASSPATH`指令从环境变量读取第三方包。这将极大地简化包依赖维护工作。具体做法如下：
+
+- 配置`/etc/systemd/system/nginx.service`,去掉`EnvironmentFile`命令前的`#`。
+- 新建`/usr/local/nginx/conf/env.conf`文件，内容为`CLASSPATH=***`具体值由系统的`$CLASSPATH`变量指定。所有依赖包均可以在此处添加。
+- 配置`/usr/local/nginx/conf/nginx.conf`，添加`env CLASSPATH`指令。
+
+如此，`hi_java_classpath`指令无需修改，所有依赖配置变化都通过`env.conf`文件修改实现。只需`reload`或者`restart`即可重新加载全新配置。
