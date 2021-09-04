@@ -32,11 +32,9 @@ import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CoderResult;
 import java.nio.charset.CodingErrorAction;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.Instant;
 
+import static org.msgpack.core.MessagePack.Code.EXT_TIMESTAMP;
 import static org.msgpack.core.Preconditions.checkNotNull;
 
 /**
@@ -553,7 +551,10 @@ public class MessageUnpacker
                     skipPayload(readNextLength16() + 1);
                     break;
                 case EXT32:
-                    skipPayload(readNextLength32() + 1);
+                    int extLen = readNextLength32();
+                    // Skip the first ext type header (1-byte) first in case ext length is Integer.MAX_VALUE
+                    skipPayload(1);
+                    skipPayload(extLen);
                     break;
                 case ARRAY16:
                     count += readNextLength16();
@@ -594,6 +595,12 @@ public class MessageUnpacker
             String typeName = name.substring(0, 1) + name.substring(1).toLowerCase();
             return new MessageTypeException(String.format("Expected %s, but got %s (%02x)", expected, typeName, b));
         }
+    }
+
+    private static MessagePackException unexpectedExtension(String expected, int expectedType, int actualType)
+    {
+        return new MessageTypeException(String.format("Expected extension type %s (%d), but got extension type %d",
+                    expected, expectedType, actualType));
     }
 
     public ImmutableValue unpackValue()
@@ -644,7 +651,12 @@ public class MessageUnpacker
             }
             case EXTENSION: {
                 ExtensionTypeHeader extHeader = unpackExtensionTypeHeader();
-                return ValueFactory.newExtension(extHeader.getType(), readPayload(extHeader.getLength()));
+                switch (extHeader.getType()) {
+                case EXT_TIMESTAMP:
+                    return ValueFactory.newTimestamp(unpackTimestamp(extHeader));
+                default:
+                    return ValueFactory.newExtension(extHeader.getType(), readPayload(extHeader.getLength()));
+                }
             }
             default:
                 throw new MessageNeverUsedFormatException("Unknown value type");
@@ -687,27 +699,34 @@ public class MessageUnpacker
             }
             case ARRAY: {
                 int size = unpackArrayHeader();
-                List<Value> list = new ArrayList<Value>(size);
+                Value[] kvs = new Value[size];
                 for (int i = 0; i < size; i++) {
-                    list.add(unpackValue());
+                    kvs[i] = unpackValue();
                 }
-                var.setArrayValue(list);
+                var.setArrayValue(kvs);
                 return var;
             }
             case MAP: {
                 int size = unpackMapHeader();
-                Map<Value, Value> map = new HashMap<Value, Value>();
-                for (int i = 0; i < size; i++) {
-                    Value k = unpackValue();
-                    Value v = unpackValue();
-                    map.put(k, v);
+                Value[] kvs = new Value[size * 2];
+                for (int i = 0; i < size * 2; ) {
+                    kvs[i] = unpackValue();
+                    i++;
+                    kvs[i] = unpackValue();
+                    i++;
                 }
-                var.setMapValue(map);
+                var.setMapValue(kvs);
                 return var;
             }
             case EXTENSION: {
                 ExtensionTypeHeader extHeader = unpackExtensionTypeHeader();
-                var.setExtensionValue(extHeader.getType(), readPayload(extHeader.getLength()));
+                switch (extHeader.getType()) {
+                case EXT_TIMESTAMP:
+                    var.setTimestampValue(unpackTimestamp(extHeader));
+                    break;
+                default:
+                    var.setExtensionValue(extHeader.getType(), readPayload(extHeader.getLength()));
+                }
                 return var;
             }
             default:
@@ -1257,6 +1276,45 @@ public class MessageUnpacker
         }
     }
 
+    public Instant unpackTimestamp()
+            throws IOException
+    {
+        ExtensionTypeHeader ext = unpackExtensionTypeHeader();
+        return unpackTimestamp(ext);
+    }
+
+    /**
+     * Unpack timestamp that can be used after reading the extension type header with unpackExtensionTypeHeader.
+     */
+    public Instant unpackTimestamp(ExtensionTypeHeader ext) throws IOException
+    {
+        if (ext.getType() != EXT_TIMESTAMP) {
+            throw unexpectedExtension("Timestamp", EXT_TIMESTAMP, ext.getType());
+        }
+        switch (ext.getLength()) {
+            case 4: {
+                // Need to convert Java's int (int32) to uint32
+                long u32 = readInt() & 0xffffffffL;
+                return Instant.ofEpochSecond(u32);
+            }
+            case 8: {
+                long data64 = readLong();
+                int nsec = (int) (data64 >>> 34);
+                long sec = data64 & 0x00000003ffffffffL;
+                return Instant.ofEpochSecond(sec, nsec);
+            }
+            case 12: {
+                // Need to convert Java's int (int32) to uint32
+                long nsecU32 = readInt() & 0xffffffffL;
+                long sec = readLong();
+                return Instant.ofEpochSecond(sec, nsecU32);
+            }
+            default:
+                throw new MessageFormatException(String.format("Timestamp extension type (%d) expects 4, 8, or 12 bytes of payload but got %d bytes",
+                        EXT_TIMESTAMP, ext.getLength()));
+        }
+    }
+
     /**
      * Reads header of an array.
      *
@@ -1474,6 +1532,9 @@ public class MessageUnpacker
     private void skipPayload(int numBytes)
             throws IOException
     {
+        if (numBytes < 0) {
+            throw new IllegalArgumentException("payload size must be >= 0: " + numBytes);
+        }
         while (true) {
             int bufferRemaining = buffer.size() - position;
             if (bufferRemaining >= numBytes) {
@@ -1615,6 +1676,9 @@ public class MessageUnpacker
 
     /**
      * Reads payload bytes of binary, extension, or raw string types as a reference to internal buffer.
+     *
+     * Note: This methods may return raw memory region, access to which has no strict boundary checks.
+     * To use this method safely, you need to understand the internal buffer handling of msgpack-java.
      *
      * <p>
      * This consumes specified amount of bytes and returns its reference or copy. This method tries to
