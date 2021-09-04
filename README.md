@@ -32,6 +32,10 @@ a java web framework for hi-nginx:
   - beanutils
 - google
   - gson
+- FasterXML
+  - jackson-core
+  - jackson-databind
+  - jackson-annotations
 - [msgpack-java](https://github.com/msgpack/msgpack-java)
 - mustache template engine
   - [mustache.java](https://github.com/spullara/mustache.java)
