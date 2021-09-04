@@ -34,6 +34,10 @@ hi-nginx-java包含的servlet定义非常“轻”，其核心API只使用java�
   - beanutils
 - google
   - gson
+- FasterXML
+  - jackson-core
+  - jackson-databind
+  - jackson-annotations
 - [msgpack-java](https://github.com/msgpack/msgpack-java)
 - mustache template engine
   - [mustache.java](https://github.com/spullara/mustache.java)
