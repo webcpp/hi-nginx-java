@@ -16,14 +16,19 @@
  */
 package org.apache.commons.dbutils.handlers.properties;
 
-import java.sql.Timestamp;
-
 import org.apache.commons.dbutils.PropertyHandler;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
+/**
+ * {@link PropertyHandler} for date fields. Will convert {@link java.sql.Date}, {@link java.sql.Time}, and
+ * {@link java.sql.Timestamp} from SQL types to java types.
+ */
 public class DatePropertyHandler implements PropertyHandler {
     @Override
-    public boolean match(Class<?> parameter, Object value) {
-        if (value instanceof java.util.Date) {
+    public boolean match(final Class<?> parameter, final Object value) {
+        if (value instanceof Date) {
             final String targetType = parameter.getName();
             if ("java.sql.Date".equals(targetType)) {
                 return true;
@@ -31,7 +36,8 @@ public class DatePropertyHandler implements PropertyHandler {
             if ("java.sql.Time".equals(targetType)) {
                 return true;
             } else
-            if ("java.sql.Timestamp".equals(targetType)) {
+            if ("java.sql.Timestamp".equals(targetType)
+                    && !Timestamp.class.isInstance(value)) {
                 return true;
             }
         }
@@ -40,19 +46,19 @@ public class DatePropertyHandler implements PropertyHandler {
     }
 
     @Override
-    public Object apply(Class<?> parameter, Object value) {
+    public Object apply(final Class<?> parameter, Object value) {
         final String targetType = parameter.getName();
+        final Date dateValue = (Date) value;
+        final long time = dateValue.getTime();
+
         if ("java.sql.Date".equals(targetType)) {
-            value = new java.sql.Date(((java.util.Date) value).getTime());
+            value = new java.sql.Date(time);
         } else
         if ("java.sql.Time".equals(targetType)) {
-            value = new java.sql.Time(((java.util.Date) value).getTime());
+            value = new java.sql.Time(time);
         } else
         if ("java.sql.Timestamp".equals(targetType)) {
-            Timestamp tsValue = (Timestamp) value;
-            int nanos = tsValue.getNanos();
-            value = new java.sql.Timestamp(tsValue.getTime());
-            ((Timestamp) value).setNanos(nanos);
+            value = new Timestamp(time);
         }
 
         return value;

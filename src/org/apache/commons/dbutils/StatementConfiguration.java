@@ -17,7 +17,7 @@
 package org.apache.commons.dbutils;
 
 /**
- * Configuration options for a {@link java.sql.Statement} when preparing statements in <code>QueryRunner</code>.
+ * Configuration options for a {@link java.sql.Statement} when preparing statements in {@code QueryRunner}.
  */
 public class StatementConfiguration {
     private final Integer fetchDirection;
@@ -27,16 +27,17 @@ public class StatementConfiguration {
     private final Integer queryTimeout;
 
     /**
-     * Constructor for <code>StatementConfiguration</code>.  For more flexibility, use {@link Builder}.
+     * Constructor for {@code StatementConfiguration}.  For more flexibility, use {@link Builder}.
      *
      * @param fetchDirection The direction for fetching rows from database tables.
      * @param fetchSize The number of rows that should be fetched from the database when more rows are needed.
      * @param maxFieldSize The maximum number of bytes that can be returned for character and binary column values.
-     * @param maxRows The maximum number of rows that a <code>ResultSet</code> can produce.
+     * @param maxRows The maximum number of rows that a {@code ResultSet} can produce.
      * @param queryTimeout The number of seconds the driver will wait for execution.
      */
-    public StatementConfiguration(Integer fetchDirection, Integer fetchSize, Integer maxFieldSize, Integer maxRows,
-                                  Integer queryTimeout) {
+    public StatementConfiguration(final Integer fetchDirection, final Integer fetchSize,
+                                  final Integer maxFieldSize, final Integer maxRows,
+                                  final Integer queryTimeout) {
         this.fetchDirection = fetchDirection;
         this.fetchSize = fetchSize;
         this.maxFieldSize = maxFieldSize;
@@ -135,7 +136,7 @@ public class StatementConfiguration {
     }
 
     /**
-     * Builder class for <code>StatementConfiguration</code> for more flexible construction.
+     * Builder class for {@code StatementConfiguration} for more flexible construction.
      */
     public static final class Builder {
         private Integer fetchDirection;
@@ -144,31 +145,59 @@ public class StatementConfiguration {
         private Integer queryTimeout;
         private Integer maxFieldSize;
 
+        /**
+         * @param fetchDirection The direction for fetching rows from database tables.
+         * @return This builder for chaining.
+         * @see StatementConfiguration#getFetchDirection()
+         */
         public Builder fetchDirection(final Integer fetchDirection) {
             this.fetchDirection = fetchDirection;
             return this;
         }
 
+        /**
+         * @param fetchSize The number of rows that should be fetched from the database when more rows are needed.
+         * @return This builder for chaining.
+         * @see StatementConfiguration#getFetchSize()
+         */
         public Builder fetchSize(final Integer fetchSize) {
             this.fetchSize = fetchSize;
             return this;
         }
 
+        /**
+         * @param maxRows The maximum number of rows that a {@code ResultSet} can produce.
+         * @return This builder for chaining.
+         * @see StatementConfiguration#getMaxRows()
+         */
         public Builder maxRows(final Integer maxRows) {
             this.maxRows = maxRows;
             return this;
         }
 
+        /**
+         * @param queryTimeout The number of seconds the driver will wait for execution.
+         * @return This builder for chaining.
+         * @see StatementConfiguration#getQueryTimeout()
+         */
         public Builder queryTimeout(final Integer queryTimeout) {
             this.queryTimeout = queryTimeout;
             return this;
         }
 
+        /**
+         * @param maxFieldSize The maximum number of bytes that can be returned for character and binary column values.
+         * @return This builder for chaining.
+         * @see StatementConfiguration#getMaxFieldSize()
+         */
         public Builder maxFieldSize(final Integer maxFieldSize) {
             this.maxFieldSize = maxFieldSize;
             return this;
         }
 
+        /**
+         * @return A new and configured {@link StatementConfiguration}.
+         */
         public StatementConfiguration build() {
             return new StatementConfiguration(fetchDirection, fetchSize, maxFieldSize, maxRows, queryTimeout);
         }

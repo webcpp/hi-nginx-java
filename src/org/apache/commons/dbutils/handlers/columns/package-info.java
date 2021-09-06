@@ -14,21 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/**
+ * Implementations of the org.apache.commons.dbutils.ColumnHandler interface.
+ */
 package org.apache.commons.dbutils.handlers.columns;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import org.apache.commons.dbutils.ColumnHandler;
-
-public class LongColumnHandler implements ColumnHandler {
-    @Override
-    public boolean match(final Class<?> propType) {
-        return propType.equals(Long.TYPE) || propType.equals(Long.class);
-    }
-
-    @Override
-    public Object apply(final ResultSet rs, final int columnIndex) throws SQLException {
-        return Long.valueOf(rs.getLong(columnIndex));
-    }
-}

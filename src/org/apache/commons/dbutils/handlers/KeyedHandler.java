@@ -24,8 +24,8 @@ import org.apache.commons.dbutils.RowProcessor;
 
 /**
  * <p>
- * <code>ResultSetHandler</code> implementation that returns a Map of Maps.
- * <code>ResultSet</code> rows are converted into Maps which are then stored
+ * {@code ResultSetHandler} implementation that returns a Map of Maps.
+ * {@code ResultSet} rows are converted into Maps which are then stored
  * in a Map under the given key.
  * </p>
  * <p>
@@ -80,10 +80,10 @@ public class KeyedHandler<K> extends AbstractKeyedHandler<K, Map<String, Object>
      * Creates a new instance of KeyedHandler.  The value of the first column
      * of each row will be a key in the Map.
      *
-     * @param convert The <code>RowProcessor</code> implementation
+     * @param convert The {@code RowProcessor} implementation
      * to use when converting rows into Maps
      */
-    public KeyedHandler(RowProcessor convert) {
+    public KeyedHandler(final RowProcessor convert) {
         this(convert, 1, null);
     }
 
@@ -93,7 +93,7 @@ public class KeyedHandler<K> extends AbstractKeyedHandler<K, Map<String, Object>
      * @param columnIndex The values to use as keys in the Map are
      * retrieved from the column at this index.
      */
-    public KeyedHandler(int columnIndex) {
+    public KeyedHandler(final int columnIndex) {
         this(ArrayHandler.ROW_PROCESSOR, columnIndex, null);
     }
 
@@ -103,29 +103,29 @@ public class KeyedHandler<K> extends AbstractKeyedHandler<K, Map<String, Object>
      * @param columnName The values to use as keys in the Map are
      * retrieved from the column with this name.
      */
-    public KeyedHandler(String columnName) {
+    public KeyedHandler(final String columnName) {
         this(ArrayHandler.ROW_PROCESSOR, 1, columnName);
     }
 
     /** Private Helper
-     * @param convert The <code>RowProcessor</code> implementation
+     * @param convert The {@code RowProcessor} implementation
      * to use when converting rows into Maps
      * @param columnIndex The values to use as keys in the Map are
      * retrieved from the column at this index.
      * @param columnName The values to use as keys in the Map are
      * retrieved from the column with this name.
      */
-    private KeyedHandler(RowProcessor convert, int columnIndex,
-            String columnName) {
+    private KeyedHandler(final RowProcessor convert, final int columnIndex,
+            final String columnName) {
         super();
         this.convert = convert;
         this.columnIndex = columnIndex;
         this.columnName = columnName;
     }
     /**
-     * This factory method is called by <code>handle()</code> to retrieve the
-     * key value from the current <code>ResultSet</code> row.  This
-     * implementation returns <code>ResultSet.getObject()</code> for the
+     * This factory method is called by {@code handle()} to retrieve the
+     * key value from the current {@code ResultSet} row.  This
+     * implementation returns {@code ResultSet.getObject()} for the
      * configured key column name or index.
      * @param rs ResultSet to create a key from
      * @return Object from the configured key column name/index
@@ -137,24 +137,24 @@ public class KeyedHandler<K> extends AbstractKeyedHandler<K, Map<String, Object>
     // so getObject will return the appropriate type and the cast will succeed.
     @SuppressWarnings("unchecked")
     @Override
-    protected K createKey(ResultSet rs) throws SQLException {
+    protected K createKey(final ResultSet rs) throws SQLException {
         return (columnName == null) ?
                (K) rs.getObject(columnIndex) :
                (K) rs.getObject(columnName);
     }
 
     /**
-     * This factory method is called by <code>handle()</code> to store the
-     * current <code>ResultSet</code> row in some object. This
-     * implementation returns a <code>Map</code> with case insensitive column
-     * names as keys.  Calls to <code>map.get("COL")</code> and
-     * <code>map.get("col")</code> return the same value.
+     * This factory method is called by {@code handle()} to store the
+     * current {@code ResultSet} row in some object. This
+     * implementation returns a {@code Map} with case insensitive column
+     * names as keys.  Calls to {@code map.get("COL")} and
+     * {@code map.get("col")} return the same value.
      * @param rs ResultSet to create a row from
      * @return Object typed Map containing column names to values
      * @throws SQLException if a database access error occurs
      */
     @Override
-    protected Map<String, Object> createRow(ResultSet rs) throws SQLException {
+    protected Map<String, Object> createRow(final ResultSet rs) throws SQLException {
         return this.convert.toMap(rs);
     }
 

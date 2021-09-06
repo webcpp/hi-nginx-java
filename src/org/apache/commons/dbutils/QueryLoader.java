@@ -24,7 +24,7 @@ import java.util.Properties;
 import java.util.regex.Pattern;
 
 /**
- * <code>QueryLoader</code> is a registry for sets of queries so
+ * {@code QueryLoader} is a registry for sets of queries so
  * that multiple copies of the same queries aren't loaded into memory.
  * This implementation loads properties files filled with query name to
  * SQL mappings.  This class is thread safe.
@@ -52,7 +52,7 @@ public class QueryLoader {
     /**
      * Maps query set names to Maps of their queries.
      */
-    private final Map<String, Map<String, String>> queries = new HashMap<String, Map<String, String>>();
+    private final Map<String, Map<String, String>> queries = new HashMap<>();
 
     /**
      * QueryLoader constructor.
@@ -66,7 +66,7 @@ public class QueryLoader {
      * subsequent request to load queries from the same path will return
      * the cached Map.  The properties file to load can be in either
      * line-oriented or XML format.  XML formatted properties files must use a
-     * <code>.xml</code> file extension.
+     * {@code .xml} file extension.
      *
      * @param path The path that the ClassLoader will use to find the file.
      * This is <strong>not</strong> a file system path.  If you had a jarred
@@ -80,7 +80,7 @@ public class QueryLoader {
      * @return Map of query names to SQL values
      * @see java.util.Properties
      */
-    public synchronized Map<String, String> load(String path) throws IOException {
+    public synchronized Map<String, String> load(final String path) throws IOException {
 
         Map<String, String> queryMap = this.queries.get(path);
 
@@ -96,7 +96,7 @@ public class QueryLoader {
      * Loads a set of named queries into a Map object.  This implementation
      * reads a properties file at the given path.  The properties file can be
      * in either line-oriented or XML format.  XML formatted properties files
-     * must use a <code>.xml</code> file extension.
+     * must use a {@code .xml} file extension.
 
      * @param path The path that the ClassLoader will use to find the file.
      * @throws IOException if a file access error occurs
@@ -108,28 +108,26 @@ public class QueryLoader {
      * @return Map of query names to SQL values
      * @see java.util.Properties
      */
-    protected Map<String, String> loadQueries(String path) throws IOException {
+    protected Map<String, String> loadQueries(final String path) throws IOException {
         // Findbugs flags getClass().getResource as a bad practice; maybe we should change the API?
-        InputStream in = getClass().getResourceAsStream(path);
+        final Properties props;
+        try (InputStream in = getClass().getResourceAsStream(path)) {
 
-        if (in == null) {
-            throw new IllegalArgumentException(path + " not found.");
-        }
-
-        Properties props = new Properties();
-        try {
+            if (in == null) {
+                throw new IllegalArgumentException(path + " not found.");
+            }
+            props = new Properties();
             if (dotXml.matcher(path).matches()) {
                 props.loadFromXML(in);
             } else {
                 props.load(in);
             }
-        } finally {
-            in.close();
         }
 
         // Copy to HashMap for better performance
 
-        @SuppressWarnings({ "rawtypes", "unchecked" }) // load() always creates <String,String> entries
+        @SuppressWarnings({"rawtypes", "unchecked" }) // load() always creates <String,String> entries
+        final
         HashMap<String, String> hashMap = new HashMap(props);
         return hashMap;
     }
@@ -138,7 +136,7 @@ public class QueryLoader {
      * Removes the queries for the given path from the cache.
      * @param path The path that the queries were loaded from.
      */
-    public synchronized void unload(String path) {
+    public synchronized void unload(final String path) {
         this.queries.remove(path);
     }
 

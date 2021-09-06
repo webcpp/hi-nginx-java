@@ -28,7 +28,7 @@ import javax.sql.DataSource;
 
 /**
  * Executes SQL queries with pluggable strategies for handling
- * <code>ResultSet</code>s.  This class is thread safe.
+ * {@code ResultSet}s.  This class is thread safe.
  *
  * @see ResultSetHandler
  */
@@ -42,77 +42,77 @@ public class QueryRunner extends AbstractQueryRunner {
     }
 
     /**
-     * Constructor for QueryRunner that controls the use of <code>ParameterMetaData</code>.
+     * Constructor for QueryRunner that controls the use of {@code ParameterMetaData}.
      *
      * @param pmdKnownBroken Some drivers don't support {@link java.sql.ParameterMetaData#getParameterType(int) };
-     * if <code>pmdKnownBroken</code> is set to true, we won't even try it; if false, we'll try it,
+     * if {@code pmdKnownBroken} is set to true, we won't even try it; if false, we'll try it,
      * and if it breaks, we'll remember not to use it again.
      */
-    public QueryRunner(boolean pmdKnownBroken) {
+    public QueryRunner(final boolean pmdKnownBroken) {
         super(pmdKnownBroken);
     }
 
     /**
-     * Constructor for QueryRunner that takes a <code>DataSource</code> to use.
+     * Constructor for QueryRunner that takes a {@code DataSource} to use.
      *
-     * Methods that do not take a <code>Connection</code> parameter will retrieve connections from this
-     * <code>DataSource</code>.
+     * Methods that do not take a {@code Connection} parameter will retrieve connections from this
+     * {@code DataSource}.
      *
-     * @param ds The <code>DataSource</code> to retrieve connections from.
+     * @param ds The {@code DataSource} to retrieve connections from.
      */
-    public QueryRunner(DataSource ds) {
+    public QueryRunner(final DataSource ds) {
         super(ds);
     }
 
     /**
-     * Constructor for QueryRunner that takes a <code>StatementConfiguration</code> to configure statements when
+     * Constructor for QueryRunner that takes a {@code StatementConfiguration} to configure statements when
      * preparing them.
      *
      * @param stmtConfig The configuration to apply to statements when they are prepared.
      */
-    public QueryRunner(StatementConfiguration stmtConfig) {
+    public QueryRunner(final StatementConfiguration stmtConfig) {
         super(stmtConfig);
     }
 
     /**
-     * Constructor for QueryRunner that takes a <code>DataSource</code> and controls the use of <code>ParameterMetaData</code>.
-     * Methods that do not take a <code>Connection</code> parameter will retrieve connections from this
-     * <code>DataSource</code>.
+     * Constructor for QueryRunner that takes a {@code DataSource} and controls the use of {@code ParameterMetaData}.
+     * Methods that do not take a {@code Connection} parameter will retrieve connections from this
+     * {@code DataSource}.
      *
-     * @param ds The <code>DataSource</code> to retrieve connections from.
+     * @param ds The {@code DataSource} to retrieve connections from.
      * @param pmdKnownBroken Some drivers don't support {@link java.sql.ParameterMetaData#getParameterType(int) };
-     * if <code>pmdKnownBroken</code> is set to true, we won't even try it; if false, we'll try it,
+     * if {@code pmdKnownBroken} is set to true, we won't even try it; if false, we'll try it,
      * and if it breaks, we'll remember not to use it again.
      */
-    public QueryRunner(DataSource ds, boolean pmdKnownBroken) {
+    public QueryRunner(final DataSource ds, final boolean pmdKnownBroken) {
         super(ds, pmdKnownBroken);
     }
 
     /**
-     * Constructor for QueryRunner that takes a <code>DataSource</code> to use and a <code>StatementConfiguration</code>.
+     * Constructor for QueryRunner that takes a {@code DataSource} to use and a {@code StatementConfiguration}.
      *
-     * Methods that do not take a <code>Connection</code> parameter will retrieve connections from this
-     * <code>DataSource</code>.
+     * Methods that do not take a {@code Connection} parameter will retrieve connections from this
+     * {@code DataSource}.
      *
-     * @param ds The <code>DataSource</code> to retrieve connections from.
+     * @param ds The {@code DataSource} to retrieve connections from.
      * @param stmtConfig The configuration to apply to statements when they are prepared.
      */
-    public QueryRunner(DataSource ds, StatementConfiguration stmtConfig) {
+    public QueryRunner(final DataSource ds, final StatementConfiguration stmtConfig) {
         super(ds, stmtConfig);
     }
 
     /**
-     * Constructor for QueryRunner that takes a <code>DataSource</code>, a <code>StatementConfiguration</code>, and
-     * controls the use of <code>ParameterMetaData</code>.  Methods that do not take a <code>Connection</code> parameter
-     * will retrieve connections from this <code>DataSource</code>.
+     * Constructor for QueryRunner that takes a {@code DataSource}, a {@code StatementConfiguration}, and
+     * controls the use of {@code ParameterMetaData}.  Methods that do not take a {@code Connection} parameter
+     * will retrieve connections from this {@code DataSource}.
      *
-     * @param ds The <code>DataSource</code> to retrieve connections from.
+     * @param ds The {@code DataSource} to retrieve connections from.
      * @param pmdKnownBroken Some drivers don't support {@link java.sql.ParameterMetaData#getParameterType(int) };
-     * if <code>pmdKnownBroken</code> is set to true, we won't even try it; if false, we'll try it,
+     * if {@code pmdKnownBroken} is set to true, we won't even try it; if false, we'll try it,
      * and if it breaks, we'll remember not to use it again.
      * @param stmtConfig The configuration to apply to statements when they are prepared.
      */
-    public QueryRunner(DataSource ds, boolean pmdKnownBroken, StatementConfiguration stmtConfig) {
+    public QueryRunner(final DataSource ds, final boolean pmdKnownBroken, final StatementConfiguration stmtConfig) {
         super(ds, pmdKnownBroken, stmtConfig);
     }
 
@@ -128,14 +128,14 @@ public class QueryRunner extends AbstractQueryRunner {
      * @throws SQLException if a database access error occurs
      * @since DbUtils 1.1
      */
-    public int[] batch(Connection conn, String sql, Object[][] params) throws SQLException {
+    public int[] batch(final Connection conn, final String sql, final Object[][] params) throws SQLException {
         return this.batch(conn, false, sql, params);
     }
 
     /**
      * Execute a batch of SQL INSERT, UPDATE, or DELETE queries.  The
-     * <code>Connection</code> is retrieved from the <code>DataSource</code>
-     * set in the constructor.  This <code>Connection</code> must be in
+     * {@code Connection} is retrieved from the {@code DataSource}
+     * set in the constructor.  This {@code Connection} must be in
      * auto-commit mode or the update will not be saved.
      *
      * @param sql The SQL to execute.
@@ -145,10 +145,10 @@ public class QueryRunner extends AbstractQueryRunner {
      * @throws SQLException if a database access error occurs
      * @since DbUtils 1.1
      */
-    public int[] batch(String sql, Object[][] params) throws SQLException {
-        Connection conn = this.prepareConnection();
-
-        return this.batch(conn, true, sql, params);
+    public int[] batch(final String sql, final Object[][] params) throws SQLException {
+        try (final Connection conn = this.prepareConnection()) {
+            return this.batch(conn, true, sql, params);
+        }
     }
 
     /**
@@ -161,22 +161,16 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return The number of rows updated in the batch.
      * @throws SQLException If there are database or parameter errors.
      */
-    private int[] batch(Connection conn, boolean closeConn, String sql, Object[][] params) throws SQLException {
+    private int[] batch(final Connection conn, final boolean closeConn, final String sql, final Object[][] params) throws SQLException {
         if (conn == null) {
             throw new SQLException("Null connection");
         }
 
         if (sql == null) {
-            if (closeConn) {
-                close(conn);
-            }
             throw new SQLException("Null SQL statement");
         }
 
         if (params == null) {
-            if (closeConn) {
-                close(conn);
-            }
             throw new SQLException("Null parameters. If parameters aren't need, pass an empty array.");
         }
 
@@ -185,19 +179,16 @@ public class QueryRunner extends AbstractQueryRunner {
         try {
             stmt = this.prepareStatement(conn, sql);
 
-            for (int i = 0; i < params.length; i++) {
-                this.fillStatement(stmt, params[i]);
+            for (Object[] param : params) {
+                this.fillStatement(stmt, param);
                 stmt.addBatch();
             }
             rows = stmt.executeBatch();
 
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
             this.rethrow(e, sql, (Object[])params);
         } finally {
             close(stmt);
-            if (closeConn) {
-                close(conn);
-            }
         }
 
         return rows;
@@ -216,8 +207,8 @@ public class QueryRunner extends AbstractQueryRunner {
      * @deprecated Use {@link #query(Connection, String, ResultSetHandler, Object...)}
      */
     @Deprecated
-    public <T> T query(Connection conn, String sql, Object param, ResultSetHandler<T> rsh) throws SQLException {
-        return this.<T>query(conn, false, sql, rsh, new Object[]{param});
+    public <T> T query(final Connection conn, final String sql, final Object param, final ResultSetHandler<T> rsh) throws SQLException {
+        return this.<T>query(conn, false, sql, rsh, param);
     }
 
     /**
@@ -233,7 +224,7 @@ public class QueryRunner extends AbstractQueryRunner {
      * @deprecated Use {@link #query(Connection,String,ResultSetHandler,Object...)} instead
      */
     @Deprecated
-    public <T> T query(Connection conn, String sql, Object[] params, ResultSetHandler<T> rsh) throws SQLException {
+    public <T> T query(final Connection conn, final String sql, final Object[] params, final ResultSetHandler<T> rsh) throws SQLException {
         return this.<T>query(conn, false, sql, rsh, params);
     }
 
@@ -248,7 +239,7 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return The object returned by the handler.
      * @throws SQLException if a database access error occurs
      */
-    public <T> T query(Connection conn, String sql, ResultSetHandler<T> rsh, Object... params) throws SQLException {
+    public <T> T query(final Connection conn, final String sql, final ResultSetHandler<T> rsh, final Object... params) throws SQLException {
         return this.<T>query(conn, false, sql, rsh, params);
     }
 
@@ -262,89 +253,89 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return The object returned by the handler.
      * @throws SQLException if a database access error occurs
      */
-    public <T> T query(Connection conn, String sql, ResultSetHandler<T> rsh) throws SQLException {
+    public <T> T query(final Connection conn, final String sql, final ResultSetHandler<T> rsh) throws SQLException {
         return this.<T>query(conn, false, sql, rsh, (Object[]) null);
     }
 
     /**
      * Executes the given SELECT SQL with a single replacement parameter.
-     * The <code>Connection</code> is retrieved from the
-     * <code>DataSource</code> set in the constructor.
+     * The {@code Connection} is retrieved from the
+     * {@code DataSource} set in the constructor.
      * @param <T> The type of object that the handler returns
      * @param sql The SQL statement to execute.
      * @param param The replacement parameter.
      * @param rsh The handler used to create the result object from
-     * the <code>ResultSet</code>.
+     * the {@code ResultSet}.
      *
      * @return An object generated by the handler.
      * @throws SQLException if a database access error occurs
      * @deprecated Use {@link #query(String, ResultSetHandler, Object...)}
      */
     @Deprecated
-    public <T> T query(String sql, Object param, ResultSetHandler<T> rsh) throws SQLException {
-        Connection conn = this.prepareConnection();
-
-        return this.<T>query(conn, true, sql, rsh, new Object[]{param});
+    public <T> T query(final String sql, final Object param, final ResultSetHandler<T> rsh) throws SQLException {
+        try (final Connection conn = this.prepareConnection()) {
+            return this.<T>query(conn, true, sql, rsh, param);
+        }
     }
 
     /**
      * Executes the given SELECT SQL query and returns a result object.
-     * The <code>Connection</code> is retrieved from the
-     * <code>DataSource</code> set in the constructor.
+     * The {@code Connection} is retrieved from the
+     * {@code DataSource} set in the constructor.
      * @param <T> The type of object that the handler returns
      * @param sql The SQL statement to execute.
      * @param params Initialize the PreparedStatement's IN parameters with
      * this array.
      *
      * @param rsh The handler used to create the result object from
-     * the <code>ResultSet</code>.
+     * the {@code ResultSet}.
      *
      * @return An object generated by the handler.
      * @throws SQLException if a database access error occurs
      * @deprecated Use {@link #query(String, ResultSetHandler, Object...)}
      */
     @Deprecated
-    public <T> T query(String sql, Object[] params, ResultSetHandler<T> rsh) throws SQLException {
-        Connection conn = this.prepareConnection();
-
-        return this.<T>query(conn, true, sql, rsh, params);
+    public <T> T query(final String sql, final Object[] params, final ResultSetHandler<T> rsh) throws SQLException {
+        try (final Connection conn = this.prepareConnection()) {
+            return this.<T>query(conn, true, sql, rsh, params);
+        }
     }
 
     /**
      * Executes the given SELECT SQL query and returns a result object.
-     * The <code>Connection</code> is retrieved from the
-     * <code>DataSource</code> set in the constructor.
+     * The {@code Connection} is retrieved from the
+     * {@code DataSource} set in the constructor.
      * @param <T> The type of object that the handler returns
      * @param sql The SQL statement to execute.
      * @param rsh The handler used to create the result object from
-     * the <code>ResultSet</code>.
+     * the {@code ResultSet}.
      * @param params Initialize the PreparedStatement's IN parameters with
      * this array.
      * @return An object generated by the handler.
      * @throws SQLException if a database access error occurs
      */
-    public <T> T query(String sql, ResultSetHandler<T> rsh, Object... params) throws SQLException {
-        Connection conn = this.prepareConnection();
-
-        return this.<T>query(conn, true, sql, rsh, params);
+    public <T> T query(final String sql, final ResultSetHandler<T> rsh, final Object... params) throws SQLException {
+        try (final Connection conn = this.prepareConnection()) {
+            return this.<T>query(conn, true, sql, rsh, params);
+        }
     }
 
     /**
      * Executes the given SELECT SQL without any replacement parameters.
-     * The <code>Connection</code> is retrieved from the
-     * <code>DataSource</code> set in the constructor.
+     * The {@code Connection} is retrieved from the
+     * {@code DataSource} set in the constructor.
      * @param <T> The type of object that the handler returns
      * @param sql The SQL statement to execute.
      * @param rsh The handler used to create the result object from
-     * the <code>ResultSet</code>.
+     * the {@code ResultSet}.
      *
      * @return An object generated by the handler.
      * @throws SQLException if a database access error occurs
      */
-    public <T> T query(String sql, ResultSetHandler<T> rsh) throws SQLException {
-        Connection conn = this.prepareConnection();
-
-        return this.<T>query(conn, true, sql, rsh, (Object[]) null);
+    public <T> T query(final String sql, final ResultSetHandler<T> rsh) throws SQLException {
+        try (final Connection conn = this.prepareConnection()) {
+            return this.<T>query(conn, true, sql, rsh, (Object[]) null);
+        }
     }
 
     /**
@@ -357,48 +348,42 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return The results of the query.
      * @throws SQLException If there are database or parameter errors.
      */
-    private <T> T query(Connection conn, boolean closeConn, String sql, ResultSetHandler<T> rsh, Object... params)
+    private <T> T query(final Connection conn, final boolean closeConn, final String sql, final ResultSetHandler<T> rsh, final Object... params)
             throws SQLException {
         if (conn == null) {
             throw new SQLException("Null connection");
         }
 
         if (sql == null) {
-            if (closeConn) {
-                close(conn);
-            }
             throw new SQLException("Null SQL statement");
         }
 
         if (rsh == null) {
-            if (closeConn) {
-                close(conn);
-            }
             throw new SQLException("Null ResultSetHandler");
         }
 
-        PreparedStatement stmt = null;
+        Statement stmt = null;
         ResultSet rs = null;
         T result = null;
 
         try {
-            stmt = this.prepareStatement(conn, sql);
-            this.fillStatement(stmt, params);
-            rs = this.wrap(stmt.executeQuery());
+            if (params != null && params.length > 0) {
+                PreparedStatement ps = this.prepareStatement(conn, sql);
+                stmt = ps;
+                this.fillStatement(ps, params);
+                rs = this.wrap(ps.executeQuery());
+            } else {
+                stmt = conn.createStatement();
+                rs = this.wrap(stmt.executeQuery(sql));
+            }
             result = rsh.handle(rs);
 
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
             this.rethrow(e, sql, params);
 
         } finally {
-            try {
-                close(rs);
-            } finally {
-                close(stmt);
-                if (closeConn) {
-                    close(conn);
-                }
-            }
+            closeQuietly(rs);
+            closeQuietly(stmt);
         }
 
         return result;
@@ -413,7 +398,7 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return The number of rows updated.
      * @throws SQLException if a database access error occurs
      */
-    public int update(Connection conn, String sql) throws SQLException {
+    public int update(final Connection conn, final String sql) throws SQLException {
         return this.update(conn, false, sql, (Object[]) null);
     }
 
@@ -427,8 +412,8 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return The number of rows updated.
      * @throws SQLException if a database access error occurs
      */
-    public int update(Connection conn, String sql, Object param) throws SQLException {
-        return this.update(conn, false, sql, new Object[]{param});
+    public int update(final Connection conn, final String sql, final Object param) throws SQLException {
+        return this.update(conn, false, sql, param);
     }
 
     /**
@@ -440,32 +425,32 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return The number of rows updated.
      * @throws SQLException if a database access error occurs
      */
-    public int update(Connection conn, String sql, Object... params) throws SQLException {
+    public int update(final Connection conn, final String sql, final Object... params) throws SQLException {
         return update(conn, false, sql, params);
     }
 
     /**
      * Executes the given INSERT, UPDATE, or DELETE SQL statement without
-     * any replacement parameters. The <code>Connection</code> is retrieved
-     * from the <code>DataSource</code> set in the constructor.  This
-     * <code>Connection</code> must be in auto-commit mode or the update will
+     * any replacement parameters. The {@code Connection} is retrieved
+     * from the {@code DataSource} set in the constructor.  This
+     * {@code Connection} must be in auto-commit mode or the update will
      * not be saved.
      *
      * @param sql The SQL statement to execute.
      * @throws SQLException if a database access error occurs
      * @return The number of rows updated.
      */
-    public int update(String sql) throws SQLException {
-        Connection conn = this.prepareConnection();
-
-        return this.update(conn, true, sql, (Object[]) null);
+    public int update(final String sql) throws SQLException {
+        try (final Connection conn = this.prepareConnection()) {
+            return this.update(conn, true, sql, (Object[]) null);
+        }
     }
 
     /**
      * Executes the given INSERT, UPDATE, or DELETE SQL statement with
-     * a single replacement parameter.  The <code>Connection</code> is
-     * retrieved from the <code>DataSource</code> set in the constructor.
-     * This <code>Connection</code> must be in auto-commit mode or the
+     * a single replacement parameter.  The {@code Connection} is
+     * retrieved from the {@code DataSource} set in the constructor.
+     * This {@code Connection} must be in auto-commit mode or the
      * update will not be saved.
      *
      * @param sql The SQL statement to execute.
@@ -473,16 +458,16 @@ public class QueryRunner extends AbstractQueryRunner {
      * @throws SQLException if a database access error occurs
      * @return The number of rows updated.
      */
-    public int update(String sql, Object param) throws SQLException {
-        Connection conn = this.prepareConnection();
-
-        return this.update(conn, true, sql, new Object[]{param});
+    public int update(final String sql, final Object param) throws SQLException {
+        try (final Connection conn = this.prepareConnection()) {
+            return this.update(conn, true, sql, param);
+        }
     }
 
     /**
      * Executes the given INSERT, UPDATE, or DELETE SQL statement.  The
-     * <code>Connection</code> is retrieved from the <code>DataSource</code>
-     * set in the constructor.  This <code>Connection</code> must be in
+     * {@code Connection} is retrieved from the {@code DataSource}
+     * set in the constructor.  This {@code Connection} must be in
      * auto-commit mode or the update will not be saved.
      *
      * @param sql The SQL statement to execute.
@@ -491,10 +476,10 @@ public class QueryRunner extends AbstractQueryRunner {
      * @throws SQLException if a database access error occurs
      * @return The number of rows updated.
      */
-    public int update(String sql, Object... params) throws SQLException {
-        Connection conn = this.prepareConnection();
-
-        return this.update(conn, true, sql, params);
+    public int update(final String sql, final Object... params) throws SQLException {
+        try (final Connection conn = this.prepareConnection()) {
+            return this.update(conn, true, sql, params);
+        }
     }
 
     /**
@@ -507,34 +492,34 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return The number of rows updated.
      * @throws SQLException If there are database or parameter errors.
      */
-    private int update(Connection conn, boolean closeConn, String sql, Object... params) throws SQLException {
+    private int update(final Connection conn, final boolean closeConn, final String sql, final Object... params) throws SQLException {
         if (conn == null) {
             throw new SQLException("Null connection");
         }
 
         if (sql == null) {
-            if (closeConn) {
-                close(conn);
-            }
             throw new SQLException("Null SQL statement");
         }
 
-        PreparedStatement stmt = null;
+        Statement stmt = null;
         int rows = 0;
 
         try {
-            stmt = this.prepareStatement(conn, sql);
-            this.fillStatement(stmt, params);
-            rows = stmt.executeUpdate();
+            if (params != null && params.length > 0) {
+                PreparedStatement ps = this.prepareStatement(conn, sql);
+                stmt = ps;
+                this.fillStatement(ps, params);
+                rows = ps.executeUpdate();
+            } else {
+                stmt = conn.createStatement();
+                rows = stmt.executeUpdate(sql);
+            }
 
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
             this.rethrow(e, sql, params);
 
         } finally {
             close(stmt);
-            if (closeConn) {
-                close(conn);
-            }
         }
 
         return rows;
@@ -542,36 +527,40 @@ public class QueryRunner extends AbstractQueryRunner {
 
     /**
      * Executes the given INSERT SQL without any replacement parameters.
-     * The <code>Connection</code> is retrieved from the
-     * <code>DataSource</code> set in the constructor.
+     * The {@code Connection} is retrieved from the
+     * {@code DataSource} set in the constructor.
      * @param <T> The type of object that the handler returns
      * @param sql The SQL statement to execute.
      * @param rsh The handler used to create the result object from
-     * the <code>ResultSet</code> of auto-generated keys.
+     * the {@code ResultSet} of auto-generated keys.
      * @return An object generated by the handler.
      * @throws SQLException if a database access error occurs
      * @since 1.6
      */
-    public <T> T insert(String sql, ResultSetHandler<T> rsh) throws SQLException {
-        return insert(this.prepareConnection(), true, sql, rsh, (Object[]) null);
+    public <T> T insert(final String sql, final ResultSetHandler<T> rsh) throws SQLException {
+        try (final Connection conn = this.prepareConnection()) {
+            return insert(conn, true, sql, rsh, (Object[]) null);
+        }
     }
 
     /**
      * Executes the given INSERT SQL statement. The
-     * <code>Connection</code> is retrieved from the <code>DataSource</code>
-     * set in the constructor.  This <code>Connection</code> must be in
+     * {@code Connection} is retrieved from the {@code DataSource}
+     * set in the constructor.  This {@code Connection} must be in
      * auto-commit mode or the insert will not be saved.
      * @param <T> The type of object that the handler returns
      * @param sql The SQL statement to execute.
      * @param rsh The handler used to create the result object from
-     * the <code>ResultSet</code> of auto-generated keys.
+     * the {@code ResultSet} of auto-generated keys.
      * @param params Initializes the PreparedStatement's IN (i.e. '?')
      * @return An object generated by the handler.
      * @throws SQLException if a database access error occurs
      * @since 1.6
      */
-    public <T> T insert(String sql, ResultSetHandler<T> rsh, Object... params) throws SQLException {
-        return insert(this.prepareConnection(), true, sql, rsh, params);
+    public <T> T insert(final String sql, final ResultSetHandler<T> rsh, final Object... params) throws SQLException {
+        try (final Connection conn = this.prepareConnection()) {
+            return insert(conn, true, sql, rsh, params);
+        }
     }
 
     /**
@@ -580,12 +569,12 @@ public class QueryRunner extends AbstractQueryRunner {
      * @param conn The connection to use to run the query.
      * @param sql The SQL to execute.
      * @param rsh The handler used to create the result object from
-     * the <code>ResultSet</code> of auto-generated keys.
+     * the {@code ResultSet} of auto-generated keys.
      * @return An object generated by the handler.
      * @throws SQLException if a database access error occurs
      * @since 1.6
      */
-    public <T> T insert(Connection conn, String sql, ResultSetHandler<T> rsh) throws SQLException {
+    public <T> T insert(final Connection conn, final String sql, final ResultSetHandler<T> rsh) throws SQLException {
         return insert(conn, false, sql, rsh, (Object[]) null);
     }
 
@@ -595,13 +584,13 @@ public class QueryRunner extends AbstractQueryRunner {
      * @param conn The connection to use to run the query.
      * @param sql The SQL to execute.
      * @param rsh The handler used to create the result object from
-     * the <code>ResultSet</code> of auto-generated keys.
+     * the {@code ResultSet} of auto-generated keys.
      * @param params The query replacement parameters.
      * @return An object generated by the handler.
      * @throws SQLException if a database access error occurs
      * @since 1.6
      */
-    public <T> T insert(Connection conn, String sql, ResultSetHandler<T> rsh, Object... params) throws SQLException {
+    public <T> T insert(final Connection conn, final String sql, final ResultSetHandler<T> rsh, final Object... params) throws SQLException {
         return insert(conn, false, sql, rsh, params);
     }
 
@@ -611,48 +600,45 @@ public class QueryRunner extends AbstractQueryRunner {
      * @param closeConn True if the connection should be closed, false otherwise.
      * @param sql The SQL statement to execute.
      * @param rsh The handler used to create the result object from
-     * the <code>ResultSet</code> of auto-generated keys.
+     * the {@code ResultSet} of auto-generated keys.
      * @param params The query replacement parameters.
      * @return An object generated by the handler.
      * @throws SQLException If there are database or parameter errors.
      * @since 1.6
      */
-    private <T> T insert(Connection conn, boolean closeConn, String sql, ResultSetHandler<T> rsh, Object... params)
+    private <T> T insert(final Connection conn, final boolean closeConn, final String sql, final ResultSetHandler<T> rsh, final Object... params)
             throws SQLException {
         if (conn == null) {
             throw new SQLException("Null connection");
         }
 
         if (sql == null) {
-            if (closeConn) {
-                close(conn);
-            }
             throw new SQLException("Null SQL statement");
         }
 
         if (rsh == null) {
-            if (closeConn) {
-                close(conn);
-            }
             throw new SQLException("Null ResultSetHandler");
         }
 
-        PreparedStatement stmt = null;
+        Statement stmt = null;
         T generatedKeys = null;
 
         try {
-            stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            this.fillStatement(stmt, params);
-            stmt.executeUpdate();
-            ResultSet resultSet = stmt.getGeneratedKeys();
+            if (params != null && params.length > 0) {
+                PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                stmt = ps;
+                this.fillStatement(ps, params);
+                ps.executeUpdate();
+            } else {
+                stmt = conn.createStatement();
+                stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+            }
+            final ResultSet resultSet = stmt.getGeneratedKeys();
             generatedKeys = rsh.handle(resultSet);
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
             this.rethrow(e, sql, params);
         } finally {
             close(stmt);
-            if (closeConn) {
-                close(conn);
-            }
         }
 
         return generatedKeys;
@@ -660,20 +646,22 @@ public class QueryRunner extends AbstractQueryRunner {
 
     /**
      * Executes the given batch of INSERT SQL statements. The
-     * <code>Connection</code> is retrieved from the <code>DataSource</code>
-     * set in the constructor.  This <code>Connection</code> must be in
+     * {@code Connection} is retrieved from the {@code DataSource}
+     * set in the constructor.  This {@code Connection} must be in
      * auto-commit mode or the insert will not be saved.
      * @param <T> The type of object that the handler returns
      * @param sql The SQL statement to execute.
      * @param rsh The handler used to create the result object from
-     * the <code>ResultSet</code> of auto-generated keys.
+     * the {@code ResultSet} of auto-generated keys.
      * @param params Initializes the PreparedStatement's IN (i.e. '?')
      * @return The result generated by the handler.
      * @throws SQLException if a database access error occurs
      * @since 1.6
      */
-    public <T> T insertBatch(String sql, ResultSetHandler<T> rsh, Object[][] params) throws SQLException {
-        return insertBatch(this.prepareConnection(), true, sql, rsh, params);
+    public <T> T insertBatch(final String sql, final ResultSetHandler<T> rsh, final Object[][] params) throws SQLException {
+        try (final Connection conn = this.prepareConnection()) {
+            return insertBatch(conn, true, sql, rsh, params);
+        }
     }
 
     /**
@@ -682,13 +670,13 @@ public class QueryRunner extends AbstractQueryRunner {
      * @param conn The connection to use to run the query.
      * @param sql The SQL to execute.
      * @param rsh The handler used to create the result object from
-     * the <code>ResultSet</code> of auto-generated keys.
+     * the {@code ResultSet} of auto-generated keys.
      * @param params The query replacement parameters.
      * @return The result generated by the handler.
      * @throws SQLException if a database access error occurs
      * @since 1.6
      */
-    public <T> T insertBatch(Connection conn, String sql, ResultSetHandler<T> rsh, Object[][] params) throws SQLException {
+    public <T> T insertBatch(final Connection conn, final String sql, final ResultSetHandler<T> rsh, final Object[][] params) throws SQLException {
         return insertBatch(conn, false, sql, rsh, params);
     }
 
@@ -698,29 +686,23 @@ public class QueryRunner extends AbstractQueryRunner {
      * @param closeConn True if the connection should be closed, false otherwise.
      * @param sql The SQL statement to execute.
      * @param rsh The handler used to create the result object from
-     * the <code>ResultSet</code> of auto-generated keys.
+     * the {@code ResultSet} of auto-generated keys.
      * @param params The query replacement parameters.
      * @return The result generated by the handler.
      * @throws SQLException If there are database or parameter errors.
      * @since 1.6
      */
-    private <T> T insertBatch(Connection conn, boolean closeConn, String sql, ResultSetHandler<T> rsh, Object[][] params)
+    private <T> T insertBatch(final Connection conn, final boolean closeConn, final String sql, final ResultSetHandler<T> rsh, final Object[][] params)
             throws SQLException {
         if (conn == null) {
             throw new SQLException("Null connection");
         }
 
         if (sql == null) {
-            if (closeConn) {
-                close(conn);
-            }
             throw new SQLException("Null SQL statement");
         }
 
         if (params == null) {
-            if (closeConn) {
-                close(conn);
-            }
             throw new SQLException("Null parameters. If parameters aren't need, pass an empty array.");
         }
 
@@ -729,21 +711,18 @@ public class QueryRunner extends AbstractQueryRunner {
         try {
             stmt = this.prepareStatement(conn, sql, Statement.RETURN_GENERATED_KEYS);
 
-            for (int i = 0; i < params.length; i++) {
-                this.fillStatement(stmt, params[i]);
+            for (Object[] param : params) {
+                this.fillStatement(stmt, param);
                 stmt.addBatch();
             }
             stmt.executeBatch();
-            ResultSet rs = stmt.getGeneratedKeys();
+            final ResultSet rs = stmt.getGeneratedKeys();
             generatedKeys = rsh.handle(rs);
 
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
             this.rethrow(e, sql, (Object[])params);
         } finally {
             close(stmt);
-            if (closeConn) {
-                close(conn);
-            }
         }
 
         return generatedKeys;
@@ -768,7 +747,7 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return The number of rows updated.
      * @throws SQLException if a database access error occurs
      */
-    public int execute(Connection conn, String sql, Object... params) throws SQLException {
+    public int execute(final Connection conn, final String sql, final Object... params) throws SQLException {
         return this.execute(conn, false, sql, params);
     }
 
@@ -785,8 +764,8 @@ public class QueryRunner extends AbstractQueryRunner {
      * If the stored procedure returns result sets, use
      * {@link #execute(java.lang.String, org.apache.commons.dbutils.ResultSetHandler, java.lang.Object...) }.
      * <p>
-     * The <code>Connection</code> is retrieved from the <code>DataSource</code>
-     * set in the constructor.  This <code>Connection</code> must be in
+     * The {@code Connection} is retrieved from the {@code DataSource}
+     * set in the constructor.  This {@code Connection} must be in
      * auto-commit mode or the update will not be saved.
      *
      * @param sql The SQL statement to execute.
@@ -794,10 +773,10 @@ public class QueryRunner extends AbstractQueryRunner {
      * @throws SQLException if a database access error occurs
      * @return The number of rows updated.
      */
-    public int execute(String sql, Object... params) throws SQLException {
-        Connection conn = this.prepareConnection();
-
-        return this.execute(conn, true, sql, params);
+    public int execute(final String sql, final Object... params) throws SQLException {
+        try (final Connection conn = this.prepareConnection()) {
+            return this.execute(conn, true, sql, params);
+        }
     }
 
     /**
@@ -822,7 +801,7 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return A list of objects generated by the handler
      * @throws SQLException if a database access error occurs
      */
-    public <T> List<T> execute(Connection conn, String sql, ResultSetHandler<T> rsh, Object... params) throws SQLException {
+    public <T> List<T> execute(final Connection conn, final String sql, final ResultSetHandler<T> rsh, final Object... params) throws SQLException {
         return this.execute(conn, false, sql, rsh, params);
     }
 
@@ -847,10 +826,10 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return A list of objects generated by the handler
      * @throws SQLException if a database access error occurs
      */
-    public <T> List<T> execute(String sql, ResultSetHandler<T> rsh, Object... params) throws SQLException {
-        Connection conn = this.prepareConnection();
-
-        return this.execute(conn, true, sql, rsh, params);
+    public <T> List<T> execute(final String sql, final ResultSetHandler<T> rsh, final Object... params) throws SQLException {
+        try (final Connection conn = this.prepareConnection()) {
+            return this.execute(conn, true, sql, rsh, params);
+        }
     }
 
     /**
@@ -864,15 +843,12 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return The number of rows updated.
      * @throws SQLException If there are database or parameter errors.
      */
-    private int execute(Connection conn, boolean closeConn, String sql, Object... params) throws SQLException {
+    private int execute(final Connection conn, final boolean closeConn, final String sql, final Object... params) throws SQLException {
         if (conn == null) {
             throw new SQLException("Null connection");
         }
 
         if (sql == null) {
-            if (closeConn) {
-                close(conn);
-            }
             throw new SQLException("Null SQL statement");
         }
 
@@ -886,14 +862,11 @@ public class QueryRunner extends AbstractQueryRunner {
             rows = stmt.getUpdateCount();
             this.retrieveOutParameters(stmt, params);
 
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
             this.rethrow(e, sql, params);
 
         } finally {
             close(stmt);
-            if (closeConn) {
-                close(conn);
-            }
         }
 
         return rows;
@@ -911,27 +884,21 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return List of all objects generated by the ResultSetHandler for all result sets handled.
      * @throws SQLException If there are database or parameter errors.
      */
-    private <T> List<T> execute(Connection conn, boolean closeConn, String sql, ResultSetHandler<T> rsh, Object... params) throws SQLException {
+    private <T> List<T> execute(final Connection conn, final boolean closeConn, final String sql, final ResultSetHandler<T> rsh, final Object... params) throws SQLException {
         if (conn == null) {
             throw new SQLException("Null connection");
         }
 
         if (sql == null) {
-            if (closeConn) {
-                close(conn);
-            }
             throw new SQLException("Null SQL statement");
         }
 
         if (rsh == null) {
-            if (closeConn) {
-                close(conn);
-            }
             throw new SQLException("Null ResultSetHandler");
         }
 
         CallableStatement stmt = null;
-        List<T> results = new LinkedList<T>();
+        final List<T> results = new LinkedList<>();
 
         try {
             stmt = this.prepareCall(conn, sql);
@@ -952,14 +919,11 @@ public class QueryRunner extends AbstractQueryRunner {
             }
             this.retrieveOutParameters(stmt, params);
 
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
             this.rethrow(e, sql, params);
 
         } finally {
             close(stmt);
-            if (closeConn) {
-                close(conn);
-            }
         }
 
         return results;
@@ -967,14 +931,14 @@ public class QueryRunner extends AbstractQueryRunner {
 
     /**
      * Set the value on all the {@link OutParameter} instances in the
-     * <code>params</code> array using the OUT parameter values from the
-     * <code>stmt</code>.
+     * {@code params} array using the OUT parameter values from the
+     * {@code stmt}.
      * @param stmt the statement from which to retrieve OUT parameter values
      * @param params the parameter array for the statement invocation
      * @throws SQLException when the value could not be retrieved from the
      * statement.
      */
-    private void retrieveOutParameters(CallableStatement stmt, Object[] params) throws SQLException {
+    private void retrieveOutParameters(final CallableStatement stmt, final Object[] params) throws SQLException {
         if (params != null) {
             for (int i = 0; i < params.length; i++) {
                 if (params[i] instanceof OutParameter) {

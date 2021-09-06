@@ -14,21 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.dbutils.handlers.columns;
+package org.apache.commons.dbutils.annotations;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import org.apache.commons.dbutils.ColumnHandler;
+/**
+ * Annotation for BeanProcessor to receive hints of the field name rather than dissecting the method name.
+ *
+ * @since 2.0
+ */
+@Target({ ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Column {
 
-public class LongColumnHandler implements ColumnHandler {
-    @Override
-    public boolean match(final Class<?> propType) {
-        return propType.equals(Long.TYPE) || propType.equals(Long.class);
-    }
-
-    @Override
-    public Object apply(final ResultSet rs, final int columnIndex) throws SQLException {
-        return Long.valueOf(rs.getLong(columnIndex));
-    }
+    String name() default "";
 }

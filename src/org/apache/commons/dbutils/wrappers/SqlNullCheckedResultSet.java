@@ -35,11 +35,11 @@ import java.util.Map;
 import org.apache.commons.dbutils.ProxyFactory;
 
 /**
- * Decorates a <code>ResultSet</code> with checks for a SQL NULL value on each
- * <code>getXXX</code> method. If a column value obtained by a
- * <code>getXXX</code> method is not SQL NULL, the column value is returned. If
+ * Decorates a {@code ResultSet} with checks for a SQL NULL value on each
+ * {@code getXXX} method. If a column value obtained by a
+ * {@code getXXX} method is not SQL NULL, the column value is returned. If
  * the column value is SQL null, an alternate value is returned. The alternate
- * value defaults to the Java <code>null</code> value, which can be overridden
+ * value defaults to the Java {@code null} value, which can be overridden
  * for instances of the class.
  *
  * <p>
@@ -74,7 +74,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
      * Maps normal method names (ie. "getBigDecimal") to the corresponding null
      * Method object (ie. getNullBigDecimal).
      */
-    private static final Map<String, Method> nullMethods = new HashMap<String, Method>();
+    private static final Map<String, Method> nullMethods = new HashMap<>();
 
     /**
      * The {@code getNull} string prefix.
@@ -83,13 +83,13 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
     private static final String GET_NULL_PREFIX = "getNull";
 
     static {
-        Method[] methods = SqlNullCheckedResultSet.class.getMethods();
-        for (int i = 0; i < methods.length; i++) {
-            String methodName = methods[i].getName();
+        final Method[] methods = SqlNullCheckedResultSet.class.getMethods();
+        for (Method method : methods) {
+            final String methodName = method.getName();
 
             if (methodName.startsWith(GET_NULL_PREFIX)) {
-                String normalName = "get" + methodName.substring(GET_NULL_PREFIX.length());
-                nullMethods.put(normalName, methods[i]);
+                final String normalName = "get" + methodName.substring(GET_NULL_PREFIX.length());
+                nullMethods.put(normalName, method);
             }
         }
     }
@@ -100,16 +100,16 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
     private static final ProxyFactory factory = ProxyFactory.instance();
 
     /**
-     * Wraps the <code>ResultSet</code> in an instance of this class.  This is
+     * Wraps the {@code ResultSet} in an instance of this class.  This is
      * equivalent to:
      * <pre>
      * ProxyFactory.instance().createResultSet(new SqlNullCheckedResultSet(rs));
      * </pre>
      *
-     * @param rs The <code>ResultSet</code> to wrap.
+     * @param rs The {@code ResultSet} to wrap.
      * @return wrapped ResultSet
      */
-    public static ResultSet wrap(ResultSet rs) {
+    public static ResultSet wrap(final ResultSet rs) {
         return factory.createResultSet(new SqlNullCheckedResultSet(rs));
     }
 
@@ -142,18 +142,18 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Constructs a new instance of
-     * <code>SqlNullCheckedResultSet</code>
-     * to wrap the specified <code>ResultSet</code>.
+     * {@code SqlNullCheckedResultSet}
+     * to wrap the specified {@code ResultSet}.
      * @param rs ResultSet to wrap
      */
-    public SqlNullCheckedResultSet(ResultSet rs) {
+    public SqlNullCheckedResultSet(final ResultSet rs) {
         super();
         this.rs = rs;
     }
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a <code>getAsciiStream</code> method.
+     * invoking a {@code getAsciiStream} method.
      *
      * @return the value
      */
@@ -163,7 +163,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a <code>getBigDecimal</code> method.
+     * invoking a {@code getBigDecimal} method.
      *
      * @return the value
      */
@@ -173,7 +173,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a <code>getBinaryStream</code> method.
+     * invoking a {@code getBinaryStream} method.
      *
      * @return the value
      */
@@ -183,7 +183,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a <code>getBlob</code> method.
+     * invoking a {@code getBlob} method.
      *
      * @return the value
      */
@@ -193,7 +193,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a <code>getBoolean</code> method.
+     * invoking a {@code getBoolean} method.
      *
      * @return the value
      */
@@ -203,7 +203,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a <code>getByte</code> method.
+     * invoking a {@code getByte} method.
      *
      * @return the value
      */
@@ -213,7 +213,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a <code>getBytes</code> method.
+     * invoking a {@code getBytes} method.
      *
      * @return the value
      */
@@ -221,14 +221,14 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
         if (this.nullBytes == null) {
             return null;
         }
-        byte[] copy = new byte[this.nullBytes.length];
+        final byte[] copy = new byte[this.nullBytes.length];
         System.arraycopy(this.nullBytes, 0, copy, 0, this.nullBytes.length);
         return copy;
     }
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a <code>getCharacterStream</code> method.
+     * invoking a {@code getCharacterStream} method.
      *
      * @return the value
      */
@@ -238,7 +238,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a <code>getClob</code> method.
+     * invoking a {@code getClob} method.
      *
      * @return the value
      */
@@ -248,7 +248,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a <code>getDate</code> method.
+     * invoking a {@code getDate} method.
      *
      * @return the value
      */
@@ -258,7 +258,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a <code>getDouble</code> method.
+     * invoking a {@code getDouble} method.
      *
      * @return the value
      */
@@ -268,7 +268,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a <code>getFloat</code> method.
+     * invoking a {@code getFloat} method.
      *
      * @return the value
      */
@@ -278,7 +278,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a <code>getInt</code> method.
+     * invoking a {@code getInt} method.
      *
      * @return the value
      */
@@ -288,7 +288,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a <code>getLong</code> method.
+     * invoking a {@code getLong} method.
      *
      * @return the value
      */
@@ -298,7 +298,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a <code>getObject</code> method.
+     * invoking a {@code getObject} method.
      *
      * @return the value
      */
@@ -308,7 +308,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a <code>getRef</code> method.
+     * invoking a {@code getRef} method.
      *
      * @return the value
      */
@@ -318,7 +318,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a <code>getShort</code> method.
+     * invoking a {@code getShort} method.
      *
      * @return the value
      */
@@ -328,7 +328,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a <code>getString</code> method.
+     * invoking a {@code getString} method.
      *
      * @return the value
      */
@@ -338,27 +338,33 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a <code>getTime</code> method.
+     * invoking a {@code getTime} method.
      *
      * @return the value
      */
     public Time getNullTime() {
-        return this.nullTime;
+        return this.nullTime != null ? new Time(this.nullTime.getTime()) : null;
     }
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a <code>getTimestamp</code> method.
+     * invoking a {@code getTimestamp} method.
      *
      * @return the value
      */
     public Timestamp getNullTimestamp() {
-        return this.nullTimestamp != null ? new Timestamp(this.nullTimestamp.getTime()) : null;
+        if (this.nullTimestamp == null) {
+            return null;
+        }
+
+        Timestamp ts = new Timestamp(this.nullTimestamp.getTime());
+        ts.setNanos(this.nullTimestamp.getNanos());
+        return ts;
     }
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a <code>getURL</code> method.
+     * invoking a {@code getURL} method.
      *
      * @return the value
      */
@@ -367,9 +373,9 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
     }
 
     /**
-     * Intercepts calls to <code>get*</code> methods and calls the appropriate
-     * <code>getNull*</code> method if the <code>ResultSet</code> returned
-     * <code>null</code>.
+     * Intercepts calls to {@code get*} methods and calls the appropriate
+     * {@code getNull*} method if the {@code ResultSet} returned
+     * {@code null}.
      *
      *  @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
      * @param proxy Not used; all method calls go to the internal result set
@@ -379,12 +385,12 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
      * @throws Throwable error
      */
     @Override
-    public Object invoke(Object proxy, Method method, Object[] args)
+    public Object invoke(final Object proxy, final Method method, final Object[] args)
         throws Throwable {
 
-        Object result = method.invoke(this.rs, args);
+        final Object result = method.invoke(this.rs, args);
 
-        Method nullMethod = nullMethods.get(method.getName());
+        final Method nullMethod = nullMethods.get(method.getName());
 
         // Check nullMethod != null first so that we don't call wasNull()
         // before a true getter method was invoked on the ResultSet.
@@ -395,213 +401,222 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a <code>getAsciiStream</code> method.
+     * invoking a {@code getAsciiStream} method.
      *
      * @param nullAsciiStream the value
      */
-    public void setNullAsciiStream(InputStream nullAsciiStream) {
+    public void setNullAsciiStream(final InputStream nullAsciiStream) {
         this.nullAsciiStream = nullAsciiStream;
     }
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a <code>getBigDecimal</code> method.
+     * invoking a {@code getBigDecimal} method.
      *
      * @param nullBigDecimal the value
      */
-    public void setNullBigDecimal(BigDecimal nullBigDecimal) {
+    public void setNullBigDecimal(final BigDecimal nullBigDecimal) {
         this.nullBigDecimal = nullBigDecimal;
     }
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a <code>getBinaryStream</code> method.
+     * invoking a {@code getBinaryStream} method.
      *
      * @param nullBinaryStream the value
      */
-    public void setNullBinaryStream(InputStream nullBinaryStream) {
+    public void setNullBinaryStream(final InputStream nullBinaryStream) {
         this.nullBinaryStream = nullBinaryStream;
     }
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a <code>getBlob</code> method.
+     * invoking a {@code getBlob} method.
      *
      * @param nullBlob the value
      */
-    public void setNullBlob(Blob nullBlob) {
+    public void setNullBlob(final Blob nullBlob) {
         this.nullBlob = nullBlob;
     }
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a <code>getBoolean</code> method.
+     * invoking a {@code getBoolean} method.
      *
      * @param nullBoolean the value
      */
-    public void setNullBoolean(boolean nullBoolean) {
+    public void setNullBoolean(final boolean nullBoolean) {
         this.nullBoolean = nullBoolean;
     }
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a <code>getByte</code> method.
+     * invoking a {@code getByte} method.
      *
      * @param nullByte the value
      */
-    public void setNullByte(byte nullByte) {
+    public void setNullByte(final byte nullByte) {
         this.nullByte = nullByte;
     }
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a <code>getBytes</code> method.
+     * invoking a {@code getBytes} method.
      *
      * @param nullBytes the value
      */
-    public void setNullBytes(byte[] nullBytes) {
-        byte[] copy = new byte[nullBytes.length];
-        System.arraycopy(nullBytes, 0, copy, 0, nullBytes.length);
-        this.nullBytes = copy;
+    public void setNullBytes(final byte[] nullBytes) {
+        if (nullBytes != null) {
+            final byte[] copy = new byte[nullBytes.length];
+            System.arraycopy(nullBytes, 0, copy, 0, nullBytes.length);
+            this.nullBytes = copy;
+        } else {
+            this.nullBytes = null;
+        }
     }
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a <code>getCharacterStream</code> method.
+     * invoking a {@code getCharacterStream} method.
      *
      * @param nullCharacterStream the value
      */
-    public void setNullCharacterStream(Reader nullCharacterStream) {
+    public void setNullCharacterStream(final Reader nullCharacterStream) {
         this.nullCharacterStream = nullCharacterStream;
     }
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a <code>getClob</code> method.
+     * invoking a {@code getClob} method.
      *
      * @param nullClob the value
      */
-    public void setNullClob(Clob nullClob) {
+    public void setNullClob(final Clob nullClob) {
         this.nullClob = nullClob;
     }
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a <code>getDate</code> method.
+     * invoking a {@code getDate} method.
      *
      * @param nullDate the value
      */
-    public void setNullDate(Date nullDate) {
+    public void setNullDate(final Date nullDate) {
         this.nullDate = nullDate != null ? new Date(nullDate.getTime()) : null;
     }
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a <code>getDouble</code> method.
+     * invoking a {@code getDouble} method.
      *
      * @param nullDouble the value
      */
-    public void setNullDouble(double nullDouble) {
+    public void setNullDouble(final double nullDouble) {
         this.nullDouble = nullDouble;
     }
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a <code>getFloat</code> method.
+     * invoking a {@code getFloat} method.
      *
      * @param nullFloat the value
      */
-    public void setNullFloat(float nullFloat) {
+    public void setNullFloat(final float nullFloat) {
         this.nullFloat = nullFloat;
     }
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a <code>getInt</code> method.
+     * invoking a {@code getInt} method.
      *
      * @param nullInt the value
      */
-    public void setNullInt(int nullInt) {
+    public void setNullInt(final int nullInt) {
         this.nullInt = nullInt;
     }
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a <code>getLong</code> method.
+     * invoking a {@code getLong} method.
      *
      * @param nullLong the value
      */
-    public void setNullLong(long nullLong) {
+    public void setNullLong(final long nullLong) {
         this.nullLong = nullLong;
     }
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a <code>getObject</code> method.
+     * invoking a {@code getObject} method.
      *
      * @param nullObject the value
      */
-    public void setNullObject(Object nullObject) {
+    public void setNullObject(final Object nullObject) {
         this.nullObject = nullObject;
     }
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a <code>getRef</code> method.
+     * invoking a {@code getRef} method.
      *
      * @param nullRef the value
      */
-    public void setNullRef(Ref nullRef) {
+    public void setNullRef(final Ref nullRef) {
         this.nullRef = nullRef;
     }
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a <code>getShort</code> method.
+     * invoking a {@code getShort} method.
      *
      * @param nullShort the value
      */
-    public void setNullShort(short nullShort) {
+    public void setNullShort(final short nullShort) {
         this.nullShort = nullShort;
     }
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a <code>getString</code> method.
+     * invoking a {@code getString} method.
      *
      * @param nullString the value
      */
-    public void setNullString(String nullString) {
+    public void setNullString(final String nullString) {
         this.nullString = nullString;
     }
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a <code>getTime</code> method.
+     * invoking a {@code getTime} method.
      *
      * @param nullTime the value
      */
-    public void setNullTime(Time nullTime) {
-        this.nullTime = nullTime;
+    public void setNullTime(final Time nullTime) {
+        this.nullTime = nullTime != null ? new Time(nullTime.getTime()) : null;
     }
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a <code>getTimestamp</code> method.
+     * invoking a {@code getTimestamp} method.
      *
      * @param nullTimestamp the value
      */
-    public void setNullTimestamp(Timestamp nullTimestamp) {
-        this.nullTimestamp = nullTimestamp != null ? new Timestamp(nullTimestamp.getTime()) : null;
+    public void setNullTimestamp(final Timestamp nullTimestamp) {
+        if (nullTimestamp != null) {
+            this.nullTimestamp = new Timestamp(nullTimestamp.getTime());
+            this.nullTimestamp.setNanos(nullTimestamp.getNanos());
+        } else {
+            this.nullTimestamp = null;
+        }
     }
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a <code>getURL</code> method.
+     * invoking a {@code getURL} method.
      *
      * @param nullURL the value
      */
-    public void setNullURL(URL nullURL) {
+    public void setNullURL(final URL nullURL) {
         this.nullURL = nullURL;
     }
 

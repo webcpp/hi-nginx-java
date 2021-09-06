@@ -18,14 +18,18 @@ package org.apache.commons.dbutils.handlers.properties;
 
 import org.apache.commons.dbutils.PropertyHandler;
 
+/**
+ * {@link PropertyHandler} for enums. Will convert strings to enums.
+ */
 public class StringEnumPropertyHandler implements PropertyHandler {
     @Override
-    public boolean match(Class<?> parameter, Object value) {
+    public boolean match(final Class<?> parameter, final Object value) {
         return value instanceof String && parameter.isEnum();
     }
 
     @Override
-    public Object apply(Class<?> parameter, Object value) {
+    @SuppressWarnings("unchecked")
+    public Object apply(final Class<?> parameter, final Object value) {
         return Enum.valueOf(parameter.asSubclass(Enum.class), (String) value);
     }
 }
