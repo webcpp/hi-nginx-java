@@ -32,6 +32,7 @@ a java web framework for hi-nginx:
   - rng
   - text
   - beanutils
+  - imaging
 - jakarta
   - activation
   - mail
