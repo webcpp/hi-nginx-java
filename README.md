@@ -22,10 +22,11 @@ a java web framework for hi-nginx:
 - apache commons
   - codec
   - collections
+  - collections4
   - dbutils
   - io
-  - lang
-  - math
+  - lang3
+  - math3
   - net
   - rng
   - text

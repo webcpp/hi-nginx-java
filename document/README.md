@@ -24,10 +24,11 @@ hi-nginx-java包含的servlet定义非常“轻”，其核心API只使用java�
 - apache commons
   - codec
   - collections
+  - collections4
   - dbutils
   - io
-  - lang
-  - math
+  - lang3
+  - math3
   - net
   - rng
   - text
