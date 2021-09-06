@@ -20,14 +20,15 @@ package org.apache.commons.net.imap;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.EOFException;
-import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.net.SocketClient;
 import org.apache.commons.net.io.CRLFLineReader;
+import org.apache.commons.net.util.NetConstants;
 
 
 /**
@@ -48,7 +49,7 @@ public class IMAP extends SocketClient
         /**  A constant representing the "authenticated" state. */
         AUTH_STATE,
         /**  A constant representing the "logout" state. */
-        LOGOUT_STATE;
+        LOGOUT_STATE
     }
 
     // RFC 3501, section 5.1.3. It should be "modified UTF-7".
@@ -62,7 +63,7 @@ public class IMAP extends SocketClient
 
     protected BufferedReader _reader;
     private int replyCode;
-    private final List<String> _replyLines;
+    private final List<String> replyLines;
 
     /**
      * Implement this interface and register it via {@link #setChunkListener(IMAPChunkListener)}
@@ -121,7 +122,7 @@ public class IMAP extends SocketClient
         state = IMAPState.DISCONNECTED_STATE;
         _reader = null;
         __writer = null;
-        _replyLines = new ArrayList<>();
+        replyLines = new ArrayList<>();
         createCommandSupport();
     }
 
@@ -144,14 +145,14 @@ public class IMAP extends SocketClient
      */
     private void getReply(final boolean wantTag) throws IOException
     {
-        _replyLines.clear();
+        replyLines.clear();
         String line = _reader.readLine();
 
         if (line == null) {
             throw new EOFException("Connection closed without indication.");
         }
 
-        _replyLines.add(line);
+        replyLines.add(line);
 
         if (wantTag) {
             while(IMAPReply.isUntagged(line)) {
@@ -162,7 +163,7 @@ public class IMAP extends SocketClient
                     if (line == null) {
                         throw new EOFException("Connection closed without indication.");
                     }
-                    _replyLines.add(line);
+                    replyLines.add(line);
                     literalCount -= line.length() + 2; // Allow for CRLF
                 }
                 if (isMultiLine) {
@@ -171,7 +172,7 @@ public class IMAP extends SocketClient
                         final boolean clear = il.chunkReceived(this);
                         if (clear) {
                             fireReplyReceived(IMAPReply.PARTIAL, getReplyString());
-                            _replyLines.clear();
+                            replyLines.clear();
                         }
                     }
                 }
@@ -179,7 +180,7 @@ public class IMAP extends SocketClient
                 if (line == null) {
                     throw new EOFException("Connection closed without indication.");
                 }
-                _replyLines.add(line);
+                replyLines.add(line);
             }
             // check the response code on the last line
             replyCode = IMAPReply.getReplyCode(line);
@@ -267,7 +268,7 @@ public class IMAP extends SocketClient
         super.disconnect();
         _reader = null;
         __writer = null;
-        _replyLines.clear();
+        replyLines.clear();
         setState(IMAPState.DISCONNECTED_STATE);
     }
 
@@ -407,7 +408,7 @@ public class IMAP extends SocketClient
      */
     public String[] getReplyStrings()
     {
-        return _replyLines.toArray(new String[_replyLines.size()]);
+        return replyLines.toArray(NetConstants.EMPTY_STRING_ARRAY);
     }
 
     /**
@@ -420,7 +421,7 @@ public class IMAP extends SocketClient
     public String getReplyString()
     {
         final StringBuilder buffer = new StringBuilder(256);
-        for (final String s : _replyLines)
+        for (final String s : replyLines)
         {
             buffer.append(s);
             buffer.append(SocketClient.NETASCII_EOL);

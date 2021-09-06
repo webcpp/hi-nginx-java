@@ -30,13 +30,14 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.net.PrintCommandListener;
 import org.apache.commons.net.ProtocolCommandEvent;
-import org.apache.commons.net.imap.IMAP.IMAPChunkListener;
 import org.apache.commons.net.imap.IMAP;
+import org.apache.commons.net.imap.IMAP.IMAPChunkListener;
 import org.apache.commons.net.imap.IMAPClient;
 import org.apache.commons.net.imap.IMAPReply;
 
@@ -156,7 +157,7 @@ public final class IMAPExportMbox
         final String uriString = args[argIdx++];
         URI uri;
         try {
-            uri      = URI.create(uriString);
+            uri = URI.create(uriString);
         } catch(final IllegalArgumentException e) { // cannot parse the path as is; let's pull it apart and try again
             final Matcher m = Pattern.compile("(imaps?://[^/]+)(/.*)").matcher(uriString);
             if (m.matches()) {
@@ -190,26 +191,27 @@ public final class IMAPExportMbox
         }
 
         final boolean checkSequence = sequenceSet.matches("\\d+:(\\d+|\\*)"); // are we expecting a sequence?
-        final MboxListener chunkListener;
+        final MboxListener mboxListener;
         if (file.equals("-")) {
-            chunkListener = null;
+            mboxListener = null;
         } else if (file.startsWith("+")) {
             final File mbox = new File(file.substring(1));
             System.out.println("Appending to file " + mbox);
-            chunkListener = new MboxListener(
+            mboxListener = new MboxListener(
                 new BufferedWriter(new FileWriter(mbox, true)), eol, printHash, printMarker, checkSequence);
         } else if (file.startsWith("-")) {
             final File mbox = new File(file.substring(1));
             System.out.println("Writing to file " + mbox);
-            chunkListener = new MboxListener(
+            mboxListener = new MboxListener(
                 new BufferedWriter(new FileWriter(mbox, false)), eol, printHash, printMarker, checkSequence);
         } else {
-            final File mbox = new File(file);
-            if (mbox.exists() && mbox.length() > 0) {
-                throw new IOException("mailbox file: " + mbox + " already exists and is non-empty!");
+            final File mboxFile = new File(file);
+            if (mboxFile.exists() && mboxFile.length() > 0) {
+                throw new IOException("mailbox file: " + mboxFile + " already exists and is non-empty!");
             }
-            System.out.println("Creating file " + mbox);
-            chunkListener = new MboxListener(new BufferedWriter(new FileWriter(mbox)), eol, printHash, printMarker, checkSequence);
+            System.out.println("Creating file " + mboxFile);
+            mboxListener = new MboxListener(new BufferedWriter(new FileWriter(mboxFile)), eol, printHash, printMarker,
+                    checkSequence);
         }
 
         final String path = uri.getPath();
@@ -248,19 +250,19 @@ public final class IMAPExportMbox
                 }
             }
 
-            if (chunkListener != null) {
-                imap.setChunkListener(chunkListener);
+            if (mboxListener != null) {
+                imap.setChunkListener(mboxListener);
             } // else the command listener displays the full output without processing
 
 
-            while(true) {
+            while (true) {
                 final boolean ok = imap.fetch(sequenceSet, itemNames);
                 // If the fetch failed, can we retry?
-                if (!ok && retryWaitSecs > 0 && chunkListener != null && checkSequence) {
+                if (!ok && retryWaitSecs > 0 && mboxListener != null && checkSequence) {
                     final String replyString = imap.getReplyString(); //includes EOL
                     if (startsWith(replyString, PATTEMPFAIL)) {
                         System.err.println("Temporary error detected, will retry in " + retryWaitSecs + "seconds");
-                        sequenceSet = chunkListener.lastSeq+1+":*";
+                        sequenceSet = mboxListener.lastSeq+1+":*";
                         try {
                             Thread.sleep(retryWaitSecs * 1000);
                         } catch (final InterruptedException e) {
@@ -275,11 +277,11 @@ public final class IMAPExportMbox
             }
 
         } catch (final IOException ioe) {
-            final String count = chunkListener == null ? "?" : Integer.toString(chunkListener.total);
+            final String count = mboxListener == null ? "?" : mboxListener.total.toString();
             System.err.println(
                     "FETCH " + sequenceSet + " " + itemNames + " failed after processing " + count + " complete messages ");
-            if (chunkListener != null) {
-                System.err.println("Last complete response seen: "+chunkListener.lastFetched);
+            if (mboxListener != null) {
+                System.err.println("Last complete response seen: "+mboxListener.lastFetched);
             }
             throw ioe;
         } finally {
@@ -288,9 +290,9 @@ public final class IMAPExportMbox
                 System.err.println();
             }
 
-            if (chunkListener != null) {
-                chunkListener.close();
-                final Iterator<String> missingIds = chunkListener.missingIds.iterator();
+            if (mboxListener != null) {
+                mboxListener.close();
+                final Iterator<String> missingIds = mboxListener.missingIds.iterator();
                 if (missingIds.hasNext()) {
                     final StringBuilder sb = new StringBuilder();
                     for(;;) {
@@ -306,8 +308,8 @@ public final class IMAPExportMbox
             imap.logout();
             imap.disconnect();
         }
-        if (chunkListener != null) {
-            System.out.println("Processed " + chunkListener.total + " messages.");
+        if (mboxListener != null) {
+            System.out.println("Processed " + mboxListener.total + " messages.");
         }
         if (maxIndexInFolder != null) {
             System.out.println("Folder contained " + maxIndexInFolder + " messages.");
@@ -329,29 +331,29 @@ public final class IMAPExportMbox
 
     private static class MboxListener implements IMAPChunkListener {
 
-        private final BufferedWriter bw;
-        volatile int total = 0;
+        private final BufferedWriter bufferedWriter;
+        volatile AtomicInteger total = new AtomicInteger();
         volatile String lastFetched;
         volatile List<String> missingIds = new ArrayList<>();
         volatile long lastSeq = -1;
-        private final String eol;
+        private final String lineSeparator;
         private final SimpleDateFormat DATE_FORMAT // for mbox From_ lines
             = new SimpleDateFormat("EEE MMM dd HH:mm:ss YYYY");
 
         // e.g. INTERNALDATE "27-Oct-2013 07:43:24 +0000"
-        private final SimpleDateFormat IDPARSE // for parsing INTERNALDATE
-        = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss Z");
+        // for parsing INTERNALDATE
+        private final SimpleDateFormat IDPARSE = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss Z");
         private final boolean printHash;
         private final boolean printMarker;
         private final boolean checkSequence;
 
-        MboxListener(final BufferedWriter bw, final String eol, final boolean printHash, final boolean printMarker,
-                final boolean checkSequence) {
-            this.eol = eol;
+        MboxListener(final BufferedWriter bufferedWriter, final String lineSeparator, final boolean printHash,
+            final boolean printMarker, final boolean checkSequence) {
+            this.lineSeparator = lineSeparator;
             this.printHash = printHash;
             this.printMarker = printMarker;
             DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT"));
-            this.bw = bw;
+            this.bufferedWriter = bufferedWriter;
             this.checkSequence = checkSequence;
         }
 
@@ -391,13 +393,13 @@ public final class IMAPExportMbox
             }
             try {
                 // Add initial mbox header line
-                bw.append("From ");
-                bw.append(replyTo);
-                bw.append(' ');
-                bw.append(DATE_FORMAT.format(received));
-                bw.append(eol);
+                bufferedWriter.append("From ");
+                bufferedWriter.append(replyTo);
+                bufferedWriter.append(' ');
+                bufferedWriter.append(DATE_FORMAT.format(received));
+                bufferedWriter.append(lineSeparator);
                 // Debug
-                bw.append("X-IMAP-Response: ").append(firstLine).append(eol);
+                bufferedWriter.append("X-IMAP-Response: ").append(firstLine).append(lineSeparator);
                 if (printMarker) {
                     System.err.println("[" + total + "] " + firstLine);
                 }
@@ -405,25 +407,25 @@ public final class IMAPExportMbox
                 for(int i=1; i< replyStrings.length - 1; i++) {
                     final String line = replyStrings[i];
                         if (startsWith(line, PATFROM)) {
-                            bw.append('>'); // Escape a From_ line
+                            bufferedWriter.append('>'); // Escape a From_ line
                         }
-                        bw.append(line);
-                        bw.append(eol);
+                        bufferedWriter.append(line);
+                        bufferedWriter.append(lineSeparator);
                 }
                 // The last line ends with the trailing closing ")" which needs to be stripped
                 final String lastLine = replyStrings[replyStrings.length-1];
                 final int lastLength = lastLine.length();
                 if (lastLength > 1) { // there's some content, we need to save it
-                    bw.append(lastLine, 0, lastLength-1);
-                    bw.append(eol);
+                    bufferedWriter.append(lastLine, 0, lastLength-1);
+                    bufferedWriter.append(lineSeparator);
                 }
-                bw.append(eol); // blank line between entries
+                bufferedWriter.append(lineSeparator); // blank line between entries
             } catch (final IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e); // chunkReceived cannot throw a checked Exception
             }
             lastFetched = firstLine;
-            total++;
+            total.incrementAndGet();
             if (checkSequence) {
                 m = PATSEQ.matcher(firstLine);
                 if (m.lookingAt()) { // found a match
@@ -448,8 +450,8 @@ public final class IMAPExportMbox
         }
 
         public void close() throws IOException {
-            if (bw != null) {
-                bw.close();
+            if (bufferedWriter != null) {
+                bufferedWriter.close();
             }
         }
     }

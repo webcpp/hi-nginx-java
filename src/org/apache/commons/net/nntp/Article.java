@@ -19,6 +19,9 @@ package org.apache.commons.net.nntp;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
+
+import org.apache.commons.net.util.NetConstants;
 
 /**
  * This is a class that contains the basic state needed for message retrieval and threading.
@@ -32,29 +35,26 @@ public class Article implements Threadable {
     private String simplifiedSubject;
     private String from;
     private ArrayList<String> references;
-    private boolean isReply = false;
+    private boolean isReply;
 
     public Article kid, next;
 
     public Article() {
         articleNumber = -1; // isDummy
     }
-
     /**
      * Adds a message-id to the list of messages that this message references (i.e. replies to)
      * @param msgId the message id to add
      */
     public void addReference(final String msgId) {
-        if (msgId == null || msgId.length() == 0) {
+        if (msgId == null || msgId.isEmpty()) {
             return;
         }
         if (references == null) {
             references = new ArrayList<>();
         }
         isReply = true;
-        for(final String s : msgId.split(" ")) {
-            references.add(s);
-        }
+        Collections.addAll(references, msgId.split(" "));
     }
 
     /**
@@ -63,9 +63,9 @@ public class Article implements Threadable {
      */
     public String[] getReferences() {
         if (references == null) {
-            return new String[0];
+            return NetConstants.EMPTY_STRING_ARRAY;
         }
-        return references.toArray(new String[references.size()]);
+        return references.toArray(NetConstants.EMPTY_STRING_ARRAY);
     }
 
     /**

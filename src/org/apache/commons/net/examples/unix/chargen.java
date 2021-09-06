@@ -27,7 +27,7 @@ import java.net.SocketException;
 import org.apache.commons.net.chargen.CharGenTCPClient;
 import org.apache.commons.net.chargen.CharGenUDPClient;
 
-/***
+/**
  * This is an example program demonstrating how to use the CharGenTCPClient
  * and CharGenUDPClient classes.  This program connects to the default
  * chargen service port of a specified server, then reads 100 lines from
@@ -38,7 +38,7 @@ import org.apache.commons.net.chargen.CharGenUDPClient;
  * port.
  * <p>
  * Usage: chargen [-udp] <hostname>
- ***/
+ */
 public final class chargen
 {
 
@@ -51,7 +51,7 @@ public final class chargen
         // We want to timeout if a response takes longer than 60 seconds
         client.setDefaultTimeout(60000);
         client.connect(host);
-        try (BufferedReader chargenInput = new BufferedReader(new InputStreamReader(client.getInputStream()))) {
+        try (final BufferedReader chargenInput = new BufferedReader(new InputStreamReader(client.getInputStream()))) {
 
             // We assume the chargen service outputs lines, but it really doesn't
             // have to, so this code might actually not work if no newlines are
@@ -70,8 +70,8 @@ public final class chargen
     {
         int packets = 50;
         byte[] data;
-        InetAddress address;
-        CharGenUDPClient client;
+        final InetAddress address;
+        final CharGenUDPClient client;
 
         address = InetAddress.getByName(host);
         client = new CharGenUDPClient();

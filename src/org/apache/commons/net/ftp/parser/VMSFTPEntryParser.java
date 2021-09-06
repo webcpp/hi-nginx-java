@@ -27,17 +27,16 @@ import org.apache.commons.net.ftp.FTPFile;
 /**
  * Implementation FTPFileEntryParser and FTPFileListParser for VMS Systems.
  * This is a sample of VMS LIST output
- *
+ * <pre>
  *  "1-JUN.LIS;1              9/9           2-JUN-1998 07:32:04  [GROUP,OWNER]    (RWED,RWED,RWED,RE)",
  *  "1-JUN.LIS;2              9/9           2-JUN-1998 07:32:04  [GROUP,OWNER]    (RWED,RWED,RWED,RE)",
  *  "DATA.DIR;1               1/9           2-JUN-1998 07:32:04  [GROUP,OWNER]    (RWED,RWED,RWED,RE)",
- * <P><B>
+ * </pre>
+ * <p>
  * Note: VMSFTPEntryParser can only be instantiated through the
  * DefaultFTPParserFactory by classname.  It will not be chosen
  * by the autodetection scheme.
- * </B>
- * <P>
- *
+ * </p>
  *
  * @see org.apache.commons.net.ftp.FTPFileEntryParser FTPFileEntryParser (for usage instructions)
  * @see org.apache.commons.net.ftp.parser.DefaultFTPFileEntryParserFactory
@@ -130,8 +129,8 @@ public class VMSFTPEntryParser extends ConfigurableFTPFileEntryParserImpl
             }
 
 
-            String grp;
-            String user;
+            final String grp;
+            final String user;
             final StringTokenizer t = new StringTokenizer(owner, ",");
             switch (t.countTokens()) {
                 case 1:
@@ -264,11 +263,3 @@ public class VMSFTPEntryParser extends ConfigurableFTPFileEntryParserImpl
     }
 
 }
-
-/* Emacs configuration
- * Local variables:        **
- * mode:             java  **
- * c-basic-offset:   4     **
- * indent-tabs-mode: nil   **
- * End:                    **
- */

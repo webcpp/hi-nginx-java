@@ -284,7 +284,7 @@ public class OS400FTPEntryParser extends ConfigurableFTPFileEntryParserImpl
 
         final FTPFile file = new FTPFile();
         file.setRawListing(entry);
-        int type;
+        final int type;
 
         if (matches(entry))
         {
@@ -412,7 +412,7 @@ public class OS400FTPEntryParser extends ConfigurableFTPFileEntryParserImpl
      * else <code>false</code>.
      */
     private boolean isNullOrEmpty(final String string) {
-        if (string == null || string.length() == 0) {
+        if (string == null || string.isEmpty()) {
             return true;
         }
         return false;

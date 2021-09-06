@@ -22,6 +22,7 @@ import java.net.InetAddress;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.net.ssl.SSLContext;
@@ -43,7 +44,6 @@ public class AuthenticatingSMTPClient extends SMTPSClient
      */
     public AuthenticatingSMTPClient()
     {
-        super();
     }
 
     /**
@@ -98,7 +98,7 @@ public class AuthenticatingSMTPClient extends SMTPSClient
         super(protocol, false, encoding);
     }
 
-    /***
+    /**
      * A convenience method to send the ESMTP EHLO command to the server,
      * receive the reply, and return the reply code.
      * <p>
@@ -111,13 +111,13 @@ public class AuthenticatingSMTPClient extends SMTPSClient
      *      as an IOException or independently as itself.
      * @throws IOException  If an I/O error occurs while either sending the
      *      command or receiving the server reply.
-     ***/
+     */
     public int ehlo(final String hostname) throws IOException
     {
         return sendCommand(SMTPCommand.EHLO, hostname);
     }
 
-    /***
+    /**
      * Login to the ESMTP server by sending the EHLO command with the
      * given hostname as an argument.  Before performing any mail commands,
      * you must first login.
@@ -131,14 +131,14 @@ public class AuthenticatingSMTPClient extends SMTPSClient
      *      as an IOException or independently as itself.
      * @throws IOException  If an I/O error occurs while either sending a
      *      command to the server or receiving a reply from the server.
-     ***/
+     */
     public boolean elogin(final String hostname) throws IOException
     {
         return SMTPReply.isPositiveCompletion(ehlo(hostname));
     }
 
 
-    /***
+    /**
      * Login to the ESMTP server by sending the EHLO command with the
      * client hostname as an argument.  Before performing any mail commands,
      * you must first login.
@@ -151,11 +151,11 @@ public class AuthenticatingSMTPClient extends SMTPSClient
      *      as an IOException or independently as itself.
      * @throws IOException  If an I/O error occurs while either sending a
      *      command to the server or receiving a reply from the server.
-     ***/
+     */
     public boolean elogin() throws IOException
     {
-        String name;
-        InetAddress host;
+        final String name;
+        final InetAddress host;
 
         host = getLocalAddress();
         name = host.getHostName();
@@ -167,11 +167,11 @@ public class AuthenticatingSMTPClient extends SMTPSClient
         return SMTPReply.isPositiveCompletion(ehlo(name));
     }
 
-    /***
+    /**
      * Returns the integer values of the enhanced reply code of the last SMTP reply.
      * @return The integer values of the enhanced reply code of the last SMTP reply.
      *  First digit is in the first array element.
-     ***/
+     */
     public int[] getEnhancedReplyCode()
     {
         final String reply = getReplyString().substring(4);
@@ -184,7 +184,7 @@ public class AuthenticatingSMTPClient extends SMTPSClient
         return res;
     }
 
-    /***
+    /**
      * Authenticate to the SMTP server by sending the AUTH command with the
      * selected mechanism, using the given username and the given password.
      *
@@ -209,7 +209,7 @@ public class AuthenticatingSMTPClient extends SMTPSClient
      *      failed to use the given password.
      * @throws InvalidKeySpecException If the CRAM hash algorithm
      *      failed to use the given password.
-     ***/
+     */
     public boolean auth(final AuthenticatingSMTPClient.AUTH_METHOD method,
                         final String username, final String password)
                         throws IOException, NoSuchAlgorithmException,

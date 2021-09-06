@@ -18,11 +18,11 @@
 package org.apache.commons.net.examples.unix;
 
 import java.io.IOException;
-import org.apache.commons.net.bsd.RExecClient;
 
+import org.apache.commons.net.bsd.RExecClient;
 import org.apache.commons.net.examples.util.IOUtil;
 
-/***
+/**
  * This is an example program demonstrating how to use the RExecClient class.
  * This program connects to an rexec server and requests that the
  * given command be executed on the server.  It then reads input from stdin
@@ -33,7 +33,7 @@ import org.apache.commons.net.examples.util.IOUtil;
  * Example: java rexec myhost myusername mypassword "ps -aux"
  * <p>
  * Usage: rexec <hostname> <username> <password> <command>
- ***/
+ */
 
 // This class requires the IOUtil support class!
 public final class rexec
@@ -41,8 +41,11 @@ public final class rexec
 
     public static void main(final String[] args)
     {
-        String server, username, password, command;
-        RExecClient client;
+        final String server;
+        final String username;
+        final String password;
+        final String command;
+        final RExecClient client;
 
         if (args.length != 4)
         {

@@ -24,10 +24,11 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+
 import org.apache.commons.net.io.FromNetASCIIOutputStream;
 import org.apache.commons.net.io.ToNetASCIIInputStream;
 
-/***
+/**
  * The TFTPClient class encapsulates all the aspects of the TFTP protocol
  * necessary to receive and send files through TFTP.  It is derived from
  * the {@link org.apache.commons.net.tftp.TFTP} because
@@ -51,37 +52,37 @@ import org.apache.commons.net.io.ToNetASCIIInputStream;
  * @see TFTP
  * @see TFTPPacket
  * @see TFTPPacketException
- ***/
+ */
 
 public class TFTPClient extends TFTP
 {
-    /***
+    /**
      * The default number of times a receive attempt is allowed to timeout
      * before ending attempts to retry the receive and failing.  The default
      * is 5 timeouts.
-     ***/
+     */
     public static final int DEFAULT_MAX_TIMEOUTS = 5;
 
-    /*** The maximum number of timeouts allowed before failing. ***/
+    /** The maximum number of timeouts allowed before failing. */
     private int maxTimeouts;
 
-    /*** The number of bytes received in the ongoing download. ***/
-    private long totalBytesReceived = 0;
+    /** The number of bytes received in the ongoing download. */
+    private long totalBytesReceived;
 
-    /*** The number of bytes sent in the ongoing upload. ***/
-    private long totalBytesSent = 0;
+    /** The number of bytes sent in the ongoing upload. */
+    private long totalBytesSent;
 
-    /***
+    /**
      * Creates a TFTPClient instance with a default timeout of DEFAULT_TIMEOUT,
      * maximum timeouts value of DEFAULT_MAX_TIMEOUTS, a null socket,
      * and buffered operations disabled.
-     ***/
+     */
     public TFTPClient()
     {
         maxTimeouts = DEFAULT_MAX_TIMEOUTS;
     }
 
-    /***
+    /**
      * Sets the maximum number of times a receive attempt is allowed to
      * timeout during a receiveFile() or sendFile() operation before ending
      * attempts to retry the receive and failing.
@@ -90,7 +91,7 @@ public class TFTPClient extends TFTP
      * @param numTimeouts  The maximum number of timeouts to allow.  Values
      *        less than 1 should not be used, but if they are, they are
      *        treated as 1.
-     ***/
+     */
     public void setMaxTimeouts(final int numTimeouts)
     {
         if (numTimeouts < 1) {
@@ -100,12 +101,12 @@ public class TFTPClient extends TFTP
         }
     }
 
-    /***
+    /**
      * Returns the maximum number of times a receive attempt is allowed to
      * timeout before ending attempts to retry the receive and failing.
      *
      * @return The maximum number of timeouts allowed.
-     ***/
+     */
     public int getMaxTimeouts()
     {
         return maxTimeouts;
@@ -126,7 +127,7 @@ public class TFTPClient extends TFTP
         return totalBytesSent;
     }
 
-    /***
+    /**
      * Requests a named file from a remote host, writes the
      * file to an OutputStream, closes the connection, and returns the number
      * of bytes read.  A local UDP socket must first be created by
@@ -142,7 +143,7 @@ public class TFTPClient extends TFTP
      * @return number of bytes read
      * @throws IOException If an I/O error occurs.  The nature of the
      *            error will be reported in the message.
-     ***/
+     */
     public int receiveFile(final String fileName, final int mode, OutputStream output,
                            InetAddress host, final int port) throws IOException
     {
@@ -241,11 +242,7 @@ public class TFTPClient extends TFTP
                                     "Unexpected host or port.");
                             bufferedSend(error);
                         }
-                    } catch (final SocketException e) {
-                        if (++timeouts >= maxTimeouts) {
-                            throw new IOException("Connection timed out.");
-                        }
-                    } catch (final InterruptedIOException e) {
+                    } catch (final SocketException | InterruptedIOException e) {
                         if (++timeouts >= maxTimeouts) {
                             throw new IOException("Connection timed out.");
                         }
@@ -267,7 +264,7 @@ public class TFTPClient extends TFTP
     }
 
 
-    /***
+    /**
      * Requests a named file from a remote host, writes the
      * file to an OutputStream, closes the connection, and returns the number
      * of bytes read.  A local UDP socket must first be created by
@@ -284,7 +281,7 @@ public class TFTPClient extends TFTP
      * @throws IOException If an I/O error occurs.  The nature of the
      *            error will be reported in the message.
      * @throws UnknownHostException  If the hostname cannot be resolved.
-     ***/
+     */
     public int receiveFile(final String fileName, final int mode, final OutputStream output,
                            final String hostname, final int port)
     throws UnknownHostException, IOException
@@ -294,7 +291,7 @@ public class TFTPClient extends TFTP
     }
 
 
-    /***
+    /**
      * Same as calling receiveFile(fileName, mode, output, host, TFTP.DEFAULT_PORT).
      *
      * @param fileName The name of the file to receive.
@@ -304,7 +301,7 @@ public class TFTPClient extends TFTP
      * @return number of bytes read
      * @throws IOException If an I/O error occurs.  The nature of the
      *            error will be reported in the message.
-     ***/
+     */
     public int receiveFile(final String fileName, final int mode, final OutputStream output,
                            final InetAddress host)
     throws IOException
@@ -312,7 +309,7 @@ public class TFTPClient extends TFTP
         return receiveFile(fileName, mode, output, host, DEFAULT_PORT);
     }
 
-    /***
+    /**
      * Same as calling receiveFile(fileName, mode, output, hostname, TFTP.DEFAULT_PORT).
      *
      * @param fileName The name of the file to receive.
@@ -323,7 +320,7 @@ public class TFTPClient extends TFTP
      * @throws IOException If an I/O error occurs.  The nature of the
      *            error will be reported in the message.
      * @throws UnknownHostException  If the hostname cannot be resolved.
-     ***/
+     */
     public int receiveFile(final String fileName, final int mode, final OutputStream output,
                            final String hostname)
     throws UnknownHostException, IOException
@@ -333,7 +330,7 @@ public class TFTPClient extends TFTP
     }
 
 
-    /***
+    /**
      * Requests to send a file to a remote host, reads the file from an
      * InputStream, sends the file to the remote host, and closes the
      * connection.  A local UDP socket must first be created by
@@ -349,7 +346,7 @@ public class TFTPClient extends TFTP
      * @param port     The port number of the remote TFTP server.
      * @throws IOException If an I/O error occurs.  The nature of the
      *            error will be reported in the message.
-     ***/
+     */
     public void sendFile(final String fileName, final int mode, InputStream input,
                          InetAddress host, final int port) throws IOException
     {
@@ -434,11 +431,7 @@ public class TFTPClient extends TFTP
                                                         "Unexpected host or port.");
                             bufferedSend(error);
                         }
-                    } catch (final SocketException e) {
-                        if (++timeouts >= maxTimeouts) {
-                            throw new IOException("Connection timed out.");
-                        }
-                    } catch (final InterruptedIOException e) {
+                    } catch (final SocketException | InterruptedIOException e) {
                         if (++timeouts >= maxTimeouts) {
                             throw new IOException("Connection timed out.");
                         }
@@ -477,7 +470,7 @@ public class TFTPClient extends TFTP
     }
 
 
-    /***
+    /**
      * Requests to send a file to a remote host, reads the file from an
      * InputStream, sends the file to the remote host, and closes the
      * connection.  A local UDP socket must first be created by
@@ -494,7 +487,7 @@ public class TFTPClient extends TFTP
      * @throws IOException If an I/O error occurs.  The nature of the
      *            error will be reported in the message.
      * @throws UnknownHostException  If the hostname cannot be resolved.
-     ***/
+     */
     public void sendFile(final String fileName, final int mode, final InputStream input,
                          final String hostname, final int port)
     throws UnknownHostException, IOException
@@ -503,7 +496,7 @@ public class TFTPClient extends TFTP
     }
 
 
-    /***
+    /**
      * Same as calling sendFile(fileName, mode, input, host, TFTP.DEFAULT_PORT).
      *
      * @param fileName The name the remote server should use when creating
@@ -514,7 +507,7 @@ public class TFTPClient extends TFTP
      * @throws IOException If an I/O error occurs.  The nature of the
      *            error will be reported in the message.
      * @throws UnknownHostException  If the hostname cannot be resolved.
-     ***/
+     */
     public void sendFile(final String fileName, final int mode, final InputStream input,
                          final InetAddress host)
     throws IOException
@@ -522,7 +515,7 @@ public class TFTPClient extends TFTP
         sendFile(fileName, mode, input, host, DEFAULT_PORT);
     }
 
-    /***
+    /**
      * Same as calling sendFile(fileName, mode, input, hostname, TFTP.DEFAULT_PORT).
      *
      * @param fileName The name the remote server should use when creating
@@ -533,7 +526,7 @@ public class TFTPClient extends TFTP
      * @throws IOException If an I/O error occurs.  The nature of the
      *            error will be reported in the message.
      * @throws UnknownHostException  If the hostname cannot be resolved.
-     ***/
+     */
     public void sendFile(final String fileName, final int mode, final InputStream input,
                          final String hostname)
     throws UnknownHostException, IOException

@@ -20,6 +20,7 @@ package org.apache.commons.net.util;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -35,11 +36,11 @@ public class SSLContextUtils {
     }
 
     /**
-     * Create and initialise an SSLContext.
+     * Create and initialize an SSLContext.
      * @param protocol the protocol used to instatiate the context
      * @param keyManager the key manager, may be {@code null}
      * @param trustManager the trust manager, may be {@code null}
-     * @return the initialised context.
+     * @return the initialized context.
      * @throws IOException this is used to wrap any {@link GeneralSecurityException} that occurs
      */
     public static SSLContext createSSLContext(final String protocol, final KeyManager keyManager, final TrustManager trustManager)
@@ -50,16 +51,16 @@ public class SSLContextUtils {
     }
 
     /**
-     * Create and initialise an SSLContext.
+     * Create and initialize an SSLContext.
      * @param protocol the protocol used to instatiate the context
      * @param keyManagers the array of key managers, may be {@code null} but array entries must not be {@code null}
      * @param trustManagers the array of trust managers, may be {@code null} but array entries must not be {@code null}
-     * @return the initialised context.
+     * @return the initialized context.
      * @throws IOException this is used to wrap any {@link GeneralSecurityException} that occurs
      */
     public static SSLContext createSSLContext(final String protocol, final KeyManager[] keyManagers,
             final TrustManager[] trustManagers) throws IOException {
-        SSLContext ctx;
+        final SSLContext ctx;
         try {
             ctx = SSLContext.getInstance(protocol);
             ctx.init(keyManagers, trustManagers, /* SecureRandom */ null);

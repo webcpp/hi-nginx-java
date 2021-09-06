@@ -18,11 +18,11 @@
 package org.apache.commons.net.examples.telnet;
 
 import java.io.IOException;
-import org.apache.commons.net.telnet.TelnetClient;
 
 import org.apache.commons.net.examples.util.IOUtil;
+import org.apache.commons.net.telnet.TelnetClient;
 
-/***
+/**
  * This is an example of a trivial use of the TelnetClient class.
  * It connects to the weather server at the University of Michigan,
  * um-weather.sprl.umich.edu port 3000, and allows the user to interact
@@ -32,7 +32,7 @@ import org.apache.commons.net.examples.util.IOUtil;
  * inconvenient for use with a remote interactive shell.  The TelnetClient
  * class used by itself is mostly intended for automating access to telnet
  * resources rather than interactive use.
- ***/
+ */
 
 // This class requires the IOUtil support class!
 public final class WeatherTelnet
@@ -40,7 +40,7 @@ public final class WeatherTelnet
 
     public static void main(final String[] args)
     {
-        TelnetClient telnet;
+        final TelnetClient telnet;
 
         telnet = new TelnetClient();
 

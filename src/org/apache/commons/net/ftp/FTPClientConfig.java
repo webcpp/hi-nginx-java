@@ -52,7 +52,7 @@ import java.util.TreeMap;
  * than English</li>
  * <li>lists files with timestamps that use date formats other
  * than the American English "standard" <code>MM dd yyyy</code></li>
- * <li>is in different timezone and you need accurate timestamps for
+ * <li>is in different time zone and you need accurate timestamps for
  * dependency checking as in Ant</li>
  * </ul>
  * <p>
@@ -220,13 +220,13 @@ public class FTPClientConfig
     public static final String SYST_MACOS_PETER  = "MACOS PETER"; // NET-436
 
     private final String serverSystemKey;
-    private String defaultDateFormatStr = null;
-    private String recentDateFormatStr = null;
+    private String defaultDateFormatStr;
+    private String recentDateFormatStr;
     private boolean lenientFutureDates = true; // NET-407
-    private String serverLanguageCode = null;
-    private String shortMonthNames = null;
-    private String serverTimeZoneId = null;
-    private boolean saveUnparseableEntries = false;
+    private String serverLanguageCode;
+    private String shortMonthNames;
+    private String serverTimeZoneId;
+    private boolean saveUnparseableEntries;
 
 
     /**

@@ -30,10 +30,10 @@ import java.util.Arrays;
 import org.apache.commons.net.PrintCommandListener;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPHTTPClient;
 import org.apache.commons.net.ftp.FTPClientConfig;
 import org.apache.commons.net.ftp.FTPConnectionClosedException;
 import org.apache.commons.net.ftp.FTPFile;
+import org.apache.commons.net.ftp.FTPHTTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.net.ftp.FTPSClient;
 import org.apache.commons.net.io.CopyStreamEvent;
@@ -80,8 +80,8 @@ public final class FTPClientExample
         "\t-T  all|valid|none - use one of the built-in TrustManager implementations (none = JVM default)\n" +
         "\t-y format - set default date format string\n" +
         "\t-Y format - set recent date format string\n" +
-        "\t-Z timezone - set the server timezone for parsing LIST responses\n" +
-        "\t-z timezone - set the timezone for displaying MDTM, LIST, MLSD, MLST responses\n" +
+        "\t-Z timezone - set the server time zone for parsing LIST responses\n" +
+        "\t-z timezone - set the time zone for displaying MDTM, LIST, MLSD, MLST responses\n" +
         "\t-PrH server[:port] - HTTP Proxy host and optional port[80] \n" +
         "\t-PrU user - HTTP Proxy server username\n" +
         "\t-PrP password - HTTP Proxy server password\n" +
@@ -94,8 +94,8 @@ public final class FTPClientExample
         boolean mlst = false, mlsd = false, mdtm = false, saveUnparseable = false;
         boolean size = false;
         boolean lenient = false;
-        long keepAliveTimeout = -1;
-        int controlKeepAliveReplyTimeout = -1;
+        long keepAliveTimeoutSeconds = -1;
+        int controlKeepAliveReplyTimeoutMillis = -1;
         int minParams = 5; // listings require 3 params
         String protocol = null; // SSL protocol
         String doCommand = null;
@@ -156,7 +156,7 @@ public final class FTPClientExample
                 minParams = 3;
             }
             else if (args[base].equals("-k")) {
-                keepAliveTimeout = Long.parseLong(args[++base]);
+                keepAliveTimeoutSeconds = Long.parseLong(args[++base]);
             }
             else if (args[base].equals("-l")) {
                 listFiles = true;
@@ -187,7 +187,7 @@ public final class FTPClientExample
                 saveUnparseable = true;
             }
             else if (args[base].equals("-w")) {
-                controlKeepAliveReplyTimeout = Integer.parseInt(args[++base]);
+                controlKeepAliveReplyTimeoutMillis = Integer.parseInt(args[++base]);
             }
             else if (args[base].equals("-T")) {
                 trustmgr = args[++base];
@@ -271,7 +271,7 @@ public final class FTPClientExample
                 ftp = new FTPClient();
             }
         } else {
-            FTPSClient ftps;
+            final FTPSClient ftps;
             if (protocol.equals("true")) {
                 ftps = new FTPSClient(true);
             } else if (protocol.equals("false")) {
@@ -297,11 +297,11 @@ public final class FTPClientExample
         if (printHash) {
             ftp.setCopyStreamListener(createListener());
         }
-        if (keepAliveTimeout >= 0) {
-            ftp.setControlKeepAliveTimeout(keepAliveTimeout);
+        if (keepAliveTimeoutSeconds >= 0) {
+            ftp.setControlKeepAliveTimeout(keepAliveTimeoutSeconds);
         }
-        if (controlKeepAliveReplyTimeout >= 0) {
-            ftp.setControlKeepAliveReplyTimeout(controlKeepAliveReplyTimeout);
+        if (controlKeepAliveReplyTimeoutMillis >= 0) {
+            ftp.setControlKeepAliveReplyTimeout(controlKeepAliveReplyTimeoutMillis);
         }
         if (encoding != null) {
             ftp.setControlEncoding(encoding);
@@ -328,7 +328,7 @@ public final class FTPClientExample
 
         try
         {
-            int reply;
+            final int reply;
             if (port > 0) {
                 ftp.connect(server, port);
             } else {
@@ -397,11 +397,11 @@ __main:
 
             if (storeFile)
             {
-                try (InputStream input = new FileInputStream(local)) {
+                try (final InputStream input = new FileInputStream(local)) {
                     ftp.storeFile(remote, input);
                 }
 
-                if (keepAliveTimeout > 0) {
+                if (keepAliveTimeoutSeconds > 0) {
                     showCslStats(ftp);
                 }
             }
@@ -501,11 +501,11 @@ __main:
             }
             else
             {
-                try (OutputStream output = new FileOutputStream(local)) {
+                try (final OutputStream output = new FileOutputStream(local)) {
                     ftp.retrieveFile(remote, output);
                 }
 
-                if (keepAliveTimeout > 0) {
+                if (keepAliveTimeoutSeconds > 0) {
                     showCslStats(ftp);
                 }
             }
@@ -553,7 +553,7 @@ __main:
 
     private static CopyStreamListener createListener(){
         return new CopyStreamListener(){
-            private long megsTotal = 0;
+            private long megsTotal;
 
             @Override
             public void bytesTransferred(final CopyStreamEvent event) {

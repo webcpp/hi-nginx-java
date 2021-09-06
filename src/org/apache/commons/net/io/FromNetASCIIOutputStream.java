@@ -21,7 +21,7 @@ import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-/***
+/**
  * This class wraps an output stream, replacing all occurrences
  * of &lt;CR&gt;&lt;LF&gt; (carriage return followed by a linefeed),
  * which is the NETASCII standard for representing a newline, with the
@@ -34,18 +34,18 @@ import java.io.OutputStream;
  * flush the carriage return.
  *
  *
- ***/
+ */
 
 public final class FromNetASCIIOutputStream extends FilterOutputStream
 {
     private boolean lastWasCR;
 
-    /***
+    /**
      * Creates a FromNetASCIIOutputStream instance that wraps an existing
      * OutputStream.
      *
      * @param output  The OutputStream to wrap.
-     ***/
+     */
     public FromNetASCIIOutputStream(final OutputStream output)
     {
         super(output);
@@ -53,7 +53,7 @@ public final class FromNetASCIIOutputStream extends FilterOutputStream
     }
 
 
-    private void __write(final int ch) throws IOException
+    private void writeInt(final int ch) throws IOException
     {
         switch (ch)
         {
@@ -83,7 +83,7 @@ public final class FromNetASCIIOutputStream extends FilterOutputStream
     }
 
 
-    /***
+    /**
      * Writes a byte to the stream.    Note that a call to this method
      * might not actually write a byte to the underlying stream until a
      * subsequent character is written, from which it can be determined if
@@ -94,7 +94,7 @@ public final class FromNetASCIIOutputStream extends FilterOutputStream
      * @param ch The byte to write.
      * @throws IOException If an error occurs while writing to the underlying
      *            stream.
-     ***/
+     */
     @Override
     public synchronized void write(final int ch)
     throws IOException
@@ -105,17 +105,17 @@ public final class FromNetASCIIOutputStream extends FilterOutputStream
             return ;
         }
 
-        __write(ch);
+        writeInt(ch);
     }
 
 
-    /***
+    /**
      * Writes a byte array to the stream.
      *
      * @param buffer  The byte array to write.
      * @throws IOException If an error occurs while writing to the underlying
      *            stream.
-     ***/
+     */
     @Override
     public synchronized void write(final byte buffer[])
     throws IOException
@@ -124,7 +124,7 @@ public final class FromNetASCIIOutputStream extends FilterOutputStream
     }
 
 
-    /***
+    /**
      * Writes a number of bytes from a byte array to the stream starting from
      * a given offset.
      *
@@ -133,7 +133,7 @@ public final class FromNetASCIIOutputStream extends FilterOutputStream
      * @param length  The number of bytes to write.
      * @throws IOException If an error occurs while writing to the underlying
      *            stream.
-     ***/
+     */
     @Override
     public synchronized void write(final byte buffer[], int offset, int length)
     throws IOException
@@ -147,16 +147,16 @@ public final class FromNetASCIIOutputStream extends FilterOutputStream
         }
 
         while (length-- > 0) {
-            __write(buffer[offset++]);
+            writeInt(buffer[offset++]);
         }
     }
 
 
-    /***
+    /**
      * Closes the stream, writing all pending data.
      *
      * @throws IOException  If an error occurs while closing the stream.
-     ***/
+     */
     @Override
     public synchronized void close()
     throws IOException

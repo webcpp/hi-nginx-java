@@ -32,6 +32,7 @@ import org.apache.commons.net.ftp.FTPFileEntryParserImpl;
  * Parser class for MSLT and MLSD replies. See RFC 3659.
  * <p>
  * Format is as follows:
+ * </p>
  * <pre>
  * entry            = [ facts ] SP pathname
  * facts            = 1*( fact ";" )
@@ -47,17 +48,19 @@ import org.apache.commons.net.ftp.FTPFileEntryParserImpl;
  * Sample os-depend-fact:
  * UNIX.group=0;UNIX.mode=0755;UNIX.owner=0;
  * </pre>
+ * <p>
  * A single control response entry (MLST) is returned with a leading space;
  * multiple (data) entries are returned without any leading spaces.
  * The parser requires that the leading space from the MLST entry is removed.
  * MLSD entries can begin with a single space if there are no facts.
+ * </p>
  *
  * @since 3.0
  */
 public class MLSxEntryParser extends FTPFileEntryParserImpl
 {
     // This class is immutable, so a single instance can be shared.
-    private static final MLSxEntryParser PARSER = new MLSxEntryParser();
+    private static final MLSxEntryParser INSTANCE = new MLSxEntryParser();
 
     private static final HashMap<String, Integer> TYPE_TO_INT = new HashMap<>();
     static {
@@ -67,13 +70,13 @@ public class MLSxEntryParser extends FTPFileEntryParserImpl
         TYPE_TO_INT.put("dir", Integer.valueOf(FTPFile.DIRECTORY_TYPE)); // dir or sub-dir
     }
 
-    private static int UNIX_GROUPS[] = { // Groups in order of mode digits
+    private static final int[] UNIX_GROUPS = { // Groups in order of mode digits
         FTPFile.USER_ACCESS,
         FTPFile.GROUP_ACCESS,
         FTPFile.WORLD_ACCESS,
     };
 
-    private static int UNIX_PERMS[][] = { // perm bits, broken down by octal int value
+    private static final int[][] UNIX_PERMS = { // perm bits, broken down by octal int value
 /* 0 */  {},
 /* 1 */  {FTPFile.EXECUTE_PERMISSION},
 /* 2 */  {FTPFile.WRITE_PERMISSION},
@@ -90,7 +93,6 @@ public class MLSxEntryParser extends FTPFileEntryParserImpl
      */
     public MLSxEntryParser()
     {
-        super();
     }
 
     @Override
@@ -106,7 +108,7 @@ public class MLSxEntryParser extends FTPFileEntryParserImpl
 
         }
         final String parts[] = entry.split(" ",2); // Path may contain space
-        if (parts.length != 2 || parts[1].length() == 0) {
+        if (parts.length != 2 || parts[1].isEmpty()) {
             return null; // no space found or no file name
         }
         final String factList = parts[0];
@@ -128,7 +130,7 @@ public class MLSxEntryParser extends FTPFileEntryParserImpl
             }
             final String factname = factparts[0].toLowerCase(Locale.ENGLISH);
             final String factvalue = factparts[1];
-            if (factvalue.length() == 0) {
+            if (factvalue.isEmpty()) {
                 continue; // nothing to see here
             }
             final String valueLowerCase = factvalue.toLowerCase(Locale.ENGLISH);
@@ -195,7 +197,7 @@ public class MLSxEntryParser extends FTPFileEntryParserImpl
             hasMillis = false;
         }
         final TimeZone GMT = TimeZone.getTimeZone("GMT");
-        // both timezones need to be set for the parse to work OK
+        // both time zones need to be set for the parse to work OK
         sdf.setTimeZone(GMT);
         final GregorianCalendar gc = new GregorianCalendar(GMT);
         final ParsePosition pos = new ParsePosition(0);
@@ -256,10 +258,10 @@ public class MLSxEntryParser extends FTPFileEntryParserImpl
     }
 
     public static FTPFile parseEntry(final String entry) {
-        return PARSER.parseFTPEntry(entry);
+        return INSTANCE.parseFTPEntry(entry);
     }
 
     public static  MLSxEntryParser getInstance() {
-        return PARSER;
+        return INSTANCE;
     }
 }

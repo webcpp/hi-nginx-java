@@ -29,7 +29,7 @@ import java.net.SocketException;
 import org.apache.commons.net.echo.EchoTCPClient;
 import org.apache.commons.net.echo.EchoUDPClient;
 
-/***
+/**
  * This is an example program demonstrating how to use the EchoTCPClient
  * and EchoUDPClient classes.  This program connects to the default echo
  * service port of a specified server, then reads lines from standard
@@ -38,15 +38,16 @@ import org.apache.commons.net.echo.EchoUDPClient;
  * port.
  * <p>
  * Usage: echo [-udp] <hostname>
- ***/
+ */
 public final class echo
 {
 
     public static void echoTCP(final String host) throws IOException
     {
         final EchoTCPClient client = new EchoTCPClient();
-        BufferedReader input, echoInput;
-        PrintWriter echoOutput;
+        final BufferedReader input;
+        final BufferedReader echoInput;
+        final PrintWriter echoOutput;
         String line;
 
         // We want to timeout if a response takes longer than 60 seconds
@@ -75,9 +76,9 @@ public final class echo
         int length, count;
         byte[] data;
         String line;
-        BufferedReader input;
-        InetAddress address;
-        EchoUDPClient client;
+        final BufferedReader input;
+        final InetAddress address;
+        final EchoUDPClient client;
 
         input = new BufferedReader(new InputStreamReader(System.in));
         address = InetAddress.getByName(host);

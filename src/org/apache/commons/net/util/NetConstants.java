@@ -14,8 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.commons.net.util;
+
+import java.security.cert.X509Certificate;
 
 /**
- * NNTP - network news transfer protocol
+ * Constants provided as public only for our own implementation, you can consider this private for now.
+ *
+ * @since 3.8.0
  */
-package org.apache.commons.net.nntp;
+public class NetConstants {
+
+    /**
+     * An empty immutable {@code String} array.
+     */
+    public static final String[] EMPTY_STRING_ARRAY = new String[0];
+
+    /**
+     * An empty immutable {@code byte} array.
+     */
+    public static final byte[] EMPTY_BTYE_ARRAY = new byte[0];
+
+    /**
+     * An empty immutable {link X509Certificate} array.
+     */
+    public static final X509Certificate[] EMPTY_X509_CERTIFICATE_ARRAY = new X509Certificate[0];
+
+    /**
+     * Prevents instantiation.
+     */
+    private NetConstants() {
+    }
+}

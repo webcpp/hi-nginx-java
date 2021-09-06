@@ -25,6 +25,7 @@ import java.security.spec.InvalidKeySpecException;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.net.ssl.SSLContext;
+
 import org.apache.commons.net.util.Base64;
 
 /**
@@ -255,7 +256,7 @@ public class AuthenticatingIMAPClient extends IMAPSClient
 
         private final String authName;
 
-        private AUTH_METHOD(final String name){
+        AUTH_METHOD(final String name){
             this.authName=name;
         }
         /**

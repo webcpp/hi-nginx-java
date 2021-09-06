@@ -18,8 +18,8 @@
 package org.apache.commons.net.imap;
 
 import java.io.BufferedWriter;
-import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 import javax.net.ssl.HostnameVerifier;
@@ -75,22 +75,22 @@ public class IMAPSClient extends IMAPClient
     /** The secure socket protocol to be used, like SSL/TLS. */
     private final String protocol;
     /** The context object. */
-    private SSLContext context = null;
+    private SSLContext context;
     /** The cipher suites. SSLSockets have a default set of these anyway,
         so no initialization required. */
-    private String[] suites = null;
+    private String[] suites;
     /** The protocol versions. */
-    private String[] protocols = //null;
-        null;//{"SSLv2", "SSLv3", "TLSv1", "TLSv1.1", "SSLv2Hello"};
+    private String[] protocols  //null;
+            ;//{"SSLv2", "SSLv3", "TLSv1", "TLSv1.1", "SSLv2Hello"};
 
     /** The IMAPS {@link TrustManager} implementation, default null. */
-    private TrustManager trustManager = null;
+    private TrustManager trustManager;
 
     /** The {@link KeyManager}, default null. */
-    private KeyManager keyManager = null;
+    private KeyManager keyManager;
 
     /** The {@link HostnameVerifier} to use post-TLS, default null (i.e. no verification). */
-    private HostnameVerifier hostnameVerifier = null;
+    private HostnameVerifier hostnameVerifier;
 
     /** Use Java 1.7+ HTTPS Endpoint Identification Algorithim. */
     private boolean tlsEndpointChecking;
@@ -140,7 +140,6 @@ public class IMAPSClient extends IMAPClient
      */
     public IMAPSClient(final String proto, final boolean implicit, final SSLContext ctx)
     {
-        super();
         setDefaultPort(DEFAULT_IMAPS_PORT);
         protocol = proto;
         isImplicit = implicit;
@@ -268,8 +267,7 @@ public class IMAPSClient extends IMAPClient
      */
     public void setEnabledCipherSuites(final String[] cipherSuites)
     {
-        suites = new String[cipherSuites.length];
-        System.arraycopy(cipherSuites, 0, suites, 0, cipherSuites.length);
+        suites = cipherSuites.clone();
     }
 
     /**
@@ -294,8 +292,7 @@ public class IMAPSClient extends IMAPClient
      */
     public void setEnabledProtocols(final String[] protocolVersions)
     {
-        protocols = new String[protocolVersions.length];
-        System.arraycopy(protocolVersions, 0, protocols, 0, protocolVersions.length);
+        protocols = protocolVersions.clone();
     }
 
     /**

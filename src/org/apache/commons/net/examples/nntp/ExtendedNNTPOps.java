@@ -82,7 +82,7 @@ public class ExtendedNNTPOps {
     }
 
     public static void main(final String[] args) {
-        ExtendedNNTPOps ops;
+        final ExtendedNNTPOps ops;
 
         final int argc = args.length;
         if (argc < 1) {
@@ -95,11 +95,3 @@ public class ExtendedNNTPOps {
     }
 
 }
-
-/* Emacs configuration
- * Local variables:        **
- * mode:             java  **
- * c-basic-offset:   4     **
- * indent-tabs-mode: nil   **
- * End:                    **
- */

@@ -70,22 +70,22 @@ public class POP3SClient extends POP3Client
     /** The secure socket protocol to be used, like SSL/TLS. */
     private final String protocol;
     /** The context object. */
-    private SSLContext context = null;
+    private SSLContext context;
     /** The cipher suites. SSLSockets have a default set of these anyway,
         so no initialization required. */
-    private String[] suites = null;
+    private String[] suites;
     /** The protocol versions. */
-    private String[] protocols = //null;
-        null;//{"SSLv2", "SSLv3", "TLSv1", "TLSv1.1", "SSLv2Hello"};
+    private String[] protocols  //null;
+            ;//{"SSLv2", "SSLv3", "TLSv1", "TLSv1.1", "SSLv2Hello"};
 
     /** The FTPS {@link TrustManager} implementation, default null. */
-    private TrustManager trustManager = null;
+    private TrustManager trustManager;
 
     /** The {@link KeyManager}, default null. */
-    private KeyManager keyManager = null;
+    private KeyManager keyManager;
 
     /** The {@link HostnameVerifier} to use post-TLS, default null (i.e. no verification). */
-    private HostnameVerifier hostnameVerifier = null;
+    private HostnameVerifier hostnameVerifier;
 
     /** Use Java 1.7+ HTTPS Endpoint Identification Algorithim. */
     private boolean tlsEndpointChecking;
@@ -137,7 +137,6 @@ public class POP3SClient extends POP3Client
      */
     public POP3SClient(final String proto, final boolean implicit, final SSLContext ctx)
     {
-        super();
         protocol = proto;
         isImplicit = implicit;
         context = ctx;
@@ -179,6 +178,7 @@ public class POP3SClient extends POP3Client
     {
         // Implicit mode.
         if (isImplicit) {
+            applySocketAttributes();
             performSSLNegotiation();
         }
         super._connectAction_();
@@ -230,8 +230,8 @@ public class POP3SClient extends POP3Client
         _socket_ = socket;
         _input_ = socket.getInputStream();
         _output_ = socket.getOutputStream();
-        reader = new CRLFLineReader(new InputStreamReader(_input_, _DEFAULT_ENCODING));
-        writer = new BufferedWriter(new OutputStreamWriter(_output_, _DEFAULT_ENCODING));
+        reader = new CRLFLineReader(new InputStreamReader(_input_, DEFAULT_ENCODING));
+        writer = new BufferedWriter(new OutputStreamWriter(_output_, DEFAULT_ENCODING));
 
         if (hostnameVerifier != null && !hostnameVerifier.verify(host, socket.getSession())) {
             throw new SSLHandshakeException("Hostname doesn't match certificate");
@@ -264,8 +264,7 @@ public class POP3SClient extends POP3Client
      */
     public void setEnabledCipherSuites(final String[] cipherSuites)
     {
-        suites = new String[cipherSuites.length];
-        System.arraycopy(cipherSuites, 0, suites, 0, cipherSuites.length);
+        suites = cipherSuites.clone();
     }
 
     /**
@@ -290,8 +289,7 @@ public class POP3SClient extends POP3Client
      */
     public void setEnabledProtocols(final String[] protocolVersions)
     {
-        protocols = new String[protocolVersions.length];
-        System.arraycopy(protocolVersions, 0, protocols, 0, protocolVersions.length);
+        protocols = protocolVersions.clone();
     }
 
     /**

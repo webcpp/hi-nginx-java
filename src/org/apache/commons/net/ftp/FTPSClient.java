@@ -98,13 +98,13 @@ public class FTPSClient extends FTPClient {
     /** The use client mode flag. */
     private boolean isClientMode = true;
     /** The need client auth flag. */
-    private boolean isNeedClientAuth = false;
+    private boolean isNeedClientAuth;
     /** The want client auth flag. */
-    private boolean isWantClientAuth = false;
+    private boolean isWantClientAuth;
     /** The cipher suites */
-    private String[] suites = null;
+    private String[] suites;
     /** The protocol versions */
-    private String[] protocols = null;
+    private String[] protocols;
 
     /** The FTPS {@link TrustManager} implementation, default validate only
      * {@link TrustManagerUtils#getValidateServerCertificateTrustManager()}.
@@ -112,12 +112,12 @@ public class FTPSClient extends FTPClient {
     private TrustManager trustManager = TrustManagerUtils.getValidateServerCertificateTrustManager();
 
     /** The {@link KeyManager}, default null (i.e. use system default). */
-    private KeyManager keyManager = null;
+    private KeyManager keyManager;
 
     /** The {@link HostnameVerifier} to use post-TLS, default null (i.e. no verification). */
-    private HostnameVerifier hostnameVerifier = null;
+    private HostnameVerifier hostnameVerifier;
 
-    /** Use Java 1.7+ HTTPS Endpoint Identification Algorithim. */
+    /** Use Java 1.7+ HTTPS Endpoint Identification Algorithm. */
     private boolean tlsEndpointChecking;
 
     /**
@@ -156,7 +156,6 @@ public class FTPSClient extends FTPClient {
      * @param isImplicit The security mode(Implicit/Explicit).
      */
     public FTPSClient(final String protocol, final boolean isImplicit) {
-        super();
         this.protocol = protocol;
         this.isImplicit = isImplicit;
         if (isImplicit) {
@@ -216,6 +215,7 @@ public class FTPSClient extends FTPClient {
     protected void _connectAction_() throws IOException {
         // Implicit mode.
         if (isImplicit) {
+            applySocketAttributes();
             sslNegotiation();
         }
         super._connectAction_();
@@ -260,7 +260,7 @@ public class FTPSClient extends FTPClient {
     protected void sslNegotiation() throws IOException {
         plainSocket = _socket_;
         initSslContext();
-        final SSLSocket socket = (SSLSocket)createSSLSocket(_socket_);
+        final SSLSocket socket = createSSLSocket(_socket_);
         socket.setEnableSessionCreation(isCreation);
         socket.setUseClientMode(isClientMode);
 
@@ -412,8 +412,7 @@ public class FTPSClient extends FTPClient {
      * @param cipherSuites The cipher suites.
      */
     public void setEnabledCipherSuites(final String[] cipherSuites) {
-        suites = new String[cipherSuites.length];
-        System.arraycopy(cipherSuites, 0, suites, 0, cipherSuites.length);
+        suites = cipherSuites.clone();
     }
 
     /**
@@ -435,8 +434,7 @@ public class FTPSClient extends FTPClient {
      * @param protocolVersions The protocol versions.
      */
     public void setEnabledProtocols(final String[] protocolVersions) {
-        protocols = new String[protocolVersions.length];
-        System.arraycopy(protocolVersions, 0, protocols, 0, protocolVersions.length);
+        protocols = protocolVersions.clone();
     }
 
     /**
@@ -889,13 +887,13 @@ public class FTPSClient extends FTPClient {
      * Create SSL socket from plain socket.
      *
      * @param socket
-     * @return SSL Sockect
+     * @return SSL Socket
      * @throws IOException
      */
-    private Socket createSSLSocket(final Socket socket) throws IOException {
+    private SSLSocket createSSLSocket(final Socket socket) throws IOException {
         if (socket != null) {
             final SSLSocketFactory f = context.getSocketFactory();
-            return f.createSocket(socket, _hostname_, socket.getPort(), false);
+            return (SSLSocket) f.createSocket(socket, _hostname_, socket.getPort(), false);
         }
         return null;
     }

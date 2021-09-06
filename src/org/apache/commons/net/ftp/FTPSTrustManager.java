@@ -22,6 +22,8 @@ import java.security.cert.X509Certificate;
 
 import javax.net.ssl.X509TrustManager;
 
+import org.apache.commons.net.util.NetConstants;
+
 /**
  * Do not use.
  * @since 2.0
@@ -32,15 +34,12 @@ import javax.net.ssl.X509TrustManager;
 @Deprecated
 public class FTPSTrustManager implements X509TrustManager
 {
-    private static final X509Certificate[] EMPTY_X509CERTIFICATE_ARRAY = new X509Certificate[]{};
-
     /**
      * No-op
      */
     @Override
     public void checkClientTrusted(final X509Certificate[] certificates, final String authType)
     {
-        return;
     }
 
     @Override
@@ -55,6 +54,6 @@ public class FTPSTrustManager implements X509TrustManager
     @Override
     public X509Certificate[] getAcceptedIssuers()
     {
-        return EMPTY_X509CERTIFICATE_ARRAY;
+        return NetConstants.EMPTY_X509_CERTIFICATE_ARRAY;
     }
 }

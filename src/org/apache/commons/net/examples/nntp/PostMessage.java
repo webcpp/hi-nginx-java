@@ -32,23 +32,28 @@ import org.apache.commons.net.nntp.NNTPReply;
 import org.apache.commons.net.nntp.SimpleNNTPHeader;
 
 
-/***
+/**
  * This is an example program using the NNTP package to post an article
  * to the specified newsgroup(s).  It prompts you for header information and
  * a file name to post.
- ***/
+ */
 
 public final class PostMessage
 {
 
     public static void main(final String[] args)
     {
-        String from, subject, newsgroup, fileName, server, organization;
-        String references;
-        BufferedReader stdin;
+        final String from;
+        final String subject;
+        String newsgroup;
+        final String fileName;
+        final String server;
+        final String organization;
+        final String references;
+        final BufferedReader stdin;
         FileReader fileReader = null;
-        SimpleNNTPHeader header;
-        NNTPClient client;
+        final SimpleNNTPHeader header;
+        final NNTPClient client;
 
         if (args.length < 1)
         {
@@ -92,7 +97,7 @@ public final class PostMessage
 
                 newsgroup = newsgroup.trim();
 
-                if (newsgroup.length() == 0) {
+                if (newsgroup.isEmpty()) {
                     break;
                 }
 
@@ -109,11 +114,11 @@ public final class PostMessage
 
             references = stdin.readLine();
 
-            if (organization != null && organization.length() > 0) {
+            if (organization != null && !organization.isEmpty()) {
                 header.addHeaderField("Organization", organization);
             }
 
-            if (references != null && references.length() > 0) {
+            if (references != null && !references.isEmpty()) {
                 header.addHeaderField("References", references);
             }
 

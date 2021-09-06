@@ -46,7 +46,7 @@ final class TelnetInputStream extends BufferedInputStream implements Runnable
 
     /* TERMINAL-TYPE option (start)*/
     private final int suboption[];
-    private int suboptionCount = 0;
+    private int suboptionCount;
     /* TERMINAL-TYPE option (end)*/
 
     private volatile boolean threaded;
@@ -80,7 +80,7 @@ final class TelnetInputStream extends BufferedInputStream implements Runnable
         this(input, client, true);
     }
 
-    void _start()
+    void start()
     {
         if(thread == null) {
             return;
@@ -116,7 +116,7 @@ final class TelnetInputStream extends BufferedInputStream implements Runnable
      * or -1 (EOF) if end of stread reached,
      * or -2 (WOULD_BLOCK) if mayBlock is false and there is no data available
      */
-    private int __read(final boolean mayBlock) throws IOException
+    private int read(final boolean mayBlock) throws IOException
     {
         int ch;
 
@@ -304,7 +304,7 @@ final class TelnetInputStream extends BufferedInputStream implements Runnable
     {
         // Critical section because we're altering __bytesAvailable,
         // __queueTail, and the contents of _queue.
-        boolean bufferWasEmpty;
+        final boolean bufferWasEmpty;
         synchronized (queue)
         {
             bufferWasEmpty = bytesAvailable == 0;
@@ -361,7 +361,7 @@ final class TelnetInputStream extends BufferedInputStream implements Runnable
             {
                 if (ioException != null)
                 {
-                    IOException e;
+                    final IOException e;
                     e = ioException;
                     ioException = null;
                     throw e;
@@ -400,7 +400,7 @@ final class TelnetInputStream extends BufferedInputStream implements Runnable
                         {
                             try
                             {
-                                if ((ch = __read(mayBlock)) < 0) { // must be EOF
+                                if ((ch = read(mayBlock)) < 0) { // must be EOF
                                     if(ch != WOULD_BLOCK) {
                                         return ch;
                                     }
@@ -451,7 +451,7 @@ final class TelnetInputStream extends BufferedInputStream implements Runnable
                     }
                     continue;
                 }
-                int ch;
+                final int ch;
 
                 ch = queue[queueHead];
 
@@ -472,7 +472,7 @@ final class TelnetInputStream extends BufferedInputStream implements Runnable
     }
 
 
-    /***
+    /**
      * Reads the next number of bytes from the stream into an array and
      * returns the number of bytes read.  Returns -1 if the end of the
      * stream has been reached.
@@ -482,7 +482,7 @@ final class TelnetInputStream extends BufferedInputStream implements Runnable
      *          end of the message has been reached.
      * @throws IOException If an error occurs in reading the underlying
      *            stream.
-     ***/
+     */
     @Override
     public int read(final byte buffer[]) throws IOException
     {
@@ -490,7 +490,7 @@ final class TelnetInputStream extends BufferedInputStream implements Runnable
     }
 
 
-    /***
+    /**
      * Reads the next number of bytes from the stream into an array and returns
      * the number of bytes read.  Returns -1 if the end of the
      * message has been reached.  The characters are stored in the array
@@ -503,11 +503,12 @@ final class TelnetInputStream extends BufferedInputStream implements Runnable
      *          end of the stream has been reached.
      * @throws IOException If an error occurs while reading the underlying
      *            stream.
-     ***/
+     */
     @Override
     public int read(final byte buffer[], int offset, int length) throws IOException
     {
-        int ch, off;
+        int ch;
+        final int off;
 
         if (length < 1) {
             return 0;
@@ -538,7 +539,7 @@ final class TelnetInputStream extends BufferedInputStream implements Runnable
     }
 
 
-    /*** Returns false.  Mark is not supported. ***/
+    /** Returns false.  Mark is not supported. */
     @Override
     public boolean markSupported()
     {
@@ -597,7 +598,7 @@ _outerLoop:
             {
                 try
                 {
-                    if ((ch = __read(true)) < 0) {
+                    if ((ch = read(true)) < 0) {
                         break;
                     }
                 }
@@ -667,11 +668,3 @@ _outerLoop:
         threaded = false;
     }
 }
-
-/* Emacs configuration
- * Local variables:        **
- * mode:             java  **
- * c-basic-offset:   4     **
- * indent-tabs-mode: nil   **
- * End:                    **
- */

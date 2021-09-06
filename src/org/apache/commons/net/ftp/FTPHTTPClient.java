@@ -28,6 +28,7 @@ import java.net.Inet6Address;
 import java.net.Socket;
 import java.net.SocketException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +79,7 @@ public class FTPHTTPClient extends FTPClient {
      * @param proxyPass the password for the proxy
      */
     public FTPHTTPClient(final String proxyHost, final int proxyPort, final String proxyUser, final String proxyPass) {
-        this(proxyHost, proxyPort, proxyUser, proxyPass, Charset.forName("UTF-8"));
+        this(proxyHost, proxyPort, proxyUser, proxyPass, StandardCharsets.UTF_8);
     }
 
     /**
@@ -175,7 +176,7 @@ public class FTPHTTPClient extends FTPClient {
         _socket_ = _socketFactory_.createSocket(proxyHost, proxyPort);
         _input_ = _socket_.getInputStream();
         _output_ = _socket_.getOutputStream();
-        Reader socketIsReader;
+        final Reader socketIsReader;
         try {
             socketIsReader = tunnelHandshake(host, port, _input_, _output_);
         }
@@ -208,7 +209,7 @@ public class FTPHTTPClient extends FTPClient {
         final List<String> response = new ArrayList<>();
         final BufferedReader reader = new BufferedReader(new InputStreamReader(input, getCharset()));
 
-        for (String line = reader.readLine(); line != null && line.length() > 0; line = reader.readLine()) {
+        for (String line = reader.readLine(); line != null && !line.isEmpty(); line = reader.readLine()) {
             response.add(line);
         }
 

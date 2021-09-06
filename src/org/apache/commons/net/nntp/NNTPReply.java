@@ -17,12 +17,12 @@
 
 package org.apache.commons.net.nntp;
 
-/***
+/**
  * NNTPReply stores a set of constants for NNTP reply codes.  To interpret
  * the meaning of the codes, familiarity with RFC 977 is assumed.
  * The mnemonic constant names are transcriptions from the code descriptions
  * of RFC 977.
- ***/
+ */
 
 public final class NNTPReply
 {
@@ -72,7 +72,7 @@ public final class NNTPReply
     private NNTPReply()
     {}
 
-    /***
+    /**
      * Determine if a reply code is an informational response.  All
      * codes beginning with a 1 are positive informational responses.
      * Informational responses are used to provide human readable
@@ -81,28 +81,28 @@ public final class NNTPReply
      * @param reply  The reply code to test.
      * @return True if a reply code is an informational response, false
      *         if not.
-     ***/
+     */
     public static boolean isInformational(final int reply)
     {
         return reply >= 100 && reply < 200;
     }
 
-    /***
+    /**
      * Determine if a reply code is a positive completion response.  All
      * codes beginning with a 2 are positive completion responses.
      * The NNTP server will send a positive completion response on the final
      * successful completion of a command.
      * <p>
      * @param reply  The reply code to test.
-     * @return True if a reply code is a postive completion response, false
+     * @return True if a reply code is a positive completion response, false
      *         if not.
-     ***/
+     */
     public static boolean isPositiveCompletion(final int reply)
     {
         return reply >= 200 && reply < 300;
     }
 
-    /***
+    /**
      * Determine if a reply code is a positive intermediate response.  All
      * codes beginning with a 3 are positive intermediate responses.
      * The NNTP server will send a positive intermediate response on the
@@ -112,15 +112,15 @@ public final class NNTPReply
      * server is ready to receive the article to be posted.
      * <p>
      * @param reply  The reply code to test.
-     * @return True if a reply code is a postive intermediate response, false
+     * @return True if a reply code is a positive intermediate response, false
      *         if not.
-     ***/
+     */
     public static boolean isPositiveIntermediate(final int reply)
     {
         return reply >= 300 && reply < 400;
     }
 
-    /***
+    /**
      * Determine if a reply code is a negative transient response.  All
      * codes beginning with a 4 are negative transient responses.
      * The NNTP server will send a negative transient response on the
@@ -131,13 +131,13 @@ public final class NNTPReply
      * @param reply  The reply code to test.
      * @return True if a reply code is a negative transient response, false
      *         if not.
-     ***/
+     */
     public static boolean isNegativeTransient(final int reply)
     {
         return reply >= 400 && reply < 500;
     }
 
-    /***
+    /**
      * Determine if a reply code is a negative permanent response.  All
      * codes beginning with a 5 are negative permanent responses.
      * The NNTP server will send a negative permanent response when
@@ -147,18 +147,10 @@ public final class NNTPReply
      * @param reply  The reply code to test.
      * @return True if a reply code is a negative permanent response, false
      *         if not.
-     ***/
+     */
     public static boolean isNegativePermanent(final int reply)
     {
         return reply >= 500 && reply < 600;
     }
 
 }
-
-/* Emacs configuration
- * Local variables:        **
- * mode:             java  **
- * c-basic-offset:   4     **
- * indent-tabs-mode: nil   **
- * End:                    **
- */

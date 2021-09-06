@@ -40,14 +40,19 @@ import org.apache.commons.net.util.SSLSocketUtils;
  * after the connection has been established. In explicit mode (the default), SSL/TLS
  * negotiation starts when the user calls execTLS() and the server accepts the command.
  * Implicit usage:
+ * <pre>
  *               SMTPSClient c = new SMTPSClient(true);
  *               c.connect("127.0.0.1", 465);
+ * </pre>
  * Explicit usage:
+ * <pre>
  *               SMTPSClient c = new SMTPSClient();
  *               c.connect("127.0.0.1", 25);
- *               if (c.execTLS()) { /rest of the commands here/ }
- *
- * Warning: the hostname is not verified against the certificate by default, use
+ *               if (c.execTLS()) {
+ *                 // Rest of the commands here
+ *               }
+ * </pre>
+ * <em>Warning</em>: the hostname is not verified against the certificate by default, use
  * {@link #setHostnameVerifier(HostnameVerifier)} or {@link #setEndpointCheckingEnabled(boolean)}
  * (on Java 1.7+) to enable verification.
  * @since 3.0
@@ -58,25 +63,30 @@ public class SMTPSClient extends SMTPClient
     private static final String DEFAULT_PROTOCOL = "TLS";
 
     /** The security mode. True - Implicit Mode / False - Explicit Mode. */
+
     private final boolean isImplicit;
     /** The secure socket protocol to be used, like SSL/TLS. */
+
     private final String protocol;
     /** The context object. */
-    private SSLContext context = null;
+
+    private SSLContext context;
     /** The cipher suites. SSLSockets have a default set of these anyway,
         so no initialization required. */
-    private String[] suites = null;
+
+    private String[] suites;
     /** The protocol versions. */
-    private String[] protocols = null;
+
+    private String[] protocols;
 
     /** The {@link TrustManager} implementation, default null (i.e. use system managers). */
-    private TrustManager trustManager = null;
+    private TrustManager trustManager;
 
     /** The {@link KeyManager}, default null (i.e. use system managers). */
-    private KeyManager keyManager = null; // seems not to be required
+    private KeyManager keyManager; // seems not to be required
 
     /** The {@link HostnameVerifier} to use post-TLS, default null (i.e. no verification). */
-    private HostnameVerifier hostnameVerifier = null;
+    private HostnameVerifier hostnameVerifier;
 
     /** Use Java 1.7+ HTTPS Endpoint Identification Algorithim. */
     private boolean tlsEndpointChecking;
@@ -168,6 +178,7 @@ public class SMTPSClient extends SMTPClient
     {
         // Implicit mode.
         if (isImplicit) {
+            applySocketAttributes();
             performSSLNegotiation();
         }
         super._connectAction_();
@@ -254,8 +265,7 @@ public class SMTPSClient extends SMTPClient
      */
     public void setEnabledCipherSuites(final String[] cipherSuites)
     {
-        suites = new String[cipherSuites.length];
-        System.arraycopy(cipherSuites, 0, suites, 0, cipherSuites.length);
+        suites = cipherSuites.clone();
     }
 
     /**
@@ -280,8 +290,7 @@ public class SMTPSClient extends SMTPClient
      */
     public void setEnabledProtocols(final String[] protocolVersions)
     {
-        protocols = new String[protocolVersions.length];
-        System.arraycopy(protocolVersions, 0, protocols, 0, protocolVersions.length);
+        protocols = protocolVersions.clone();
     }
 
     /**

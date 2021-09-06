@@ -33,24 +33,29 @@ import org.apache.commons.net.smtp.SMTPClient;
 import org.apache.commons.net.smtp.SMTPReply;
 import org.apache.commons.net.smtp.SimpleSMTPHeader;
 
-/***
+/**
  * This is an example program using the SMTP package to send a message
  * to the specified recipients.  It prompts you for header information and
  * a file name containing the message.
- ***/
+ */
 
 public final class SMTPMail
 {
 
     public static void main(final String[] args)
     {
-        String sender, recipient, subject, fileName, server, cc;
+        final String sender;
+        final String recipient;
+        final String subject;
+        final String fileName;
+        final String server;
+        String cc;
         final List<String> ccList = new ArrayList<>();
-        BufferedReader stdin;
+        final BufferedReader stdin;
         FileReader fileReader = null;
-        Writer writer;
-        SimpleSMTPHeader header;
-        SMTPClient client;
+        final Writer writer;
+        final SimpleSMTPHeader header;
+        final SMTPClient client;
 
         if (args.length < 1)
         {
@@ -89,7 +94,7 @@ public final class SMTPMail
 
                 cc = stdin.readLine();
 
-                if (cc== null || cc.length() == 0) {
+                if (cc== null || cc.isEmpty()) {
                     break;
                 }
 

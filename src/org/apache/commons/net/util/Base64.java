@@ -17,9 +17,8 @@
 
 package org.apache.commons.net.util;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
-
+import java.nio.charset.StandardCharsets;
 
 
 /**
@@ -68,8 +67,6 @@ public class Base64 {
      * @see <a href="http://www.ietf.org/rfc/rfc2045.txt">RFC 2045 section 2.1</a>
      */
     private static final byte[] CHUNK_SEPARATOR = {'\r', '\n'};
-
-    private static final byte[] EMPTY_BYTE_ARRAY = new byte[0];
 
     /**
      * This array is a lookup table that translates 6-bit positive integer index values into their "Base64 Alphabet"
@@ -313,7 +310,7 @@ public class Base64 {
     public Base64(int lineLength, byte[] lineSeparator, final boolean urlSafe) {
         if (lineSeparator == null) {
             lineLength = 0;  // disable chunk-separating
-            lineSeparator = EMPTY_BYTE_ARRAY;  // this just gets ignored
+            lineSeparator = NetConstants.EMPTY_BTYE_ARRAY;  // this just gets ignored
         }
         this.lineLength = lineLength > 0 ? (lineLength / 4) * 4 : 0;
         this.lineSeparator = new byte[lineSeparator.length];
@@ -730,11 +727,7 @@ public class Base64 {
     }
 
     private byte[] getBytesUtf8(final String pArray) {
-        try {
-            return pArray.getBytes("UTF8");
-        } catch (final UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        return pArray.getBytes(StandardCharsets.UTF_8);
     }
 
     /**
@@ -822,7 +815,7 @@ public class Base64 {
         }
 
         final long len = getEncodeLength(binaryData, isChunked ? CHUNK_SIZE : 0,
-                isChunked ? CHUNK_SEPARATOR : EMPTY_BYTE_ARRAY);
+                isChunked ? CHUNK_SEPARATOR : NetConstants.EMPTY_BTYE_ARRAY);
         if (len > maxResultSize) {
             throw new IllegalArgumentException("Input array too big, the output array would be bigger (" + len
                     + ") than the specified maxium size of " + maxResultSize);
@@ -833,7 +826,7 @@ public class Base64 {
     }
 
     /**
-     * Decodes a Base64 String into octets
+     * Decodes a Base64 String into octets.
      *
      * @param base64String
      *            String containing Base64 data
@@ -845,7 +838,7 @@ public class Base64 {
     }
 
     /**
-     * Decodes Base64 data into octets
+     * Decodes Base64 data into octets.
      *
      * @param base64Data
      *            Byte array containing Base64 data
@@ -854,8 +847,6 @@ public class Base64 {
     public static byte[] decodeBase64(final byte[] base64Data) {
         return new Base64().decode(base64Data);
     }
-
-
 
     /**
      * Checks if a byte value is whitespace or not.
@@ -889,13 +880,7 @@ public class Base64 {
     }
 
     private static String newStringUtf8(final byte[] encode) {
-        String str = null;
-        try {
-            str = new String(encode, "UTF8");
-        } catch (final UnsupportedEncodingException ue) {
-            throw new RuntimeException(ue);
-        }
-        return str;
+        return new String(encode, StandardCharsets.UTF_8);
     }
 
     /**

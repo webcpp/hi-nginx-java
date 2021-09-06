@@ -99,7 +99,8 @@ public abstract class SocketClient
     protected ServerSocketFactory _serverSocketFactory_;
 
     /** The socket's connect timeout (0 = infinite timeout) */
-    private static final int DEFAULT_CONNECT_TIMEOUT = 0;
+    private static final int DEFAULT_CONNECT_TIMEOUT = 60000;
+
     protected int connectTimeout = DEFAULT_CONNECT_TIMEOUT;
 
     /** Hint for SO_RCVBUF size */
@@ -155,11 +156,20 @@ public abstract class SocketClient
      */
     protected void _connectAction_() throws IOException
     {
-        _socket_.setSoTimeout(_timeout_);
+        applySocketAttributes();
         _input_ = _socket_.getInputStream();
         _output_ = _socket_.getOutputStream();
     }
 
+    /**
+     * Applies socket attributes.
+     *
+     * @throws SocketException if there is an error in the underlying protocol, such as a TCP error.
+     * @since 3.8.0
+     */
+    protected void applySocketAttributes() throws SocketException {
+        _socket_.setSoTimeout(_timeout_);
+    }
 
     /**
      * Opens a Socket connected to a remote host at the specified port and
@@ -498,7 +508,7 @@ public abstract class SocketClient
 
     /**
      * Get the current sendBuffer size
-     * @return the size, or -1 if not initialised
+     * @return the size, or -1 if not initialized
      * @since 3.0
      */
     protected int getSendBufferSize(){
@@ -518,7 +528,7 @@ public abstract class SocketClient
 
     /**
      * Get the current receivedBuffer size
-     * @return the size, or -1 if not initialised
+     * @return the size, or -1 if not initialized
      * @since 3.0
      */
     protected int getReceiveBufferSize(){
@@ -686,7 +696,8 @@ public abstract class SocketClient
      */
     public boolean verifyRemote(final Socket socket)
     {
-        InetAddress host1, host2;
+        final InetAddress host1;
+        final InetAddress host2;
 
         host1 = socket.getInetAddress();
         host2 = getRemoteAddress();

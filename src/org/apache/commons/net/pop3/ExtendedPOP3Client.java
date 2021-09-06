@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -42,10 +43,9 @@ public class ExtendedPOP3Client extends POP3SClient
      */
     public ExtendedPOP3Client() throws NoSuchAlgorithmException
     {
-        super();
     }
 
-    /***
+    /**
      * Authenticate to the POP3 server by sending the AUTH command with the
      * selected mechanism, using the given username and the given password.
      * <p>
@@ -61,7 +61,7 @@ public class ExtendedPOP3Client extends POP3SClient
      *      failed to use the given password.
      * @throws InvalidKeySpecException If the CRAM hash algorithm
      *      failed to use the given password.
-     ***/
+     */
     public boolean auth(final AUTH_METHOD method,
                         final String username, final String password)
                         throws IOException, NoSuchAlgorithmException,

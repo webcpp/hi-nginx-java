@@ -446,7 +446,7 @@ public class IMAPClient extends IMAP
         /** The unique identifier validity value of the mailbox. */
         UIDVALIDITY,
         /** The number of messages which do not have the \Seen flag set. */
-        UNSEEN;
+        UNSEEN
     }
 
     /**
@@ -464,7 +464,7 @@ public class IMAPClient extends IMAP
          */
         BCC,
         /**
-         * Messages whose internal date (disregarding time and timezone)
+         * Messages whose internal date (disregarding time and time zone)
          * is earlier than the specified date.
          */
         BEFORE,
@@ -519,7 +519,7 @@ public class IMAPClient extends IMAP
          */
         OLD,
         /**
-         * Messages whose internal date (disregarding time and timezone)
+         * Messages whose internal date (disregarding time and time zone)
          * is within the specified date.
          */
         ON,
@@ -531,21 +531,21 @@ public class IMAPClient extends IMAP
         SEEN,
         /**
          * Messages whose [RFC-2822] Date: header (disregarding time and
-         * timezone) is earlier than the specified date.
+         * time zone) is earlier than the specified date.
          */
         SENTBEFORE,
         /**
          * Messages whose [RFC-2822] Date: header (disregarding time and
-         * timezone) is within the specified date.
+         * time zone) is within the specified date.
          */
         SENTON,
         /**
          * Messages whose [RFC-2822] Date: header (disregarding time and
-         * timezone) is within or later than the specified date.
+         * time zone) is within or later than the specified date.
          */
         SENTSINCE,
         /**
-         * Messages whose internal date (disregarding time and timezone)
+         * Messages whose internal date (disregarding time and time zone)
          * is within or later than the specified date.
          */
         SINCE,
@@ -585,7 +585,7 @@ public class IMAPClient extends IMAP
         /** Messages that do not have the specified keyword flag set. */
         UNKEYWORD,
         /** Messages that do not have the \Seen flag set. */
-        UNSEEN;
+        UNSEEN
     }
 
     /**
@@ -612,7 +612,7 @@ public class IMAPClient extends IMAP
         /** A prefix for RFC-822 item names. */
         RFC822,
         /** The unique identifier for the message. */
-        UID;
+        UID
     }
 
 }

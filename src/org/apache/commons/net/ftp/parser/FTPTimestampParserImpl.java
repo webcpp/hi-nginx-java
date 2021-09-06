@@ -51,7 +51,7 @@ public class FTPTimestampParserImpl implements
     /* The index in CALENDAR_UNITS of the smallest time unit in recentDateFormat */
     private int recentDateSmallestUnitIndex;
 
-    private boolean lenientFutureDates = false;
+    private boolean lenientFutureDates;
 
     /*
      * List of units in order of increasing significance.
@@ -326,7 +326,7 @@ public class FTPTimestampParserImpl implements
     /**
      * sets a TimeZone represented by the supplied ID string into all
      * of the parsers used by this server.
-     * @param serverTimeZone Time Id java.util.TimeZone id used by
+     * @param serverTimeZoneId Time Id java.util.TimeZone id used by
      * the ftp server.  If null the client's local time zone is assumed.
      */
     private void setServerTimeZone(final String serverTimeZoneId) {
