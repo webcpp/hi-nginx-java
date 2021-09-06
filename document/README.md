@@ -26,6 +26,7 @@ hi-nginx-java包含的servlet定义非常“轻”，其核心API只使用java�
   - collections
   - collections4
   - dbutils
+  - mail
   - io
   - lang3
   - math3
@@ -33,6 +34,9 @@ hi-nginx-java包含的servlet定义非常“轻”，其核心API只使用java�
   - rng
   - text
   - beanutils
+- jakarta
+  - activation
+  - mail
 - google
   - gson
 - FasterXML

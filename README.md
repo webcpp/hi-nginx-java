@@ -24,6 +24,7 @@ a java web framework for hi-nginx:
   - collections
   - collections4
   - dbutils
+  - mail
   - io
   - lang3
   - math3
@@ -31,6 +32,9 @@ a java web framework for hi-nginx:
   - rng
   - text
   - beanutils
+- jakarta
+  - activation
+  - mail
 - google
   - gson
 - FasterXML
