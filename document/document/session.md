@@ -7,9 +7,9 @@
     userid_name SESSIONID;
     userid_domain localhost;
     userid_path /;
+    userid_expires 5m;
     hi_need_cookies on;
     hi_need_session on;
-    hi_session_expires 5m;
 ```
 
 特别要注意的是，`userid_name`必须是`SESSIONID`。
