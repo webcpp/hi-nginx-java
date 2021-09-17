@@ -76,9 +76,10 @@ import hi.route;
 import java.util.regex.Matcher;
 import java.util.HashMap;
 import java.io.File;
+import java.io.IOException;
+
 import org.apache.commons.io.FileUtils;
 import com.google.gson.Gson;
-
 
 public class upload implements hi.route.run_t {
     public upload() {
@@ -87,24 +88,31 @@ public class upload implements hi.route.run_t {
     public void handler(hi.request req, hi.response res, Matcher m) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         res.set_content_type("application/json");
-        if(req.form.containsKey("myfile")){
+        Gson gson = new Gson();
+        if (req.form.containsKey("myfile")) {
+            File old_file = new File(req.form.get("myfile"));
+            File new_file = new File("html/" + old_file.getName());
             try {
-                FileUtils.moveFile(new File(req.form("myfile")), new File("new path"));
-                res.status =200;
-                map.put("status",true);
+                FileUtils.moveFile(old_file, new_file);
+                res.status = 200;
+                map.put("status", true);
+                map.put("old_file", old_file.getPath());
+                map.put("new_file", new_file.getPath());
                 res.content = gson.toJson(map);
             } catch (IOException e) {
                 res.status = 400;
-                map.put("status",false);
-                map.put("message",e.getMessage());
+                map.put("status", false);
+                map.put("message", e.getMessage());
+                old_file.delete();
                 res.content = gson.toJson(map);
             }
-        }else{
-            res.stauts = 400;
-            map.put("status",false);
+        } else {
+            res.status = 400;
+            map.put("status", false);
+            map.put("message", "upload failed.");
             res.content = gson.toJson(map);
         }
-        
+
     }
 }
 
