@@ -5,11 +5,11 @@
 例如：
 ```html
 
-<form action="/test/form.java" method="get">
-    Name:   <input type="text" name="name"><br>
-    E-mail: <input type="text" name="email"><br>
-            <input type="submit">
-</form> 
+    <form action="/test/form.java" method="post">
+        Name: <input type="text" name="name"><br />
+        E-mail: <input type="text" name="email"><br />
+        <input type="submit" />
+    </form> 
 ```
 
 
@@ -31,24 +31,24 @@ public class form implements hi.route.run_t {
     public void handler(hi.request req, hi.response res, Matcher m) {
         res.set_content_type("application/json");
         HashMap<String, Object> map = new HashMap<String, Object>();
-        if(req.form.containsKey("name") && req.form.containsKey("email")){
+        Gson gson = new Gson();
+        if (req.form.containsKey("name") && req.form.containsKey("email")) {
             res.status = 200;
-            map.put("name",req.form.get("name"));
-            map.put("email",req.form.get("email"));
-            map.put("status",true)
+            map.put("name", req.form.get("name"));
+            map.put("email", req.form.get("email"));
+            map.put("status", true);
             res.content = gson.toJson(map);
-        }else{
+        } else {
             res.status = 400;
-            map.put("status",false);
+            map.put("status", false);
             res.content = gson.toJson(map);
         }
-        
+
     }
 }
-
 ```
 
-此例对普通的POST表单提交同样有效。
+此例对普通的GET表单提交同样有效。
 
 
 
