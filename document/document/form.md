@@ -41,6 +41,7 @@ public class form implements hi.route.run_t {
         } else {
             res.status = 400;
             map.put("status", false);
+            map.put("message", "Not Found.");
             res.content = gson.toJson(map);
         }
 
