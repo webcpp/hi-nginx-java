@@ -2,7 +2,7 @@
 
 ## jdk
 
-从[http://jdk.java.net/](http://jdk.java.net/)下载需要的openjdk，java 8+ 版本。不要怕版本高，较高版本的jdk一般不仅能提供更好的语言特性，减少bug，还能提高运行性能。
+从[http://jdk.java.net/](http://jdk.java.net/)下载需要的openjdk，至少java 8 版本，推荐 java 11+。不要怕版本高，较高版本的jdk一般不仅能提供更好的语言特性，减少bug，还能提高运行性能。
 
 解压缩下载的安装包。将解压出来的文件目录整个移动至`/usr/lib/jvm/`目录下。
 
