@@ -42,10 +42,12 @@ public class website {
 ```
 再定义数据源:
 ```java
+
 package website;
 
 import java.sql.SQLException;
 import com.alibaba.druid.pool.DruidDataSource;
+import com.typesafe.config.Config;
 
 public class db_help {
     private static DruidDataSource ds = null;
@@ -65,18 +67,20 @@ public class db_help {
             return db_help.ds;
         }
         db_help.ds = new DruidDataSource();
-        db_help.ds.setUrl(hi.route.get_instance().get_config().getString("mariadb.url"));
-        db_help.ds.setUsername(hi.route.get_instance().get_config().getString("mariadb.username"));
-        db_help.ds.setPassword(hi.route.get_instance().get_config().getString("mariadb.password"));
+        Config cf = hi.route.get_instance().get_config();
+        db_help.ds.setUrl(cf.getString("mariadb.url"));
+        db_help.ds.setUsername(cf.getString("mariadb.username"));
+        db_help.ds.setPassword(cf.getString("mariadb.password"));
 
-        db_help.ds.setInitialSize(hi.route.get_instance().get_config().getInt("druid.initialSize"));
-        db_help.ds.setMaxActive(hi.route.get_instance().get_config().getInt("druid.maxActive"));
-        db_help.ds.setMaxWait(hi.route.get_instance().get_config().getLong("druid.maxWait"));
-        db_help.ds.setMinIdle(hi.route.get_instance().get_config().getInt("druid.minIdle"));
-        db_help.ds.setValidationQuery(hi.route.get_instance().get_config().getString("druid.validationQuery"));
-        db_help.ds.setTestWhileIdle(hi.route.get_instance().get_config().getBoolean("druid.testWhileIdle"));
-        db_help.ds.setTestOnBorrow(hi.route.get_instance().get_config().getBoolean("druid.testOnBorrow"));
-        db_help.ds.setTestOnReturn(hi.route.get_instance().get_config().getBoolean("druid.testOnReturn"));
+        db_help.ds.setInitialSize(cf.getInt("druid.initialSize"));
+        db_help.ds.setMaxActive(cf.getInt("druid.maxActive"));
+        db_help.ds.setMaxWait(cf.getLong("druid.maxWait"));
+        db_help.ds.setMinIdle(cf.getInt("druid.minIdle"));
+        db_help.ds.setValidationQuery(cf.getString("druid.validationQuery"));
+        db_help.ds.setTestWhileIdle(cf.getBoolean("druid.testWhileIdle"));
+        db_help.ds.setTestOnBorrow(cf.getBoolean("druid.testOnBorrow"));
+        db_help.ds.setTestOnReturn(cf.getBoolean("druid.testOnReturn"));
+
         return db_help.ds;
     }
 }
