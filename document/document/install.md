@@ -56,7 +56,7 @@ export PATH=$JAVA_HOME/bin:$PATH
 
 ```nginx
     hi_java_classpath "-Djava.class.path=.:/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/app.jar";
-    hi_java_options "-server -d64 -Dconfig.file=java/application.conf -Dnashorn.args=--global-per-engine";
+    hi_java_options "-server -d64 -Dconfig.file=java/application.conf";
     hi_java_servlet_cache_expires 1h;
     hi_java_servlet_cache_size 1024;
     hi_java_version 11;
@@ -84,3 +84,6 @@ export PATH=$JAVA_HOME/bin:$PATH
 - 配置`/usr/local/nginx/conf/nginx.conf`，添加`env CLASSPATH`指令。
 
 如此，`hi_java_classpath`指令无需修改，所有依赖配置变化都通过`env.conf`文件修改实现。只需`reload`或者`restart`即可重新加载全新配置。
+
+### 启用环境变量配置JVM参数
+对于JVM调优需求，除了`hi_java_options`指令之外，还可以通过环境变量`JVMOPTIONS`来配置，方法是在`/usr/local/nginx/conf/env.conf`中添加新一行：`JVMOPTINS=***`，例如`JVMOPTIONS=-Xms1024m -Xmx1024m`，然后添加`env JVMOPTIONS`指令。`reload`或者`restart`即可重新加载全新配置。
