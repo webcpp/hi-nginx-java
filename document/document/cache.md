@@ -93,15 +93,17 @@ import org.apache.commons.codec.digest.DigestUtils;
                         QueryRunner qr = new QueryRunner(db_help.get_instance().get_data_source());
 
                         List<website> result = qr.query(sql, new BeanListHandler<website>(website.class), params);
-                        StringBuffer content = new StringBuffer();
+                        if(result.isEmpty()){
+                            StringBuffer content = new StringBuffer();
 
-                        for (website item : result) {
-                            content.append(String.format("id = %s\tname = %s\turl = %s\n", item.getId(), item.getName(),item.getUrl()));
+                            for (website item : result) {
+                                content.append(String.format("id = %s\tname = %s\turl = %s\n", item.getId(), item.getName(),item.getUrl()));
+                            }
+
+                            res.content = content.toString();
+                            res.status = 200;
+                            res.cache.put(cache_k, res.content);
                         }
-
-                        res.content = content.toString();
-                        res.status = 200;
-                        res.cache.put(cache_k, res.content);
                     } catch (SQLException e) {
                         res.content = e.getMessage();
                         res.status = 500;

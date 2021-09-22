@@ -161,15 +161,18 @@ public class list implements hi.route.run_t {
                 QueryRunner qr = new QueryRunner(db_help.get_instance().get_data_source());
 
                 List<website> result = qr.query(sql, new BeanListHandler<website>(website.class), params);
-                StringBuffer content = new StringBuffer();
 
-                for (website item : result) {
-                    content.append(String.format("id = %s\tname = %s\turl = %s\n", item.getId(), item.getName(),
-                            item.getUrl()));
+                if (!result.isEmpty()) {
+                    StringBuffer content = new StringBuffer();
+
+                    for (website item : result) {
+                        content.append(String.format("id = %s\tname = %s\turl = %s\n", item.getId(), item.getName(),
+                                item.getUrl()));
+                    }
+
+                    res.content = content.toString();
+                    res.status = 200;
                 }
-
-                res.content = content.toString();
-                res.status = 200;
             } catch (SQLException e) {
                 res.content = e.getMessage();
                 res.status = 500;
@@ -196,6 +199,7 @@ import java.sql.SQLException;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import website.website;
 import website.db_help;
@@ -210,28 +214,31 @@ public class info implements hi.route.run_t {
             Object[] params = new Object[1];
             if (req.form.containsKey("id")) {
                 params[0] = Integer.valueOf(req.form.get("id")).intValue();
-                res.set_content_type("text/plain;charset=UTF-8");
                 try {
                     QueryRunner qr = new QueryRunner(db_help.get_instance().get_data_source());
 
                     List<website> result = qr.query(sql, new BeanListHandler<website>(website.class), params);
-                    StringBuffer content = new StringBuffer();
+                    if (!result.isEmpty()) {
 
-                    for (website item : result) {
-                        content.append(String.format("id = %s\tname = %s\turl = %s\n", item.getId(), item.getName(),
-                                item.getUrl()));
+                        StringBuffer content = new StringBuffer();
+
+                        for (website item : result) {
+                            content.append(String.format("id = %s\tname = %s\turl = %s\n", item.getId(), item.getName(),
+                                    item.getUrl()));
+                        }
+
+                        res.content = content.toString();
+                        res.status = 200;
                     }
-                    res.content = content.toString();
-                    res.status = 200;
                 } catch (SQLException e) {
                     res.content = e.getMessage();
                     res.status = 500;
                 }
             }
+
         }
     }
 }
-
 
 
 ```
