@@ -55,8 +55,8 @@ export PATH=$JAVA_HOME/bin:$PATH
 编辑`/usr/local/nginx/conf/nginx.conf`，添加以下配置：
 
 ```nginx
-    hi_java_classpath "-Dconfig.file=java/application.conf -Djava.class.path=.:/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/app.jar";
-    hi_java_options "-server -d64";
+    hi_java_classpath "-Djava.class.path=.:/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/app.jar";
+    hi_java_options "-server -d64 -Dconfig.file=java/application.conf";
     hi_java_servlet_cache_expires 1h;
     hi_java_servlet_cache_size 1024;
     hi_java_version 11;
