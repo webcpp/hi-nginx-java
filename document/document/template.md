@@ -111,7 +111,7 @@ public class filetemplate implements hi.route.run_t {
 
 ```nginx
     
-hi_java_classpath "-Djava.class.path=.:/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/freemarker.jar";
+hi_java_classpath "-Djava.class.path=.:/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/freemarker.jar:/usr/local/nginx/java/app.jar";
 
 ```
 开发时,正常导入该库即可。

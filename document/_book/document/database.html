@@ -325,7 +325,7 @@ export CLASSPATH=/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/
 </code></pre>
 <p>&#x8FD0;&#x884C;<code>source /etc/profile</code>&#x66F4;&#x65B0;&#x73AF;&#x5883;<code>CLASSPATH</code>&#x3002;</p>
 <p>&#x4FEE;&#x6539;<code>/usr/local/nginx/conf/nginx.conf</code>:</p>
-<pre><code class="lang-nginx"><span class="hljs-attribute">hi_java_classpath</span> <span class="hljs-string">&quot;-Djava.class.path=.:/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/app.jar:/usr/local/nginx/java/mariadb-java-client-2.7.1.jar&quot;</span>
+<pre><code class="lang-nginx"><span class="hljs-attribute">hi_java_classpath</span> <span class="hljs-string">&quot;-Djava.class.path=.:/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/mariadb-java-client-2.7.1.jar:/usr/local/nginx/java/app.jar&quot;</span>
 </code></pre>
 <p>&#x5047;&#x8BBE;&#x6709;&#x4E00;&#x4E2A;<code>testdb</code>&#xFF0C;&#x5176;&#x4E2D;&#x6709;&#x4E00;&#x5F20;&#x8868;:</p>
 <pre><code class="lang-sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`websites`</span> (
@@ -465,7 +465,7 @@ export CLASSPATH=/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/
 <pre><code class="lang-shell">export CLASSPATH=/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/mysql-connector-java-8.0.22.jar
 </code></pre>
 <p>&#x4FEE;&#x6539;hi-nginx&#x914D;&#x7F6E;:</p>
-<pre><code class="lang-nginx"><span class="hljs-attribute">hi_java_classpath</span> <span class="hljs-string">&quot;-Djava.class.path=.:/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/app.jar:/usr/local/nginx/java/mysql-connector-java-8.0.22.jar&quot;</span>
+<pre><code class="lang-nginx"><span class="hljs-attribute">hi_java_classpath</span> <span class="hljs-string">&quot;-Djava.class.path=.:/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/mysql-connector-java-8.0.22.jar:/usr/local/nginx/java/app.jar&quot;</span>
 </code></pre>
 <p>&#x6DFB;&#x52A0;mysql&#x914D;&#x7F6E;&#x81F3;<code>application.conf</code>&#x4E2D;:</p>
 <pre><code class="lang-txt">mysql {
@@ -504,7 +504,10 @@ export CLASSPATH=/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/
     }
 </code></pre>
 <h2 id="druid-&#x8FDE;&#x63A5;&#x6C60;">Druid &#x8FDE;&#x63A5;&#x6C60;</h2>
-<p>&#x6DFB;&#x52A0;<a href="https://repo1.maven.org/maven2/com/alibaba/druid/1.2.3/druid-1.2.3.jar" target="_blank">druid</a>&#x5E93;&#x53CA;&#x5176;hi-nginx&#x914D;&#x7F6E;&#x4E4B;&#x540E;&#xFF0C;&#x4FEE;&#x6539;<code>db_help</code>&#x5982;&#x4E0B;:</p>
+<p>&#x6DFB;&#x52A0;<a href="https://repo1.maven.org/maven2/com/alibaba/druid/1.2.3/druid-1.2.3.jar" target="_blank">druid</a>&#x5E93;&#x53CA;&#x5176;hi-nginx&#x914D;&#x7F6E;:</p>
+<pre><code class="lang-nginx"><span class="hljs-attribute">hi_java_classpath</span> <span class="hljs-string">&quot;-Djava.class.path=.:/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/mysql-connector-java-8.0.22.jar:/usr/local/nginx/java/druid-1.2.3.jar:/usr/local/nginx/java/app.jar&quot;</span>
+</code></pre>
+<p>&#x4E4B;&#x540E;&#xFF0C;&#x4FEE;&#x6539;<code>db_help</code>&#x5982;&#x4E0B;:</p>
 <pre><code class="lang-java"><span class="hljs-keyword">import</span> com.alibaba.druid.pool.DruidDataSource;
 </code></pre>
 <pre><code class="lang-java">
@@ -656,7 +659,7 @@ export CLASSPATH=/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"数据库","level":"1.8","depth":1,"next":{"title":"面向服务","level":"1.9","depth":1,"path":"document/service.md","ref":"document/service.md","articles":[]},"previous":{"title":"模板引擎","level":"1.7","depth":1,"path":"document/template.md","ref":"document/template.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/database.md","mtime":"2020-12-26T12:02:30.421Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-09-23T23:30:51.413Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"数据库","level":"1.8","depth":1,"next":{"title":"面向服务","level":"1.9","depth":1,"path":"document/service.md","ref":"document/service.md","articles":[]},"previous":{"title":"模板引擎","level":"1.7","depth":1,"path":"document/template.md","ref":"document/template.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/database.md","mtime":"2021-09-25T23:30:25.720Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-09-25T23:30:59.456Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

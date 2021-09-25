@@ -16,7 +16,7 @@ export CLASSPATH=/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/
 
 修改`/usr/local/nginx/conf/nginx.conf`:
 ```nginx
-hi_java_classpath "-Djava.class.path=.:/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/app.jar:/usr/local/nginx/java/mariadb-java-client-2.7.1.jar"
+hi_java_classpath "-Djava.class.path=.:/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/mariadb-java-client-2.7.1.jar:/usr/local/nginx/java/app.jar"
 
 ```
 
@@ -178,7 +178,7 @@ export CLASSPATH=/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/
 ```
 修改hi-nginx配置:
 ```nginx
-hi_java_classpath "-Djava.class.path=.:/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/app.jar:/usr/local/nginx/java/mysql-connector-java-8.0.22.jar"
+hi_java_classpath "-Djava.class.path=.:/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/mysql-connector-java-8.0.22.jar:/usr/local/nginx/java/app.jar"
 ```
 
 添加mysql配置至`application.conf`中:
@@ -224,7 +224,13 @@ import com.mysql.cj.jdbc.MysqlConnectionPoolDataSource;
 ```
 
 ## Druid 连接池
-添加[druid](https://repo1.maven.org/maven2/com/alibaba/druid/1.2.3/druid-1.2.3.jar)库及其hi-nginx配置之后，修改`db_help`如下:
+添加[druid](https://repo1.maven.org/maven2/com/alibaba/druid/1.2.3/druid-1.2.3.jar)库及其hi-nginx配置:
+
+```nginx
+hi_java_classpath "-Djava.class.path=.:/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/mysql-connector-java-8.0.22.jar:/usr/local/nginx/java/druid-1.2.3.jar:/usr/local/nginx/java/app.jar"
+
+```
+之后，修改`db_help`如下:
 ```java
 import com.alibaba.druid.pool.DruidDataSource;
 ```
