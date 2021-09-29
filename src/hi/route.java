@@ -178,7 +178,8 @@ public class route {
     }
 
     private void update_reflect_map(reflect_t ref, request req, response res, Matcher mt) {
-        String class_name = req.uri.substring(1);
+        int p = req.uri.lastIndexOf('.');
+        String class_name = ( p==-1 ? req.uri.substring(1): req.uri.substring(1,p));
         if (class_name.endsWith("/")) {
             class_name = class_name.substring(0, class_name.length() - 1);
         }
