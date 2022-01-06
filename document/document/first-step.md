@@ -5,13 +5,18 @@
 hi-nginx-java内置一个默认的控制器`hi.controller`,hi-nginx配置为:
 
 ```nginx
-    location ~ \.java {
-            rewrite ^/(.*)\.java$ /$1 break;
-            hi_java_servlet hi/controller; 
-    }
+location ~ \.jdp {
+    java_load;
+    java_class_path "-Djava.class.path=.:/usr/local/nginx/app/java:/usr/local/nginx/app/java/hi-nginx-java.jar:/usr/local/nginx/app/java/mariadb-java-client-2.7.4.jar:/usr/local/nginx/app/java/mysql-connector-java-8.0.26.jar:/usr/local/nginx/app/java/druid-1.2.6.jar:/usr/local/nginx/app/java/demo.jar";
+    java_options "-server -d64  -Dconfig.file=/usr/local/nginx/app/java/application.conf";
+    java_servlet "hi/controller";
+    java_uri_pattern ".*\.jdp$";
+    java_expires 1m;
+    java_version 11;    
+}
 
 ```
-通过该控制器，访问`http://localhost/hi/test.java`,即可使用hi-nginx-java内置的测试服务`hi.test`:
+通过该控制器，访问`http://localhost/hi/test.jdp`,即可使用hi-nginx-java内置的测试服务`hi.test`:
 ```java
 package hi;
 
@@ -81,10 +86,8 @@ public class controller implements hi.servlet{
 
 然后配置hi-nginx:
 ```nginx
-    location ~ \.java {
-            rewrite ^/(.*)\.java$ /$1 break;
-            hi_java_servlet mytest/controller; 
-    }
+
+    java_servlet mytest/controller;
 
 ```
 
