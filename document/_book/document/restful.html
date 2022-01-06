@@ -333,35 +333,35 @@
 <td>GET</td>
 <td>/website</td>
 <td>&#x67E5;&#x8BE2;&#x8BB0;&#x5F55;&#x5217;&#x8868;</td>
-<td>/website/list.java</td>
+<td>/website/list.jdp</td>
 <td>GET</td>
 </tr>
 <tr>
 <td>POST</td>
 <td>/website</td>
 <td>&#x521B;&#x5EFA;&#x4E00;&#x6761;&#x8BB0;&#x5F55;</td>
-<td>/website/insert.java</td>
+<td>/website/insert.jdp</td>
 <td>POST</td>
 </tr>
 <tr>
 <td>GET</td>
 <td>/website/id</td>
 <td>&#x6839;&#x636E;id&#x67E5;&#x8BE2;&#x8BB0;&#x5F55;</td>
-<td>/website/info.java</td>
+<td>/website/info.jdp</td>
 <td>GET</td>
 </tr>
 <tr>
 <td>PUT</td>
 <td>/website/id</td>
 <td>&#x6839;&#x636E;id&#x66F4;&#x65B0;&#x8BB0;&#x5F55;</td>
-<td>/website/update.java</td>
+<td>/website/update.jdp</td>
 <td>POST</td>
 </tr>
 <tr>
 <td>DELETE</td>
 <td>/website/id</td>
 <td>&#x6839;&#x636E;id&#x5220;&#x9664;&#x8BB0;&#x5F55;</td>
-<td>/website/delete.java</td>
+<td>/website/delete.jdp</td>
 <td>POST</td>
 </tr>
 </tbody>
@@ -584,9 +584,8 @@
 }
 </code></pre>
 <p>&#x6DFB;&#x52A0;hi-nginx&#x914D;&#x7F6E;&#x5373;&#x53EF;:</p>
-<pre><code class="lang-nginx">    <span class="hljs-attribute">location</span><span class="hljs-regexp"> ^~</span> /website {
-        <span class="hljs-attribute">hi_java_servlet</span> website/restful;
-    }
+<pre><code class="lang-nginx">
+<span class="hljs-attribute">java_servlet</span> website/restful;
 </code></pre>
 <h2 id="&#x9898;&#x5916;&#x8BDD;">&#x9898;&#x5916;&#x8BDD;</h2>
 <p>&#x5BF9;hi-nginx-java&#x800C;&#x8A00;&#xFF0C;restful&#x98CE;&#x683C;&#x53EA;&#x662F;&#x4E00;&#x79CD;&#x5199;&#x4F5C;&#x98CE;&#x683C;&#xFF0C;&#x5BF9;&#x4E8E;&#x5B9E;&#x9645;&#x4E1A;&#x52A1;&#x800C;&#x8A00;&#xFF0C;&#x5B83;&#x65E2;&#x4E0D;&#x589E;&#x52A0;&#x4E5F;&#x4E0D;&#x51CF;&#x5C11;&#x3002;</p>
@@ -633,7 +632,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"RESTful风格","level":"1.10","depth":1,"next":{"title":"缓存加速","level":"1.11","depth":1,"path":"document/cache.md","ref":"document/cache.md","articles":[]},"previous":{"title":"面向服务","level":"1.9","depth":1,"path":"document/service.md","ref":"document/service.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/restful.md","mtime":"2020-12-26T12:02:30.421Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2022-01-06T03:36:14.091Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"RESTful风格","level":"1.10","depth":1,"next":{"title":"缓存加速","level":"1.11","depth":1,"path":"document/cache.md","ref":"document/cache.md","articles":[]},"previous":{"title":"面向服务","level":"1.9","depth":1,"path":"document/service.md","ref":"document/service.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/restful.md","mtime":"2022-01-06T03:57:33.408Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2022-01-06T04:06:33.459Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

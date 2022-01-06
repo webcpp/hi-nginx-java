@@ -317,7 +317,7 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="&#x6A21;&#x677F;&#x5F15;&#x64CE;">&#x6A21;&#x677F;&#x5F15;&#x64CE;</h1>
-<p>hi-nginx-java&#x5185;&#x7F6E;&#x4E86;&#x4E24;&#x4E2A;mustache&#x6A21;&#x677F;&#x5F15;&#x64CE;&#xFF1A;<a href="https://github.com/spullara/mustache.java" target="_blank">mustache.java</a>&#x548C;<a href="http://github.com/samskivert/jmustache" target="_blank">jmustache</a>&#x3002;</p>
+<p>hi-nginx-java&#x5185;&#x7F6E;&#x4E86;&#x4E24;&#x4E2A;mustache&#x6A21;&#x677F;&#x5F15;&#x64CE;&#xFF1A;<a href="https://github.com/spullara/mustache.jdp" target="_blank">mustache.jdp</a>&#x548C;<a href="http://github.com/samskivert/jmustache" target="_blank">jmustache</a>&#x3002;</p>
 <p>&#x4EE5;&#x4E0B;&#x4ECB;&#x7ECD;&#x4EC5;&#x5C31;<a href="http://github.com/samskivert/jmustache" target="_blank">jmustache</a>&#x800C;&#x8A00;&#x3002;</p>
 <h2 id="&#x5B57;&#x7B26;&#x4E32;&#x6A21;&#x677F;">&#x5B57;&#x7B26;&#x4E32;&#x6A21;&#x677F;</h2>
 <p>&#x5B57;&#x7B26;&#x4E32;&#x6A21;&#x677F;&#x662F;&#x6700;&#x7B80;&#x5355;&#x7684;&#x60C5;&#x51B5;&#x3002;&#x4F8B;&#x5982;:</p>
@@ -347,10 +347,10 @@
     }
 }
 </code></pre>
-<p>&#x8BBF;&#x95EE;<code>http://localhost/test/stringtemplate.java</code>&#x5373;&#x53EF;&#x83B7;&#x5F97;&#x670D;&#x52A1;&#x3002;</p>
+<p>&#x8BBF;&#x95EE;<code>http://localhost/test/stringtemplate.jdp</code>&#x5373;&#x53EF;&#x83B7;&#x5F97;&#x670D;&#x52A1;&#x3002;</p>
 <h2 id="&#x6587;&#x4EF6;&#x6A21;&#x677F;">&#x6587;&#x4EF6;&#x6A21;&#x677F;</h2>
 <p>&#x5B57;&#x7B26;&#x4E32;&#x6A21;&#x677F;&#x6E32;&#x67D3;&#x662F;&#x4E0D;&#x591A;&#x89C1;&#x7684;&#x3002;&#x5E38;&#x89C1;&#x7684;&#x662F;&#x6587;&#x4EF6;&#x6A21;&#x677F;&#x6E32;&#x67D3;&#x3002;</p>
-<p>&#x4F8B;&#x5982;&#xFF0C;&#x521B;&#x5EFA;&#x76EE;&#x5F55;<code>/usr/local/nginx/java/templates</code>&#xFF0C;&#x7528;&#x6765;&#x4FDD;&#x5B58;&#x6A21;&#x677F;&#x6587;&#x4EF6;&#x3002;&#x5728;&#x91CC;&#x9762;&#x521B;&#x5EFA;&#x4E24;&#x4E2A;&#x6A21;&#x677F;&#x6587;&#x4EF6;<code>main.mustache</code>:</p>
+<p>&#x4F8B;&#x5982;&#xFF0C;&#x521B;&#x5EFA;&#x76EE;&#x5F55;<code>/usr/local/nginx/app/java/templates</code>&#xFF0C;&#x7528;&#x6765;&#x4FDD;&#x5B58;&#x6A21;&#x677F;&#x6587;&#x4EF6;&#x3002;&#x5728;&#x91CC;&#x9762;&#x521B;&#x5EFA;&#x4E24;&#x4E2A;&#x6A21;&#x677F;&#x6587;&#x4EF6;<code>main.mustache</code>:</p>
 <pre><code class="lang-txt">
 {{title}}
 {{&gt;sub.mustache}}
@@ -360,7 +360,7 @@
 {{name}}: {{age}}
 {{/persons}}
 </code></pre>
-<p>&#x7136;&#x540E;&#x7F16;&#x5199;&#x670D;&#x52A1;<code>http://localhost/test/filetemplate.java</code>:</p>
+<p>&#x7136;&#x540E;&#x7F16;&#x5199;&#x670D;&#x52A1;<code>http://localhost/test/filetemplate.jdp</code>:</p>
 <pre><code class="lang-java"><span class="hljs-keyword">package</span> test;
 
 <span class="hljs-keyword">import</span> hi.request;
@@ -407,7 +407,7 @@
 <h1 id="&#x5176;&#x4ED6;&#x5F15;&#x64CE;">&#x5176;&#x4ED6;&#x5F15;&#x64CE;</h1>
 <p>&#x53EF;&#x7528;&#x4E8E;java web&#x5F00;&#x53D1;&#x7684;&#x6A21;&#x677F;&#x5F15;&#x64CE;&#x592A;&#x591A;&#x4E86;&#xFF0C;&#x5E38;&#x89C1;&#x4E14;&#x5E7F;&#x53D7;&#x597D;&#x8BC4;&#x7684;&#x662F;freemarker&#x3002;&#x5982;&#x679C;&#x60F3;&#x7528;freemarker,&#x5F00;&#x53D1;&#x8005;&#x53EF;&#x4EE5;&#x81EA;&#x884C;&#x6DFB;&#x52A0;hi-nginx&#x914D;&#x7F6E;&#xFF0C;&#x6BD4;&#x5982;:</p>
 <pre><code class="lang-nginx">
-<span class="hljs-attribute">hi_java_classpath</span> <span class="hljs-string">&quot;-Djava.class.path=.:/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/freemarker.jar:/usr/local/nginx/java/app.jar&quot;</span>;
+<span class="hljs-attribute">java_class_path</span> <span class="hljs-string">&quot;-Djava.class.path=.:/usr/local/nginx/app/java:/usr/local/nginx/app/java/hi-nginx-java.jar:/usr/local/nginx/app/java/freemarker.jar:/usr/local/nginx/app/java/app.jar&quot;</span>;
 </code></pre>
 <p>&#x5F00;&#x53D1;&#x65F6;,&#x6B63;&#x5E38;&#x5BFC;&#x5165;&#x8BE5;&#x5E93;&#x5373;&#x53EF;&#x3002;</p>
 
@@ -453,7 +453,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"模板引擎","level":"1.7","depth":1,"next":{"title":"数据库","level":"1.8","depth":1,"path":"document/database.md","ref":"document/database.md","articles":[]},"previous":{"title":"会话","level":"1.6","depth":1,"path":"document/session.md","ref":"document/session.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/template.md","mtime":"2021-09-25T23:24:05.557Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2022-01-06T03:36:14.091Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"模板引擎","level":"1.7","depth":1,"next":{"title":"数据库","level":"1.8","depth":1,"path":"document/database.md","ref":"document/database.md","articles":[]},"previous":{"title":"会话","level":"1.6","depth":1,"path":"document/session.md","ref":"document/session.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/template.md","mtime":"2022-01-06T04:05:14.237Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2022-01-06T04:06:33.459Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

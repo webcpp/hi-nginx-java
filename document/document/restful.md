@@ -4,11 +4,11 @@
 
 | 方法   | restful url | 功能           | 原 url               | 原方法 |
 | ------ | ----------- | -------------- | -------------------- | ------ |
-| GET    | /website    | 查询记录列表   | /website/list.java   | GET    |
-| POST   | /website    | 创建一条记录   | /website/insert.java | POST   |
-| GET    | /website/id | 根据id查询记录 | /website/info.java   | GET    |
-| PUT    | /website/id | 根据id更新记录 | /website/update.java | POST   |
-| DELETE | /website/id | 根据id删除记录 | /website/delete.java | POST   |
+| GET    | /website    | 查询记录列表   | /website/list.jdp   | GET    |
+| POST   | /website    | 创建一条记录   | /website/insert.jdp | POST   |
+| GET    | /website/id | 根据id查询记录 | /website/info.jdp   | GET    |
+| PUT    | /website/id | 根据id更新记录 | /website/update.jdp | POST   |
+| DELETE | /website/id | 根据id删除记录 | /website/delete.jdp | POST   |
 ```java
 package website;
 
@@ -234,9 +234,9 @@ public class restful_init {
 
 添加hi-nginx配置即可:
 ```nginx
-    location ^~ /website {
-        hi_java_servlet website/restful;
-    }
+
+java_servlet website/restful;
+
 
 ```
 

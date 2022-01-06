@@ -1,6 +1,6 @@
 # 模板引擎
 
-hi-nginx-java内置了两个mustache模板引擎：[mustache.java](https://github.com/spullara/mustache.java)和[jmustache](http://github.com/samskivert/jmustache)。
+hi-nginx-java内置了两个mustache模板引擎：[mustache.jdp](https://github.com/spullara/mustache.jdp)和[jmustache](http://github.com/samskivert/jmustache)。
 
 以下介绍仅就[jmustache](http://github.com/samskivert/jmustache)而言。
 
@@ -37,13 +37,13 @@ public class stringtemplate implements hi.route.run_t {
 
 ```
 
-访问`http://localhost/test/stringtemplate.java`即可获得服务。
+访问`http://localhost/test/stringtemplate.jdp`即可获得服务。
 
 ## 文件模板
 
 字符串模板渲染是不多见的。常见的是文件模板渲染。
 
-例如，创建目录`/usr/local/nginx/java/templates`，用来保存模板文件。在里面创建两个模板文件`main.mustache`:
+例如，创建目录`/usr/local/nginx/app/java/templates`，用来保存模板文件。在里面创建两个模板文件`main.mustache`:
 ```txt
 
 {{title}}
@@ -58,7 +58,7 @@ public class stringtemplate implements hi.route.run_t {
 
 ```
 
-然后编写服务`http://localhost/test/filetemplate.java`:
+然后编写服务`http://localhost/test/filetemplate.jdp`:
 
 ```java
 package test;
@@ -111,7 +111,7 @@ public class filetemplate implements hi.route.run_t {
 
 ```nginx
     
-hi_java_classpath "-Djava.class.path=.:/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/freemarker.jar:/usr/local/nginx/java/app.jar";
+java_class_path "-Djava.class.path=.:/usr/local/nginx/app/java:/usr/local/nginx/app/java/hi-nginx-java.jar:/usr/local/nginx/app/java/freemarker.jar:/usr/local/nginx/app/java/app.jar";
 
 ```
 开发时,正常导入该库即可。

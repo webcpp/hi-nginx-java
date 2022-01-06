@@ -91,5 +91,5 @@ public class controller implements hi.servlet{
 
 ```
 
-通过GET方法访问`http://localhost/example1.java`，能使用`do_example1`服务;通过POST方法访问`http://localhost/example2.java`,则能使用`do_example2`服务。此时,`Matcher`参数是有意义的，它意味着正则匹配URI得到的`group`。
+通过GET方法访问`http://localhost/example1.jdp`，能使用`do_example1`服务;通过POST方法访问`http://localhost/example2.jdp`,则能使用`do_example2`服务。此时,`Matcher`参数是有意义的，它意味着正则匹配URI得到的`group`。
 

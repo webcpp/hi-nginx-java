@@ -2,9 +2,9 @@
 
 hi-nginx-java的全局配置系统是通过[config](https://github.com/lightbend/config)组件构造的。关于配置文件的语法和用法，请自行参考该网址的介绍。
 
-运行时配置可通过`hi_java_options`进行全局配置：
+运行时配置可通过`java_options`进行全局配置：
 ```nginx
-hi_java_options "-server -d64 -Dconfig.file=app/java/application.conf";
+java_options "-server -d64 -Dconfig.file=app/java/application.conf";
 ```
 其中的`-Dconfig.file`被用来指定全局配置文件`application.conf`。
 该文件应该至少包含以下元素:

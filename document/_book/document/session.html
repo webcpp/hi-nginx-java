@@ -323,11 +323,8 @@
     <span class="hljs-attribute">userid_domain</span> localhost;
     <span class="hljs-attribute">userid_path</span> /;
     <span class="hljs-attribute">userid_expires</span> <span class="hljs-number">5m</span>;
-    <span class="hljs-attribute">hi_need_cookies</span> <span class="hljs-literal">on</span>;
-    <span class="hljs-attribute">hi_need_session</span> <span class="hljs-literal">on</span>;
 </code></pre>
-<p>&#x7279;&#x522B;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;<code>userid_name</code>&#x5FC5;&#x987B;&#x662F;<code>SESSIONID</code>&#x3002;</p>
-<p><code>hi.request</code>&#x548C;<code>hi.response</code>&#x5747;&#x5305;&#x542B;&#x4E00;&#x4E2A;<code>session</code>&#x53D8;&#x91CF;&#xFF0C;&#x524D;&#x8005;&#x8BFB;&#x53D6;&#x65E7;&#x7684;&#x4F1A;&#x8BDD;&#xFF0C;&#x540E;&#x8005;&#x8D1F;&#x8D23;&#x5199;&#x5165;&#x65B0;&#x7684;&#x4F1A;&#x8BDD;&#x3002;</p>
+<p><code>hi.request</code>&#x5305;&#x62EC;<code>cookies</code>&#x53D8;&#x91CF;&#xFF0C;&#x53EF;&#x8BFB;&#x53D6;&#x65E7;&#x4F1A;&#x8BDD;&#x3002;<code>hi.response</code>&#x5305;&#x542B;&#x4E00;&#x4E2A;<code>set_cookie</code>&#x65B9;&#x6CD5;&#xFF0C;&#x8D1F;&#x8D23;&#x5199;&#x5165;&#x65B0;&#x7684;&#x4F1A;&#x8BDD;&#x3002;</p>
 <p>&#x4F8B;&#x5982;:</p>
 <pre><code class="lang-java">
 <span class="hljs-keyword">package</span> test;
@@ -347,22 +344,17 @@
         res.status = <span class="hljs-number">200</span>;
         String key = <span class="hljs-string">&quot;test&quot;</span>;
         <span class="hljs-keyword">int</span> value = <span class="hljs-number">0</span>;
-        <span class="hljs-keyword">if</span> (req.session.containsKey(key)) {
-            value = Integer.parseInt(req.session.get(key)) + <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">if</span> (req.cookies.containsKey(key)) {
+            value = Integer.parseInt(req.cookies.get(key)) + <span class="hljs-number">1</span>;
         }
-        res.session.put(key, String.valueOf(value));
+        res.set_cookie(key,String.valueOf(value),<span class="hljs-string">&quot;max-age=3; Path=/;&quot;</span>)
         res.content = String.format(<span class="hljs-string">&quot;hello,%d&quot;</span>, value);
         res.status = <span class="hljs-number">200</span>;
 
     }
 }
 </code></pre>
-<p><code>test.session</code>&#x7C7B;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x5BA2;&#x6237;&#x7AEF;&#x8BBF;&#x95EE;&#x8BA1;&#x6570;&#x670D;&#x52A1;&#xFF0C;&#x91CD;&#x590D;&#x8BBF;&#x95EE;<code>http://localhost/test/session.java</code>&#x53EF;&#x770B;&#x5230;&#x8BBF;&#x95EE;&#x6B21;&#x6570;&#x7684;&#x53D8;&#x5316;&#x3002;</p>
-<h2 id="&#x5173;&#x4E8E;-cookie">&#x5173;&#x4E8E; cookie</h2>
-<p>hi-nginx-java&#x7684;&#x4F1A;&#x8BDD;&#x529F;&#x80FD;&#x662F;&#x901A;&#x8FC7;cookie&#x673A;&#x5236;&#x914D;&#x5408;<code>SESSIONID</code>&#x5B8C;&#x6210;&#x7684;&#x3002;&#x4F46;&#x662F;&#x4F1A;&#x8BDD;&#x6570;&#x636E;&#x5E76;&#x4E0D;&#x4FDD;&#x5B58;&#x5728;&#x5BA2;&#x6237;&#x7AEF;&#xFF0C;&#x800C;&#x662F;&#x5728;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x3002;&#x4E14;&#x5728;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#xFF0C;&#x4F1A;&#x8BDD;&#x6570;&#x636E;&#x7531;leveldb&#x5F15;&#x64CE;&#x8D1F;&#x8D23;&#x9AD8;&#x901F;&#x8BFB;&#x5199;&#x3002;&#x5982;&#x679C;&#x8981;&#x4F7F;&#x7528;cookie&#x4FDD;&#x5B58;&#x6570;&#x636E;&#xFF0C;&#x9700;&#x8981;&#x4F7F;&#x7528;<code>hi.response</code>&#x7684;<code>set_cookie</code>&#x65B9;&#x6CD5;&#x3002;&#x4F8B;&#x5982;:</p>
-<pre><code class="lang-java">
-res.set_cookie(<span class="hljs-string">&quot;test-k&quot;</span>, <span class="hljs-string">&quot;test-v&quot;</span>, <span class="hljs-string">&quot;max-age=3; Path=/;&quot;</span>);
-</code></pre>
+<p><code>test.session</code>&#x7C7B;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x5BA2;&#x6237;&#x7AEF;&#x8BBF;&#x95EE;&#x8BA1;&#x6570;&#x670D;&#x52A1;&#xFF0C;&#x91CD;&#x590D;&#x8BBF;&#x95EE;<code>http://localhost/test/session.jdp</code>&#x53EF;&#x770B;&#x5230;&#x8BBF;&#x95EE;&#x6B21;&#x6570;&#x7684;&#x53D8;&#x5316;&#x3002;</p>
 
                                 
                                 </section>
@@ -406,7 +398,7 @@ res.set_cookie(<span class="hljs-string">&quot;test-k&quot;</span>, <span class=
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"会话","level":"1.6","depth":1,"next":{"title":"模板引擎","level":"1.7","depth":1,"path":"document/template.md","ref":"document/template.md","articles":[]},"previous":{"title":"表单","level":"1.5","depth":1,"path":"document/form.md","ref":"document/form.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/session.md","mtime":"2021-09-10T03:17:47.219Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2022-01-06T03:36:14.091Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"会话","level":"1.6","depth":1,"next":{"title":"模板引擎","level":"1.7","depth":1,"path":"document/template.md","ref":"document/template.md","articles":[]},"previous":{"title":"表单","level":"1.5","depth":1,"path":"document/form.md","ref":"document/form.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"document/session.md","mtime":"2022-01-06T03:54:59.773Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2022-01-06T04:06:33.459Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

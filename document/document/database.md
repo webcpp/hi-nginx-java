@@ -4,10 +4,10 @@ web 开发离不开数据库。最常见的的数据库是mariadb或者mysql。
 
 为了使用数据库，需要下载访问数据库的库。对mariadb而言，即[MariaDB Connector/J](https://repo1.maven.org/maven2/org/mariadb/jdbc/mariadb-java-client/2.7.1/mariadb-java-client-2.7.1.jar)。
 
-下载该库，将其安装至`/usr/local/nginx/java`中。修改`/etc/profile.d/jdk.sh`中的`CLASSPATH`,添加该库:
+下载该库，将其安装至`/usr/local/nginx/app/java`中。修改`/etc/profile.d/jdk.sh`中的`CLASSPATH`,添加该库:
 ```shell
 
-export CLASSPATH=/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/mariadb-java-client-2.7.1.jar
+export CLASSPATH=/usr/local/nginx/app/java:/usr/local/nginx/app/java/hi-nginx-java.jar:/usr/local/nginx/app/java/mariadb-java-client-2.7.1.jar
 
 
 ```
@@ -16,7 +16,7 @@ export CLASSPATH=/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/
 
 修改`/usr/local/nginx/conf/nginx.conf`:
 ```nginx
-hi_java_classpath "-Djava.class.path=.:/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/mariadb-java-client-2.7.1.jar:/usr/local/nginx/java/app.jar"
+hi_java_classpath "-Djava.class.path=.:/usr/local/nginx/app/java:/usr/local/nginx/app/java/hi-nginx-java.jar:/usr/local/nginx/app/java/mariadb-java-client-2.7.1.jar:/usr/local/nginx/app/java/app.jar"
 
 ```
 
@@ -45,7 +45,7 @@ mariadb {
 
 ```
 
-为了获得查询该表的一个服务`http://localhost/test/db.java`，可以编写类`test.db`:
+为了获得查询该表的一个服务`http://localhost/test/db.jdp`，可以编写类`test.db`:
 ```java
 package test;
 
@@ -132,7 +132,7 @@ public class db implements hi.route.run_t {
 }
 ```
 
-访问`http://localhost/test/db.java`可以获得相应数据。
+访问`http://localhost/test/db.jdp`可以获得相应数据。
 
 利用`org.apache.commons.dbutils.handlers.MapListHandler`类，以上`handler`可进一步简化：
 
@@ -173,12 +173,12 @@ import org.apache.commons.dbutils.handlers.MapListHandler;
 
 修改`CLASSPATH`:
 ```shell
-export CLASSPATH=/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/mysql-connector-java-8.0.22.jar
+export CLASSPATH=/usr/local/nginx/app/java:/usr/local/nginx/app/java/hi-nginx-java.jar:/usr/local/nginx/app/java/mysql-connector-java-8.0.22.jar
 
 ```
 修改hi-nginx配置:
 ```nginx
-hi_java_classpath "-Djava.class.path=.:/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/mysql-connector-java-8.0.22.jar:/usr/local/nginx/java/app.jar"
+hi_java_classpath "-Djava.class.path=.:/usr/local/nginx/app/java:/usr/local/nginx/app/java/hi-nginx-java.jar:/usr/local/nginx/app/java/mysql-connector-java-8.0.22.jar:/usr/local/nginx/app/java/app.jar"
 ```
 
 添加mysql配置至`application.conf`中:
@@ -227,7 +227,7 @@ import com.mysql.cj.jdbc.MysqlConnectionPoolDataSource;
 添加[druid](https://repo1.maven.org/maven2/com/alibaba/druid/1.2.3/druid-1.2.3.jar)库及其hi-nginx配置:
 
 ```nginx
-hi_java_classpath "-Djava.class.path=.:/usr/local/nginx/java:/usr/local/nginx/java/hi-nginx-java.jar:/usr/local/nginx/java/mysql-connector-java-8.0.22.jar:/usr/local/nginx/java/druid-1.2.3.jar:/usr/local/nginx/java/app.jar"
+hi_java_classpath "-Djava.class.path=.:/usr/local/nginx/app/java:/usr/local/nginx/app/java/hi-nginx-java.jar:/usr/local/nginx/app/java/mysql-connector-java-8.0.22.jar:/usr/local/nginx/app/java/druid-1.2.3.jar:/usr/local/nginx/app/java/app.jar"
 
 ```
 之后，修改`db_help`如下:
