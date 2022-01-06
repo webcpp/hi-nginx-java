@@ -31,7 +31,7 @@ template {
 以上内容是说：
  - 路由器的LRU缓存器的过期时间是300秒，最多缓存1024个反射对象。
  - 对可能发生的错误，系统会301重定向至`/404.html`或者`/50x.html`。
- - 所有模板文件存放的目录是`java/templates`，此一路径相对于hi-nginx的安装目录`/usr/local/nginx`而言。
+ - 所有模板文件存放的目录是`app/java/templates`，此一路径相对于hi-nginx的安装目录`/usr/local/nginx`而言。
 
 当需要使用配置变量时，可通过`hi.route`的唯一实例的`get_config`方法获得配置变量表,例如:
 ```java
