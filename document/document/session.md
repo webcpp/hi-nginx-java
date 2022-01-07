@@ -1,15 +1,5 @@
 # 会话
 
-会话功能的开启，首先要配置hi-nginx。如下所示:
-
-```nginx
-    userid on;
-    userid_name SESSIONID;
-    userid_domain localhost;
-    userid_path /;
-    userid_expires 5m;
-    
-```
 
 `hi.request`包括`cookies`变量，可读取旧会话。`hi.response`包含一个`set_cookie`方法，负责写入新的会话。
 
