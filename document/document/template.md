@@ -1,6 +1,6 @@
 # 模板引擎
 
-hi-nginx-java内置了两个mustache模板引擎：[mustache.jdp](https://github.com/spullara/mustache.jdp)和[jmustache](http://github.com/samskivert/jmustache)。
+hi-nginx-java内置了两个mustache模板引擎：[mustache.java](https://github.com/spullara/mustache.java)和[jmustache](http://github.com/samskivert/jmustache)。
 
 以下介绍仅就[jmustache](http://github.com/samskivert/jmustache)而言。
 
