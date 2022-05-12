@@ -21,7 +21,7 @@ location ~ \.jdp {
 
 ```
 
-执行命令`sudo systemctl restart nginx`，然后访问`http://localhost/hi/test.jdp`。`hi.test`是hi-nginx-java内置的测试类，它对应于URI`/hi/test`。若返回`welcome to hi-nginx-java`，则说明hi-nginx-java安装成功。其中，`/usr/local/nginx/java/demo.jar`指开发者自行开发的应用。
+执行命令`sudo systemctl restart nginx`，然后访问`http://localhost/hi/test.jdp`。`hi.test`是hi-nginx-java内置的测试类，它对应于URI`/hi/test.jdp`。若返回`welcome to hi-nginx-java`，则说明hi-nginx-java安装成功。其中，`/usr/local/nginx/java/demo.jar`指开发者自行开发的应用。
 
 ### 重要提示
 - openj9 的兼容性存疑，暂不支持。
