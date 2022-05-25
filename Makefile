@@ -1,7 +1,8 @@
 PRO=hi-nginx-java.jar
+PWD:=$(shell pwd)
 
 JAVAC = ${JAVA_HOME}/bin/javac
-JAVA_FLAGS =-classpath .:${CLASSPATH}
+JAVA_FLAGS =-classpath ${PWD}/3rd:${PWD}/3rd/jmustache-1.15.jar:${PWD}/3rd/config-1.4.2.jar:${CLASSPATH}
 
 JAR = ${JAVA_HOME}/bin/jar
 
@@ -25,7 +26,5 @@ doc:
 	cd document && gitbook build
 
 install:
-	install $(PRO) /usr/local/nginx/java
-	install druid-1.2.6.jar /usr/local/nginx/java
-	install mariadb-java-client-2.7.4.jar /usr/local/nginx/java
-	install mysql-connector-java-8.0.26.jar /usr/local/nginx/java
+	install $(PRO) /usr/local/nginx/app/java
+	install -t /usr/local/nginx/app/java  `find 3rd -name '*.jar'`
