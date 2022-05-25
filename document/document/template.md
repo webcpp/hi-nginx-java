@@ -1,6 +1,6 @@
 # 模板引擎
 
-hi-nginx-java内置了两个mustache模板引擎：[mustache.java](https://github.com/spullara/mustache.java)和[jmustache](http://github.com/samskivert/jmustache)。
+hi-nginx-java包含一个mustache模板引擎依赖：[jmustache](http://github.com/samskivert/jmustache)。
 
 以下介绍仅就[jmustache](http://github.com/samskivert/jmustache)而言。
 
@@ -111,7 +111,7 @@ public class filetemplate implements hi.route.run_t {
 
 ```nginx
     
-java_class_path "-Djava.class.path=.:/usr/local/nginx/app/java:/usr/local/nginx/app/java/hi-nginx-java.jar:/usr/local/nginx/app/java/freemarker.jar:/usr/local/nginx/app/java/app.jar";
+java_class_path "-Djava.class.path=.:/usr/local/nginx/app/java:/usr/local/nginx/app/java/config-1.4.2.jar:/usr/local/nginx/app/java/jmustache-1.15.jar:/usr/local/nginx/app/java/hi-nginx-java.jar:/usr/local/nginx/app/java/freemarker.jar:/usr/local/nginx/app/java/app.jar";
 
 ```
 开发时,正常导入该库即可。

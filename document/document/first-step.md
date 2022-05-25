@@ -7,7 +7,7 @@ hi-nginx-java内置一个默认的控制器`hi.controller`,hi-nginx配置为:
 ```nginx
 location ~ \.jdp {
     java_load;
-    java_class_path "-Djava.class.path=.:/usr/local/nginx/app/java:/usr/local/nginx/app/java/hi-nginx-java.jar:/usr/local/nginx/app/java/mariadb-java-client-2.7.4.jar:/usr/local/nginx/app/java/mysql-connector-java-8.0.26.jar:/usr/local/nginx/app/java/druid-1.2.6.jar:/usr/local/nginx/app/java/demo.jar";
+    java_class_path "-Djava.class.path=.:/usr/local/nginx/app/java:/usr/local/nginx/app/java/config-1.4.2.jar:/usr/local/nginx/app/java/jmustache-1.15.jar:/usr/local/nginx/app/java/hi-nginx-java.jar:/usr/local/nginx/app/java/mariadb-java-client-2.7.4.jar:/usr/local/nginx/app/java/mysql-connector-java-8.0.26.jar:/usr/local/nginx/app/java/druid-1.2.6.jar:/usr/local/nginx/app/java/demo.jar";
     java_options "-server -d64  -Dconfig.file=/usr/local/nginx/app/java/application.conf";
     java_servlet "hi/controller";
     java_uri_pattern ".*\.jdp$";

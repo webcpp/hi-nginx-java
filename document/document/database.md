@@ -16,7 +16,7 @@ export CLASSPATH=/usr/local/nginx/app/java:/usr/local/nginx/app/java/hi-nginx-ja
 
 修改`/usr/local/nginx/conf/nginx.conf`:
 ```nginx
-hi_java_classpath "-Djava.class.path=.:/usr/local/nginx/app/java:/usr/local/nginx/app/java/hi-nginx-java.jar:/usr/local/nginx/app/java/mariadb-java-client-2.7.1.jar:/usr/local/nginx/app/java/app.jar"
+hi_java_classpath "-Djava.class.path=.:/usr/local/nginx/app/java:/usr/local/nginx/app/java/config-1.4.2.jar:/usr/local/nginx/app/java/jmustache-1.15.jar:/usr/local/nginx/app/java/hi-nginx-java.jar:/usr/local/nginx/app/java/mariadb-java-client-2.7.1.jar:/usr/local/nginx/app/java/app.jar"
 
 ```
 
@@ -173,12 +173,12 @@ import org.apache.commons.dbutils.handlers.MapListHandler;
 
 修改`CLASSPATH`:
 ```shell
-export CLASSPATH=/usr/local/nginx/app/java:/usr/local/nginx/app/java/hi-nginx-java.jar:/usr/local/nginx/app/java/mysql-connector-java-8.0.22.jar
+export CLASSPATH=/usr/local/nginx/app/java:/usr/local/nginx/app/java/config-1.4.2.jar:/usr/local/nginx/app/java/jmustache-1.15.jar:/usr/local/nginx/app/java/hi-nginx-java.jar:/usr/local/nginx/app/java/mysql-connector-java-8.0.22.jar
 
 ```
 修改hi-nginx配置:
 ```nginx
-hi_java_classpath "-Djava.class.path=.:/usr/local/nginx/app/java:/usr/local/nginx/app/java/hi-nginx-java.jar:/usr/local/nginx/app/java/mysql-connector-java-8.0.22.jar:/usr/local/nginx/app/java/app.jar"
+hi_java_classpath "-Djava.class.path=.:/usr/local/nginx/app/java:/usr/local/nginx/app/java/config-1.4.2.jar:/usr/local/nginx/app/java/jmustache-1.15.jar:/usr/local/nginx/app/java/hi-nginx-java.jar:/usr/local/nginx/app/java/mysql-connector-java-8.0.22.jar:/usr/local/nginx/app/java/app.jar"
 ```
 
 添加mysql配置至`application.conf`中:
