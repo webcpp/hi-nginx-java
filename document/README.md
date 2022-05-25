@@ -13,7 +13,7 @@ hi-nginx-java 在nginx中重新定义了servlet规范。该定义仅仅依赖于
 
 hi-nginx-java包含的servlet定义非常“轻”，其核心API只使用java原生的`String`,`HashMap<String, String>`,`HashMap<String, ArrayList<String>>`和`regex`。这意味着，它的学习门槛非常低。由于完全可以抛开javaEE进行web开发，对开发者来说，需要学习的知识门类减少了很一大部分。
 
-考虑到web业务开发本身的需要，除了基本的servlet协议定义之外，hi-nginx-java自带了一些第三方组件，并且不再依赖任何外部库。全部组件列表如下：
+考虑到web业务开发本身的需要，除了基本的servlet协议定义之外，hi-nginx-java及其依赖如下：
 - hi
   - hi.request
   - hi.response
@@ -21,33 +21,7 @@ hi-nginx-java包含的servlet定义非常“轻”，其核心API只使用java�
   - hi.servlet
   - hi.lrucache
   - hi.controller
-- apache commons
-  - codec
-  - collections
-  - collections4
-  - dbutils
-  - mail
-  - io
-  - lang3
-  - math3
-  - net
-  - rng
-  - text
-  - beanutils
-  - imaging
-- jakarta
-  - activation
-  - mail
-- google
-  - gson
-- FasterXML
-  - jackson-core
-  - jackson-databind
-  - jackson-annotations
-- [msgpack-java](https://github.com/msgpack/msgpack-java)
 - mustache template engine
-  - [mustache.java](https://github.com/spullara/mustache.java)
   - [jmustache](http://github.com/samskivert/jmustache)
 - config
   - [config](https://github.com/lightbend/config)
-- [JSON-java](https://github.com/stleary/JSON-java)
